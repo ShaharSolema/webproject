@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const validator = require("validator");
 const Schema = mongoose.Schema;
 //ADD VALIDATIONS!!!
+//ADD BY MICHALS PRODUCTS
 const productSchema = new mongoose.Schema({
   name: {
     type: String,
