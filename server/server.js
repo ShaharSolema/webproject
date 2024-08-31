@@ -1,9 +1,9 @@
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
-const connectDB = require("./Config/db");
-const Product = require("./Models/Product");
-const User = require("./Models/User");
+const connectDB = require("./config/db");
+const Product = require("./models/Product");
+const User = require("./models/User");
 connectDB();
 
 app.listen(3000, () => {
