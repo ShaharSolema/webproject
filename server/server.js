@@ -1,11 +1,19 @@
 const express = require("express");
-const app = express();
-const mongoose = require("mongoose");
+const cors = require("cors"); //ADD LATER FOR SECURITY MEASURES
 const connectDB = require("./config/db");
-const Product = require("./models/Product");
-const User = require("./models/User");
+const userRoutes = require("./routes/userRoutes");
+const config = require("./config/config");
+
+const app = express();
+
+app.use(express.json());
+
+
 connectDB();
 
-app.listen(3000, () => {
-  console.log("Server is Listening on Port 3000");
+app.use(config.api.prefix, userRoutes);
+
+app.listen(config.server.port, () => {
+  console.log(`Server is Listening on Port ${config.server.port}`);
 });
+
