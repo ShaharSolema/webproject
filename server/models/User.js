@@ -20,7 +20,7 @@ const userSchema = new Schema({
     maxlength: 30,
     validate: {
       validator: function (v) {
-        return validator.isAlpha(v, "he", { ignore: " " });
+        return validator.isAlpha(v, "he", { ignore: " " }) || validator.isAlpha(v, "en-US", { ignore: " " });
       },
       message: (props) => `${props.value} is not a valid street name`,
     },
@@ -49,7 +49,7 @@ const userSchema = new Schema({
     maxlength: 30,
     validate: {
       validator: function (v) {
-        return validator.isAlpha(v, "he", { ignore: " " });
+        return validator.isAlpha(v, "he", { ignore: " " }) || validator.isAlpha(v, "en-US", { ignore: " " });
       },
       message: (props) => `${props.value} is not a valid city name`,
     },
@@ -67,7 +67,7 @@ const userSchema = new Schema({
     type: Date,
     validate: {
       validator: function (v) {
-        return validator.isDate(v.toString());
+        return validator.isDate(v);
       },
       message: (props) => `${props.value} is not a valid date`,
     },
@@ -80,7 +80,7 @@ const userSchema = new Schema({
     minlength: [6, "Length must be at least 6 characters long"],
     validate: {
       validator: function (v) {
-        return validator.isAlphanumeric(v, "he");
+        return validator.isAlphanumeric(v, "en-US");
       },
       message: (props) => `${props.value} contains invalid characters!`,
     },
@@ -112,6 +112,13 @@ const userSchema = new Schema({
     type: Boolean,
     required: true,
     default: false,
+    immutable: true,
+    validate: {
+      validator: function(v) {
+        return v === false;
+      },
+      message: "This field must always be false."//manager
+    }
   },
   firstname: {
     type: String,
@@ -120,7 +127,7 @@ const userSchema = new Schema({
     trim: true,
     validate: {
       validator: function (v) {
-        return validator.isAlpha(v, "he", { ignore: " " });
+        return validator.isAlpha(v, "he", { ignore: " " }) || validator.isAlpha(v, "en-US", { ignore: " " });
       },
       message: (props) => `${props.value} contains invalid characters!`,
     },
@@ -132,7 +139,7 @@ const userSchema = new Schema({
     trim: true,
     validate: {
       validator: function (v) {
-        return validator.isAlpha(v, "he", { ignore: " " });
+        return validator.isAlpha(v, "he", { ignore: " " }) || validator.isAlpha(v, "en-US", { ignore: " " });
       },
       message: (props) => `${props.value} contains invalid characters!`,
     },
