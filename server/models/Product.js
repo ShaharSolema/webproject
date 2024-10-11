@@ -66,7 +66,7 @@ stock: {
   message: (props) => `${props.value} is not a valid stock number`,
 },
 imageUrl: {
-  type: URL,
+  type: String,
   trim: true,
   validator: function(v) {
     return validator.isURL(v.toString());

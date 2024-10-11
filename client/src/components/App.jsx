@@ -1,16 +1,16 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Header from './components/Header';
-import Footer from './components/Footer';
-import Home from './components/Home';
-import Cart from './components/Cart';
-import Profile from './components/Profile';
-import Login from './components/Login';
-import Courses from './components/Courses';
-import ProductStore from './components/ProductStore';
-import About from './components/About';
-import FAQ from './components/FAQ';
-import Contact from './components/Contact';
-import '..styles/main.css'
+import Header from './Header';
+//import Footer from './Footer';
+//import Home from './Home';
+//import Cart from './Cart';
+//import Profile from './Profile';
+//import Login from './Login';
+import Courses from './Courses';
+//import ProductStore from './ProductStore';
+import About from './About';
+import FAQ from './FAQ';
+//import Contact from './Contact';
+import '../styles/Main.css';
 function App() {
   return (
     <Router>
