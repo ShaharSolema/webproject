@@ -1,8 +1,20 @@
 /* עיצוב כללי לכותרת */
 header {
-    background-color: rgb(250, 210, 204); /* צבע רקע לבן לכותרת */
+    background-color: rgb(250, 210, 204); /* צבע רקע לכותרת */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* צל קל סביב הכותרת */
     z-index: 1000; /* מבטיח שהכותרת תופיע מעל אלמנטים אחרים */
+    padding: 10px 0; /* רווח פנימי כללי בכותרת */
+}
+
+/* עיצוב עמודות בכותרת */
+header .col {
+    display: flex;
+    align-items: center; /* ממרכז את התוכן אנכית */
+}
+
+/* עמודת מרכז עם לוגו */
+header .col-6 {
+    justify-content: center; /* ממרכז את התמונה באופן אופקי */
 }
 
 /* עיצוב לתמונה במרכז */
@@ -27,11 +39,7 @@ header {
     font-size: 1.5rem; /* גודל אחיד לאייקונים */
 }
 
-/* עיצוב כפתור התפריט הימני */
-.btn.no-caret::after {
-    display: none !important; /* הסרת החץ הנפתח של כפתור התפריט */
-}
-
+/* עיצוב כפתור מותאם אישית */
 .btn-custom {
     background-color: white; /* צבע רקע לבן לכפתור מותאם אישית */
     color: black; /* צבע טקסט שחור לכפתור */
@@ -43,6 +51,11 @@ header {
 .btn-custom:focus {
     background-color: #f5f5f5; /* צבע רקע אפור בהיר במעבר עכבר או במיקוד */
     border-color: white; /* שומר על גבול לבן במעבר עכבר או במיקוד */
+}
+
+/* עיצוב כפתור התפריט הימני */
+.btn.no-caret::after {
+    display: none !important; /* הסרת החץ הנפתח של כפתור התפריט */
 }
 
 .btn-group.dropstart .dropdown-toggle {

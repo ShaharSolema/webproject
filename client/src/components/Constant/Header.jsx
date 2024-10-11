@@ -1,8 +1,8 @@
 // src/components/Header.jsx
-import React from 'react';
-import ButtonGroup from './ButtonGroup';
-import Logo from './Logo';
+import ButtonGroup from '../ButtonGroup';
+import Logo from '../Logo';
 import DropdownMenu from './DropdownMenu';
+
 
 const Header = () => {
   return (
