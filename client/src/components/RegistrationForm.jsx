@@ -108,10 +108,19 @@ const RegistrationForm = () => {
     try {
       const response = await axios.post('http://localhost:3000/api/users', formData);
       console.log(response.data); // Handle success response
+
+      // Store the JWT in localStorage
+      localStorage.setItem('token', response.data.token);
+
+      // Optionally, redirect to a different page or show a success message
+      // For example, you can redirect to the login page
+      // window.location.href = '/login';
+
     } catch (error) {
       console.error('Error registering:', error.response?.data || error.message);
     }
-  };
+};
+
 
   return (
     <form onSubmit={handleSubmit}>

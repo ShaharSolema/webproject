@@ -1,10 +1,14 @@
 const User = require('../models/User');
+const jwt = require('jsonwebtoken');
+const JWT_SECRET = 'your_jwt_secret_key'; // Change this to a more secure key
 
 // Create a new user
 exports.createUser = async (req, res) => {
   try {
     const user = new User(req.body);
     await user.save();
+    const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: '1h' }); // Adjust expiration as needed
+    res.status(201).json({ user, token });
     res.status(201).json(user);
   } catch (error) {
     res.status(400).json({ message: error.message });
