@@ -12,6 +12,8 @@ import ProductStore from './ProductStore';
 import About from './About';
 import FAQ from './FAQ';
 import Contact from './Contact';
+import RegistrationForm from "./RegistrationForm";
+
 import '../styles/main.css'
 
 function App() {
@@ -24,6 +26,7 @@ function App() {
           {/* <Route path="/cart" element={<Cart />} /> */}
           {/* <Route path="/profile" element={<Profile />} /> */}
           {/* <Route path="/login" element={<Login />} /> */}
+          <Route path="/RegistrationForm" element={<RegistrationForm />} />
           <Route path="/courses" element={<Courses />} />
           <Route path="/productstore" element={<ProductStore />} />
           <Route path="/about" element={<About />} />

@@ -6,7 +6,9 @@ const productRoutes = require("./routes/productRoutes");
 const config = require("./config/config");
 
 const app = express();
-
+app.use(cors({
+  origin: 'http://localhost:5173'
+}));
 app.use(express.json());
 
 

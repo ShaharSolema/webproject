@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 const ButtonGroup = () => {
   return (
     <>
-      <Link to="/profile">
+      <Link to="/RegistrationForm">
         <button className="btn btn-light me-2 btn-large">
           <i className="bi bi-person-fill"></i> {/* אייקון של משתמש */}
         </button>
