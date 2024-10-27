@@ -1,20 +1,30 @@
 const jwt = require('jsonwebtoken');
-const config = require('../config/config'); // Adjust the path as necessary
+const User = require('../models/User');
+const config = require('../config/config');
 
-const authMiddleware = (req, res, next) => {
-  const token = req.headers['authorization']?.split(' ')[1]; // Bearer token
 
+const authenticate = async (req, res, next) => {
+  const token = req.cookies?.token;
   if (!token) {
-    return res.status(401).json({ message: 'Access denied. No token provided.' });
+    res.status(401).json({ message: 'Not authorized, no token!' });
+    return;
   }
 
-  jwt.verify(token, config.jwt.secret, (err, decoded) => {
-    if (err) {
-      return res.status(403).json({ message: 'Invalid token.' });
+  try {
+    const decoded = jwt.verify(token, config.jwtSecret);
+
+    // Attach the user to the request object
+    const user = await User.findById(decoded.id).select('-password').exec();
+
+    if (user) {
+      req.user = user;
+      next();
+    } else {
+      res.status(401).json({ message: 'Not authorized, user not found' });
     }
-    req.user = decoded; // Store user data in request for later use
-    next();
-  });
+  } catch (error) {
+    res.status(401).json({ message: 'Not authorized, token failed' });
+  }
 };
 
-module.exports = authMiddleware;
+module.exports = authenticate;

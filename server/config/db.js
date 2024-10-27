@@ -1,12 +1,13 @@
 const mongoose = require('mongoose');
+const config = require('./config');
 
 const connectDB = async () => {
   try {
-    await mongoose.connect('mongodb://localhost:27017/TryDB');
+    await mongoose.connect(config.db.uri);
     console.log('MongoDB connected');
   } catch (err) {
     console.error('MongoDB connection error:', err);
-    process.exit(1);  // Exit the process with failure code
+    process.exit(1);  
   }
 };
 

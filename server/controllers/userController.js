@@ -7,23 +7,27 @@ exports.createUser = async (req, res) => {
   try {
     const user = new User(req.body);
     await user.save();
-    const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: '1h' }); // Adjust expiration as needed
-    res.status(201).json({ user, token });
     res.status(201).json(user);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
 };
 
-// Get all users NEED PROTECTION
 exports.getAllUsers = async (req, res) => {
   try {
+    // Check if req.user exists and if the user is authorized
+    if (!req.user || !req.user.manager) {
+      return res.status(403).json({ message: 'User is not authorized' });//TODO: ADD TO OTHER PROTECTED ROUTES
+    }
+    else{
     const users = await User.find();
     res.status(200).json(users);
+    }
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
+
 
 // Get a user by ID
 exports.getUserById = async (req, res) => {

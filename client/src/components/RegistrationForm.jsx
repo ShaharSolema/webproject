@@ -106,7 +106,7 @@ const RegistrationForm = () => {
     }
 
     try {
-      const response = await axios.post('http://localhost:3000/api/users', formData);
+      const response = await axios.post('http://localhost:3000/api/auth/register', formData);
       console.log(response.data); // Handle success response
 
       // Store the JWT in localStorage
