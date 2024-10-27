@@ -13,16 +13,11 @@ exports.createUser = async (req, res) => {
   }
 };
 
+// userController.js
 exports.getAllUsers = async (req, res) => {
   try {
-    // Check if req.user exists and if the user is authorized
-    if (!req.user || !req.user.manager) {
-      return res.status(403).json({ message: 'User is not authorized' });//TODO: ADD TO OTHER PROTECTED ROUTES
-    }
-    else{
     const users = await User.find();
     res.status(200).json(users);
-    }
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

@@ -25,7 +25,7 @@ const productSchema = new mongoose.Schema({
     type: String,
     trim: true,
     minlength: 2,
-    maxlength: 40,
+    maxlength: 60,
     validate: {
       validator: function (v) {
         return (
