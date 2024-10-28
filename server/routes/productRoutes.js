@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const productController = require('../controllers/productController');
-const isManager = require("./Middleware/isManager");
+const isManager = require("../Middleware/isManager");
 
 router.post('/',isManager, productController.createProduct);
 router.get('/',isManager, productController.getAllProducts);

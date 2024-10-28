@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const userController = require('../controllers/userController');
-const isManager = require("./Middleware/isManager");
+const isManager = require("../Middleware/isManager");
 
 
 router.post('/', userController.createUser);

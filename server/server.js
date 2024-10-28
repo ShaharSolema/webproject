@@ -8,7 +8,6 @@ const authenticate = require("./Middleware/authMiddleware");
 const authRoute = require("./routes/authRoute");
 const cookieParser = require("cookie-parser");
 const cartRoutes = require("./routes/cartRoutes");
-const isManager = require("./Middleware/isManager");
 
 const app = express();
 app.use(cookieParser());

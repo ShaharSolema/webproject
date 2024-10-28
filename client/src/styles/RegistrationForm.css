@@ -1,5 +1,7 @@
 
-/* Container for the form */
+html {
+  scroll-behavior: smooth;
+}
 form {
     max-width: 500px;
     margin: 0 auto;
@@ -11,7 +13,7 @@ form {
     margin-bottom: 350px;
   }
   
-  /* Center the header */
+
   h1 {
     text-align: center;
     margin-bottom: 20px;
@@ -19,7 +21,7 @@ form {
     font-size: 1.8rem;
   }
   
-  /* Input fields styling */
+
   input {
     width: 100%;
     padding: 10px;
@@ -31,13 +33,11 @@ form {
     background-color: #fffaf2; /* Light background for input */
   }
   
-  /* Error message styling */
   p {
     color: #e74c3c;
     font-size: 0.85rem;
   }
   
-  /* Button styling */
   button {
     width: 100%;
     padding: 12px;
@@ -54,15 +54,13 @@ form {
     background-color: #ff704d; /* Darker orange on hover */
   }
   
-  /* Label styling */
   label {
     font-size: 1rem;
     margin-bottom: 5px;
     display: block;
-    color: #cc6b36; /* Dark orange for labels */
+    color: #cc6b36; 
   }
   
-  /* Adding some spacing between inputs and labels */
   div {
     margin-bottom: 15px;
   }
