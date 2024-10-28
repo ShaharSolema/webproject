@@ -1,16 +1,27 @@
-import { useEffect, useState } from 'react'; 
-import ButtonGroup from '../ButtonGroup';
-import Logo from '../Logo';
-import DropdownMenu from './DropdownMenu';
-
+import { useEffect, useState } from "react";
+import ButtonGroup from "../ButtonGroup";
+import Logo from "../Logo";
+import DropdownMenu from "./DropdownMenu";
 
 const Header = () => {
   const [username, setUsername] = useState(null);
   useEffect(() => {
-    
-    const currUsername = localStorage.getItem('user');
+    function getNameFromLocalStorage() {
+      const userString = localStorage.getItem('user');
+      if (!userString) return null; // Return null if no user data exists
+      
+      try {
+        const userData = JSON.parse(userString);
+        return userData.name; // Extract and return the name
+      } catch (error) {
+        console.error("Failed to parse user data:", error);
+        return null; // Return null if parsing fails
+      }
+    }
+    const currUsername = getNameFromLocalStorage();
+
     if (currUsername) {
-      setUsername(currUsername.username); 
+      setUsername(currUsername);
     }
   }, []);
   return (

@@ -69,15 +69,11 @@ const RegistrationForm = () => {
     try {
       const response = await axios.post('http://localhost:3000/api/auth/register', formData);
       console.log(response.data); // Handle success response
-
-      // Store the JWT in localStorage
-      localStorage.setItem('token', response.data.token);
       const userData={
-        username:response.data.username,
-        name:response.data.name
+        username:response.data.user.username,
+        name:response.data.user.firstname
       }
       localStorage.setItem('user',JSON.stringify(userData)); //save name and username in local storage
-      // Optionally redirect or perform other actions
       window.location.href = '/welcome'; //TODO Change this to your welcome page
 
     } catch (error) {
