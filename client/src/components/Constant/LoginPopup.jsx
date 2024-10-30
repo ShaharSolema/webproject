@@ -1,6 +1,6 @@
 // src/components/LoginPopup.jsx
 import { useState, useEffect } from 'react';
-import { loginUser, checkLoginStatus, logoutUser } from '../utils/auth';
+import { loginUser, checkLoginStatus, logoutUser } from '../../utils/auth';
 import { Link } from 'react-router-dom';
 
 const LoginPopup = () => {
