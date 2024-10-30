@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import '../styles/RegistrationForm.css';
+import { loginUser } from '../utils/auth'; // Import loginUser from auth.js
 
 const RegistrationForm = () => {
   const [formData, setFormData] = useState({
@@ -20,21 +20,18 @@ const RegistrationForm = () => {
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Client-side password validation
+  // Password validator
   const passwordValidator = (password) => {
     const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
     return regex.test(password);
   };
 
-  // Basic client-side validation based on schema
+  // Form validation
   const validate = () => {
     let errors = {};
-
-    // Validation logic (same as before)...
+    // Implement validation logic...
 
     setErrors(errors);
-
-    // Return true if no errors
     return Object.keys(errors).length === 0;
   };
 
@@ -46,45 +43,39 @@ const RegistrationForm = () => {
       [name]: value,
     });
 
-    // Validate field when it changes, with a delay
     setTimeout(() => {
       if (name === 'password' && !passwordValidator(value)) {
         setErrors((prevErrors) => ({ ...prevErrors, password: 'Invalid password format' }));
       } else {
-        setErrors((prevErrors) => ({ ...prevErrors, [name]: '' })); // Clear error
+        setErrors((prevErrors) => ({ ...prevErrors, [name]: '' }));
       }
-    }, 500); // 500ms delay for validation feedback
+    }, 500);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validate form
-    if (!validate()) {
-      return; // Stop submission if validation fails
-    }
+    if (!validate()) return;
 
-    setIsSubmitting(true); // Indicate form is being submitted
+    setIsSubmitting(true);
 
     try {
-      const response = await axios.post('http://localhost:3000/api/auth/register', formData);
-      console.log(response.data); // Handle success response
-      const userData={
-        username:response.data.user.username,
-        name:response.data.user.firstname
+      // Use loginUser from auth.js for the registration
+      const result = await loginUser(formData);
+      if (result.success) {
+        window.location.href = '/welcome'; // Redirect on success
+      } else {
+        setErrors({ form: result.error });
       }
-      localStorage.setItem('user',JSON.stringify(userData)); //save name and username in local storage
-      window.location.href = '/welcome'; //TODO Change this to your welcome page
-
     } catch (error) {
-      console.error('Error registering:', error.response?.data || error.message);
-      setIsSubmitting(false); // Reset submission state on error
+      console.error('Error registering:', error.message);
+      setIsSubmitting(false);
     }
   };
 
   return (
     <form onSubmit={handleSubmit}>
-      <h1>Register</h1> {/* Added a heading */}
+      <h1>Register</h1>
       <div>
         <label>Username:</label>
         <input

@@ -79,4 +79,12 @@ const generateToken = (id) => {
   return jwt.sign({ id }, config.jwtSecret, { expiresIn: '1h' });
 };
 
-module.exports = { registerUser, loginUser, logoutUser };
+const checkLoginStatus = (req, res) => {
+  if (req.user) {
+    return res.status(200).json({ isLoggedIn: true, user: req.user });
+  } else {
+    return res.status(401).json({ isLoggedIn: false });
+  }
+};
+
+module.exports = { registerUser, loginUser, logoutUser, checkLoginStatus };

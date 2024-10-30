@@ -6,6 +6,7 @@ export const API_ROUTES = {
     REGISTER: `${API_PREFIX}/auth/register`,
     LOGIN: `${API_PREFIX}/auth/login`,
     LOGOUT: `${API_PREFIX}/auth/logout`,
+    CHECK_LOGIN: `${API_PREFIX}/auth/checkLogin`,
   },
   USERS: {
     CREATE: `${API_PREFIX}/users`,

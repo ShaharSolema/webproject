@@ -1,59 +1,77 @@
+// src/components/LoginPopup.jsx
+import { useState, useEffect } from 'react';
+import { loginUser, checkLoginStatus, logoutUser } from '../utils/auth';
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
-import '../../styles/LoginPopup.css';
-import { API_ROUTES } from '../../utils/apiRoutes';
-import axios from 'axios'; // Ensure axios is imported
 
 const LoginPopup = () => {
   const [formData, setFormData] = useState({ username: '', password: '' });
+  const [user, setUser] = useState(null);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({ ...prevData, [name]: value }));
+  // Check if user is logged in on component mount
+  useEffect(() => {
+    const fetchLoginStatus = async () => {
+      const status = await checkLoginStatus();
+      if (status.isLoggedIn) {
+        setUser(status.user);
+      }
+    };
+    fetchLoginStatus();
+  }, []);
+
+  const handleLogin = async () => {
+    const loginResult = await loginUser(formData);
+    if (loginResult.success) {
+      setUser(loginResult.user);
+    } else {
+      console.error('Login failed:', loginResult.error);
+    }
   };
-  
-  const handleLogin = async (e) => {
-    e.preventDefault(); // Prevent any default behavior (only needed if inside a <form> element)
 
-    try {
-      const response = await axios.post(API_ROUTES.AUTH.LOGIN, formData);
-      console.log(response.data); // Handle success response
-
-      const userData = {
-        username: response.data.username,
-        name: response.data.firstname,
-      };
-      localStorage.setItem('user', JSON.stringify(userData)); // Save name and username in local storage
-
-      // Optionally redirect or perform other actions
-      window.location.href = '/welcome'; // Update this to your welcome page
-
-    } catch (error) {
-      console.error('Error logging in:', error.response?.data || error.message);
+  const handleLogout = async () => {
+    const logoutResult = await logoutUser();
+    if (logoutResult.success) {
+      setUser(null);
+    } else {
+      console.error('Logout failed:', logoutResult.error);
     }
   };
 
   return (
     <div className="login-popup">
-      <h3>Login</h3>
-      <input
-        type="text"
-        name="username"
-        placeholder="Username"
-        value={formData.username}
-        onChange={handleChange}
-        className="form-control mb-2"
-      />
-      <input
-        type="password"
-        name="password"
-        placeholder="Password"
-        value={formData.password}
-        onChange={handleChange}
-        className="form-control mb-2"
-      />
-      <button onClick={handleLogin} className="btn btn-primary mb-2">Login</button>
-      <Link to="/RegistrationForm" className="btn btn-secondary">Sign Up</Link>
+      {user ? (
+        <>
+          <h3>Hello, {user.name}</h3>
+          <button onClick={handleLogout} className="btn btn-primary mb-2">
+            Logout
+          </button>
+        </>
+      ) : (
+        <>
+          <h3>Login</h3>
+          <input
+            type="text"
+            name="username"
+            placeholder="Username"
+            value={formData.username}
+            onChange={(e) => setFormData({ ...formData, [e.target.name]: e.target.value })}
+            className="form-control mb-2"
+          />
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            value={formData.password}
+            onChange={(e) => setFormData({ ...formData, [e.target.name]: e.target.value })}
+            className="form-control mb-2"
+          />
+          <button onClick={handleLogin} className="btn btn-primary mb-2">
+            Login
+          </button>
+          <Link to="/RegistrationForm" className="btn btn-secondary">
+            Sign Up
+          </Link>
+        </>
+      )}
     </div>
   );
 };
