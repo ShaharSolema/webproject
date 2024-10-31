@@ -13,6 +13,7 @@ import About from './About';
 import FAQ from './FAQ';
 import Contact from './Contact';
 import RegistrationForm from "./RegistrationForm";
+import Highlight from '../components/Home/Highlight';  // ייבוא רכיב ההיילייט
 
 import '../styles/main.css'
 
@@ -32,6 +33,7 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/faq" element={<FAQ />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/highlight" element={<Highlight />} /> {/* עמוד ההיילייט */}
         </Routes>
         <FloatingIcon />
       </div>
