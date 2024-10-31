@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import '../styles/RegistrationForm.css';
-import { loginUser } from '../utils/auth'; // Import loginUser from auth.js
+import { loginUser } from '../utils/auth';
 
 const RegistrationForm = () => {
   const [formData, setFormData] = useState({
@@ -20,16 +20,29 @@ const RegistrationForm = () => {
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Password validator
   const passwordValidator = (password) => {
     const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
     return regex.test(password);
   };
 
-  // Form validation
   const validate = () => {
-    let errors = {};
-    // Implement validation logic...
+    const errors = {};
+
+    if (!formData.username) errors.username = 'Username is required';
+    if (!formData.email.includes('@')) errors.email = 'Invalid email format';
+    if (!formData.password) {
+      errors.password = 'Password is required';
+    } else if (!passwordValidator(formData.password)) {
+      errors.password = 'Password must be at least 8 characters long and contain uppercase, lowercase, number, and special character';
+    }
+    if (!formData.firstname) errors.firstname = 'First name is required';
+    if (!formData.lastname) errors.lastname = 'Last name is required';
+    if (!formData.street) errors.street = 'Street is required';
+    if (!formData.streetnum) errors.streetnum = 'Street number is required';
+    if (!formData.postalcode || isNaN(formData.postalcode)) errors.postalcode = 'Invalid postal code';
+    if (!formData.city) errors.city = 'City is required';
+    if (!formData.telephone || isNaN(formData.telephone)) errors.telephone = 'Invalid telephone number';
+    if (!formData.birthday) errors.birthday = 'Birthday is required';
 
     setErrors(errors);
     return Object.keys(errors).length === 0;
@@ -43,13 +56,14 @@ const RegistrationForm = () => {
       [name]: value,
     });
 
-    setTimeout(() => {
-      if (name === 'password' && !passwordValidator(value)) {
-        setErrors((prevErrors) => ({ ...prevErrors, password: 'Invalid password format' }));
-      } else {
-        setErrors((prevErrors) => ({ ...prevErrors, [name]: '' }));
-      }
-    }, 500);
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      [name]: '',  // Clear individual field error when it changes
+    }));
+
+    if (name === 'password' && !passwordValidator(value)) {
+      setErrors((prevErrors) => ({ ...prevErrors, password: 'Invalid password format' }));
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -60,15 +74,16 @@ const RegistrationForm = () => {
     setIsSubmitting(true);
 
     try {
-      // Use loginUser from auth.js for the registration
       const result = await loginUser(formData);
       if (result.success) {
-        window.location.href = '/welcome'; // Redirect on success
+        window.location.href = '/welcome';
       } else {
         setErrors({ form: result.error });
       }
     } catch (error) {
       console.error('Error registering:', error.message);
+      setErrors({ form: 'Registration failed. Please try again later.' });
+    } finally {
       setIsSubmitting(false);
     }
   };
@@ -198,6 +213,7 @@ const RegistrationForm = () => {
         {errors.birthday && <p>{errors.birthday}</p>}
       </div>
       <button type="submit" disabled={isSubmitting}>Register</button>
+      {errors.form && <p className="error">{errors.form}</p>}
     </form>
   );
 };

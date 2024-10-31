@@ -1,4 +1,3 @@
-// src/components/LoginPopup.jsx
 import { useState, useEffect } from 'react';
 import { loginUser, checkLoginStatus, logoutUser } from '../../utils/auth';
 import { Link } from 'react-router-dom';
@@ -6,8 +5,8 @@ import { Link } from 'react-router-dom';
 const LoginPopup = () => {
   const [formData, setFormData] = useState({ username: '', password: '' });
   const [user, setUser] = useState(null);
+  const [loginError, setLoginError] = useState(null);
 
-  // Check if user is logged in on component mount
   useEffect(() => {
     const fetchLoginStatus = async () => {
       const status = await checkLoginStatus();
@@ -22,8 +21,9 @@ const LoginPopup = () => {
     const loginResult = await loginUser(formData);
     if (loginResult.success) {
       setUser(loginResult.user);
+      setLoginError(null); // Clear error on successful login
     } else {
-      console.error('Login failed:', loginResult.error);
+      setLoginError(loginResult.error); // Set error message on failure
     }
   };
 
@@ -64,7 +64,12 @@ const LoginPopup = () => {
             onChange={(e) => setFormData({ ...formData, [e.target.name]: e.target.value })}
             className="form-control mb-2"
           />
-          <button onClick={handleLogin} className="btn btn-primary mb-2">
+          {loginError && <p className="text-danger">{loginError}</p>}
+          <button
+            onClick={handleLogin}
+            className="btn btn-primary mb-2"
+            disabled={!formData.username || !formData.password}
+          >
             Login
           </button>
           <Link to="/RegistrationForm" className="btn btn-secondary">
