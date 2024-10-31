@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
@@ -17,3 +18,9 @@ app.listen(3000, ()=>{
 });
 
 
+=======
+const express=require('express')
+const app=express()
+app.use(express.json())
+app.use("")
+>>>>>>> d629e02bcdf9f4f0948a31375175de762f6736c5

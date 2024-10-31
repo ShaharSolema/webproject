@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
  "scripts": {
   "dev": "nodemon server.js"
  },
@@ -11,4 +12,31 @@
   "nodemon": "^3.1.4",
   "validator": "^13.12.0"
  }
+=======
+  "name": "final-project",
+  "version": "1.0.0",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies" : {
+    "bcrypt": "^5.1.1",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1" ,
+    "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2",
+    "jwt-decode": "^3.1.2",
+    "mongodb": "^6.1.0",
+    "mongoose": "^8.6.0",
+    "serve-favicon": "^2.5.0",
+    "validator": "^13.11.0"
+  }
+>>>>>>> d629e02bcdf9f4f0948a31375175de762f6736c5
 }
