@@ -44,7 +44,7 @@ const Highlight = () => {
             {/* הצגת התמונות */}
             <div className="gallery-images">
               {images[openGallery].map((img, imgIndex) => (
-                <img key={imgIndex} src={require(`./path/to/images/${img}`)} alt={`תמונה ${imgIndex + 1}`} />
+                <img key={imgIndex} src={require(`../data/pictures/${img}`)} alt={`תמונה ${imgIndex + 1}`} />
               ))}
             </div>
           </div>
