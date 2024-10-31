@@ -1,16 +1,18 @@
 import axios from 'axios';
 import { API_ROUTES } from './apiRoutes';
 
+// Check login status function
 export const checkLoginStatus = async () => {
   try {
     const response = await axios.get(API_ROUTES.AUTH.CHECK_LOGIN, { withCredentials: true });
-    return response.data || { isLoggedIn: false }; // Ensure a fallback
+    return response.data || { isLoggedIn: false };
   } catch (error) {
     console.error('Error checking login status:', error);
     return { isLoggedIn: false };
   }
 };
 
+// Login user function
 export const loginUser = async (formData) => {
   try {
     const response = await axios.post(API_ROUTES.AUTH.LOGIN, formData, { withCredentials: true });
@@ -29,6 +31,18 @@ export const loginUser = async (formData) => {
   }
 };
 
+// Register user function
+export const registerUser = async (formData) => {
+  try {
+    const response = await axios.post(API_ROUTES.AUTH.REGISTER, formData);
+    return { success: true, user: response.data };
+  } catch (error) {
+    console.error('Error registering:', error.response?.data || error.message);
+    return { success: false, error: error.response?.data?.message || 'Registration failed' };
+  }
+};
+
+// Logout user function
 export const logoutUser = async () => {
   try {
     await axios.post(API_ROUTES.AUTH.LOGOUT, {}, { withCredentials: true });

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import '../styles/RegistrationForm.css';
-import { loginUser } from '../utils/auth';
+import { registerUser } from '../utils/auth';
 
 const RegistrationForm = () => {
   const [formData, setFormData] = useState({
@@ -74,7 +74,7 @@ const RegistrationForm = () => {
     setIsSubmitting(true);
 
     try {
-      const result = await loginUser(formData);
+      const result = await registerUser(formData);
       if (result.success) {
         window.location.href = '/welcome';
       } else {
