@@ -19,6 +19,7 @@ const LoginPopup = () => {
 
   const handleLogin = async () => {
     const loginResult = await loginUser(formData);
+    console.log('User data after login:', loginResult.user); // Debugging log
     if (loginResult.success) {
       setUser(loginResult.user);
       setLoginError(null); // Clear error on successful login
