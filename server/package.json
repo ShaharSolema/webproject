@@ -1,21 +1,4 @@
 {
-<<<<<<< HEAD
- "scripts": {
-  "dev": "nodemon server.js"
- },
- "dependencies": {
-  "bcrypt": "^5.1.1",
-  "cookie-parser": "^1.4.7",
-  "cors": "^2.8.5",
-  "ejs": "^3.1.10",
-  "express": "^4.19.2",
-  "jsonwebtoken": "^9.0.2",
-  "mongodb": "^6.8.0",
-  "mongoose": "^8.5.5",
-  "nodemon": "^3.1.4",
-  "validator": "^13.12.0"
- }
-=======
   "name": "final-project",
   "version": "1.0.0",
   "main": "main.js",
@@ -41,5 +24,4 @@
     "serve-favicon": "^2.5.0",
     "validator": "^13.11.0"
   }
->>>>>>> d629e02bcdf9f4f0948a31375175de762f6736c5
 }
