@@ -1,31 +1,134 @@
+html {
+  scroll-behavior: smooth;
+}
+
+.login-popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* מיקום הפופאפ למעלה */
+  animation: slide-down 0.3s ease-out; /* אפקט אנימציה */
+}
+
 .login-popup {
-    position: absolute;
-    top: 50px;
-    left: 0; /* Aligns the popup to the left side */
-    width: 250px;
-    padding: 20px;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
+  width: 700px; /* רוחב הפופאפ */
+  max-height: 70vh; /* גובה מרבי של הפופאפ (70% מגובה המסך) */
+  overflow-y: auto; /* אפשרות גלילה כאשר התוכן חורג מהגובה */
+  background-color: white;
+  padding: 20px;
+  border-radius: 15px; /* עיגול פינות הפופאפ */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  margin-top: 20px; /* מרווח מהחלק העליון של המסך */
+}
+
+.logo {
+  width: 150px; /* גובה הלוגו */
+  height: auto; /* שמירה על פרופורציות הלוגו */
+  display: block;
+  margin: 0 auto; /* מרכז את הלוגו */
+}
+
+.divider {
+  border: none; /* אין גבול */
+  height: 1px; /* גובה הקו */
+  background-color: #cc6b36; /* צבע קו החוצץ */
+  margin: 20px 0; /* רווח מעל ומתחת לקו */
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #cc6b36; /* צבע כתום כהה */
+  font-size: 1.8rem;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ffa366; /* גבול כתום בהיר */
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 1rem;
+  background-color: #fffaf2; /* רקע בהיר לשדות הקלט */
+  text-align: center;
+}
+
+p {
+  color: #e74c3c; /* צבע אדום */
+  font-size: 0.85rem;
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  background-color: #ff8c66; /* כפתור כתום בהיר */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #ff704d; /* כתום כהה יותר בה.hover */
+}
+
+label {
+  font-size: 1rem;
+  margin-bottom: 5px;
+  display: block;
+  color: #cc6b36; 
+}
+
+.back-button {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+/* אפקט אנימציה */
+@keyframes slide-down {
+  from {
+    transform: translateY(-100%);
   }
-  
-  .login-popup h3 {
-    font-size: 1.2rem;
-    margin-bottom: 10px;
+  to {
+    transform: translateY(0);
   }
-  
-  .login-popup input {
-    width: 100%;
+}
+
+/* אפקט אנימציה יציאה */
+.login-popup-overlay.exit {
+  animation: slide-up 0.3s ease-out; /* אנימציה חזרה למעלה */
+}
+
+@keyframes slide-up {
+  from {
+    transform: translateY(0);
   }
-  
-  .login-popup button {
-    width: 100%;
+  to {
+    transform: translateY(-100%);
   }
-  
-  .login-popup .btn-secondary {
-    width: 100%;
-    margin-top: 10px;
-  }
-  
+}
+
+.arrow-up {
+  display: none; /* החבאת החץ למעלה, אם נדרש ניתן להפעיל */
+}
+
+.btn.btn-primary.mb-2 {
+  text-align: center;
+}
+h3{
+  text-align: center;
+  padding: 20px;
+}

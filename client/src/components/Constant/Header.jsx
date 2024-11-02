@@ -4,10 +4,10 @@ import Logo from "../Logo";
 import DropdownMenu from "./DropdownMenu";
 
 const Header = () => {
-  const [username, setUsername] = useState(null);
+  const [username, setUsername] = useState("אורח"); // ערך ברירת מחדל
 
   useEffect(() => {
-    function getNameFromLocalStorage() {
+    const getNameFromLocalStorage = () => {
       const userString = localStorage.getItem('user');
       if (!userString) return null; // Return null if no user data exists
 
@@ -18,29 +18,37 @@ const Header = () => {
         console.error("Failed to parse user data:", error);
         return null; // Return null if parsing fails
       }
+    };
+
+    const currUsername = getNameFromLocalStorage();
+    if (currUsername) {
+      setUsername(currUsername); // Set username if available
     }
 
+    // Function to update username from local storage
     const updateUsername = () => {
-      const currUsername = getNameFromLocalStorage();
-      if (currUsername !== username) {
-        setUsername(currUsername);
+      const updatedName = getNameFromLocalStorage();
+      if (updatedName && updatedName !== username) {
+        setUsername(updatedName);
       }
     };
 
-    // Check username when the component mounts and on every re-render
-    updateUsername();
-
-    // Optional: Listen for storage changes in other tabs
     window.addEventListener('storage', updateUsername);
 
     // Cleanup listener on component unmount
     return () => {
       window.removeEventListener('storage', updateUsername);
     };
-  }, [username]); // Adding username to the dependency array to check for updates
+  }, []); // No need for username in dependency array, only run on mount
 
   return (
-    <header className="row fixed-top bg-white py-2">
+    <header 
+      className="row fixed-top bg-white"
+      style={{
+        padding: "0.5rem 0", // הקטנת padding
+        height: "80px", // קביעת גובה קבוע ל-HEADER
+      }}
+    >
       {/* Left column with buttons */}
       <div className="col d-flex align-items-center justify-content-start">
         <ButtonGroup />
@@ -53,11 +61,7 @@ const Header = () => {
 
       {/* Right column with dropdown menu button */}
       <div className="col text-end d-flex align-items-center justify-content-end">
-        {username ? (
-          <span className="me-3">Hello, {username}</span>
-        ) : (
-          <span className="me-3">Hello, Visitor</span>
-        )}
+        <span className="me-3">היי, {username}</span>
         <DropdownMenu />
       </div>
     </header>

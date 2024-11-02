@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import PropTypes from 'prop-types';
 import '../styles/RegistrationForm.css';
 import { registerUser } from '../utils/auth';
 import validator from 'validator';
 
-const RegistrationForm = () => {
+const RegistrationForm = ({ onBackToLogin }) => {
   const [formData, setFormData] = useState({
     username: '',
     email: '',
@@ -132,17 +133,17 @@ const RegistrationForm = () => {
     <form onSubmit={handleSubmit}>
       <h1>Register</h1>
       {[
-        { label: 'Username', name: 'username', type: 'text' },
-        { label: 'Email', name: 'email', type: 'email' },
-        { label: 'Password', name: 'password', type: 'password' },
-        { label: 'First Name', name: 'firstname', type: 'text' },
-        { label: 'Last Name', name: 'lastname', type: 'text' },
-        { label: 'Street', name: 'street', type: 'text' },
-        { label: 'Street Number', name: 'streetnum', type: 'number' },
-        { label: 'Postal Code', name: 'postalcode', type: 'text' },
-        { label: 'City', name: 'city', type: 'text' },
-        { label: 'Telephone', name: 'telephone', type: 'text' },
-        { label: 'Birthday', name: 'birthday', type: 'date' },
+        { label: ':שם משתמש', name: 'username', type: 'text' },
+        { label: ':אימייל', name: 'email', type: 'email' },
+        { label: ':סיסמא', name: 'password', type: 'password' },
+        { label: ':שם פרטי', name: 'firstname', type: 'text' },
+        { label: ':שם משפחה', name: 'lastname', type: 'text' },
+        { label: ':רחוב', name: 'street', type: 'text' },
+        { label: ':מספר רחוב', name: 'streetnum', type: 'number' },
+        { label: ':מיקוד', name: 'postalcode', type: 'text' },
+        { label: ':עיר', name: 'city', type: 'text' },
+        { label: ':מספר פלאפון', name: 'telephone', type: 'text' },
+        { label: ':תאריך לידה', name: 'birthday', type: 'date' },
       ].map((field) => (
         <div key={field.name}>
           <label>{field.label}:</label>
@@ -158,8 +159,15 @@ const RegistrationForm = () => {
       ))}
       <button type="submit" disabled={isSubmitting}>Register</button>
       {errors.form && <p className="error">{errors.form}</p>}
+      <button onClick={onBackToLogin} className="back-to-login-btn">
+        חזרה להתחברות
+        </button>
     </form>
   );
+};
+// הוספת PropTypes לרכיב
+RegistrationForm.propTypes = {
+  onBackToLogin: PropTypes.func.isRequired, // הגדרת onBackToLogin
 };
 
 export default RegistrationForm;
