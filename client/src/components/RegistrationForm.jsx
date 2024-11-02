@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import PropTypes from 'prop-types'; // ייבוא PropTypes
 import '../styles/RegistrationForm.css';
 import { registerUser } from '../utils/auth';
 
-const RegistrationForm = () => {
+const RegistrationForm = ({ onBackToLogin }) => {
   const [formData, setFormData] = useState({
     username: '',
     email: '',
@@ -27,7 +28,7 @@ const RegistrationForm = () => {
 
   const validate = () => {
     const errors = {};
-
+    // בדיקות שדות
     if (!formData.username) errors.username = 'Username is required';
     if (!formData.email.includes('@')) errors.email = 'Invalid email format';
     if (!formData.password) {
@@ -89,133 +90,143 @@ const RegistrationForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h1>Register</h1>
-      <div>
-        <label>Username:</label>
-        <input
-          type="text"
-          name="username"
-          value={formData.username}
-          onChange={handleChange}
-          required
-        />
-        {errors.username && <p>{errors.username}</p>}
-      </div>
-      <div>
-        <label>Email:</label>
-        <input
-          type="email"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-          required
-        />
-        {errors.email && <p>{errors.email}</p>}
-      </div>
-      <div>
-        <label>Password:</label>
-        <input
-          type="password"
-          name="password"
-          value={formData.password}
-          onChange={handleChange}
-          required
-        />
-        {errors.password && <p>{errors.password}</p>}
-      </div>
-      <div>
-        <label>First Name:</label>
-        <input
-          type="text"
-          name="firstname"
-          value={formData.firstname}
-          onChange={handleChange}
-          required
-        />
-        {errors.firstname && <p>{errors.firstname}</p>}
-      </div>
-      <div>
-        <label>Last Name:</label>
-        <input
-          type="text"
-          name="lastname"
-          value={formData.lastname}
-          onChange={handleChange}
-          required
-        />
-        {errors.lastname && <p>{errors.lastname}</p>}
-      </div>
-      <div>
-        <label>Street:</label>
-        <input
-          type="text"
-          name="street"
-          value={formData.street}
-          onChange={handleChange}
-          required
-        />
-        {errors.street && <p>{errors.street}</p>}
-      </div>
-      <div>
-        <label>Street Number:</label>
-        <input
-          type="number"
-          name="streetnum"
-          value={formData.streetnum}
-          onChange={handleChange}
-          required
-        />
-        {errors.streetnum && <p>{errors.streetnum}</p>}
-      </div>
-      <div>
-        <label>Postal Code:</label>
-        <input
-          type="text"
-          name="postalcode"
-          value={formData.postalcode}
-          onChange={handleChange}
-          required
-        />
-        {errors.postalcode && <p>{errors.postalcode}</p>}
-      </div>
-      <div>
-        <label>City:</label>
-        <input
-          type="text"
-          name="city"
-          value={formData.city}
-          onChange={handleChange}
-          required
-        />
-        {errors.city && <p>{errors.city}</p>}
-      </div>
-      <div>
-        <label>Telephone:</label>
-        <input
-          type="text"
-          name="telephone"
-          value={formData.telephone}
-          onChange={handleChange}
-          required
-        />
-        {errors.telephone && <p>{errors.telephone}</p>}
-      </div>
-      <div>
-        <label>Birthday:</label>
-        <input
-          type="date"
-          name="birthday"
-          value={formData.birthday}
-          onChange={handleChange}
-          required
-        />
-        {errors.birthday && <p>{errors.birthday}</p>}
-      </div>
-      <button type="submit" disabled={isSubmitting}>Register</button>
-      {errors.form && <p className="error">{errors.form}</p>}
-    </form>
+    <>
+      <form onSubmit={handleSubmit}>
+        <h1>יצירת חשבון</h1>
+        <div>
+          <label>:שם משתמש</label>
+          <input
+            type="text"
+            name="username"
+            value={formData.username}
+            onChange={handleChange}
+            required
+          />
+          {errors.username && <p>{errors.username}</p>}
+        </div>
+        <div>
+          <label>:אימייל</label>
+          <input
+            type="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            required
+          />
+          {errors.email && <p>{errors.email}</p>}
+        </div>
+        <div>
+          <label>:סיסמא</label>
+          <input
+            type="password"
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
+            required
+          />
+          {errors.password && <p>{errors.password}</p>}
+        </div>
+        <div>
+          <label>:שם פרטי</label>
+          <input
+            type="text"
+            name="firstname"
+            value={formData.firstname}
+            onChange={handleChange}
+            required
+          />
+          {errors.firstname && <p>{errors.firstname}</p>}
+        </div>
+        <div>
+          <label>:שם משפחה</label>
+          <input
+            type="text"
+            name="lastname"
+            value={formData.lastname}
+            onChange={handleChange}
+            required
+          />
+          {errors.lastname && <p>{errors.lastname}</p>}
+        </div>
+        <div>
+          <label>:רחוב</label>
+          <input
+            type="text"
+            name="street"
+            value={formData.street}
+            onChange={handleChange}
+            required
+          />
+          {errors.street && <p>{errors.street}</p>}
+        </div>
+        <div>
+          <label>:מספר רחוב</label>
+          <input
+            type="number"
+            name="streetnum"
+            value={formData.streetnum}
+            onChange={handleChange}
+            required
+          />
+          {errors.streetnum && <p>{errors.streetnum}</p>}
+        </div>
+        <div>
+          <label>:מיקוד</label>
+          <input
+            type="text"
+            name="postalcode"
+            value={formData.postalcode}
+            onChange={handleChange}
+            required
+          />
+          {errors.postalcode && <p>{errors.postalcode}</p>}
+        </div>
+        <div>
+          <label>:עיר</label>
+          <input
+            type="text"
+            name="city"
+            value={formData.city}
+            onChange={handleChange}
+            required
+          />
+          {errors.city && <p>{errors.city}</p>}
+        </div>
+        <div>
+          <label>:מספר פלאפון</label>
+          <input
+            type="text"
+            name="telephone"
+            value={formData.telephone}
+            onChange={handleChange}
+            required
+          />
+          {errors.telephone && <p>{errors.telephone}</p>}
+        </div>
+        <div>
+          <label>:תאריך לידה</label>
+          <input
+            type="date"
+            name="birthday"
+            value={formData.birthday}
+            onChange={handleChange}
+            required
+          />
+          {errors.birthday && <p>{errors.birthday}</p>}
+        </div>
+        <button type="submit" disabled={isSubmitting}>הרשמה</button>
+        {errors.form && <p className="error">{errors.form}</p>}
+        <button onClick={onBackToLogin} className="back-to-login-btn">
+        חזרה להתחברות
+        </button>
+      </form>
+    </>
   );
+};
+
+// הוספת PropTypes לרכיב
+RegistrationForm.propTypes = {
+  onBackToLogin: PropTypes.func.isRequired, // הגדרת onBackToLogin
 };
 
 export default RegistrationForm;

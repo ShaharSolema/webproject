@@ -18,10 +18,15 @@ import Highlight from '../components/Home/Highlight';  // ייבוא רכיב ה
 import '../styles/main.css'
 
 function App() {
+  // הגדרת סגנונות inline
+  const containerStyles = {
+    padding: '20px', // הוספת padding של 20 פיקסלים מכל צד
+  };
+
   return (
     <Router>
       <Header />
-      <div className="container mt-5">
+      <div className="container" style={containerStyles}>
         <Routes>
           <Route path="/" element={<Home />} />
           {/* <Route path="/cart" element={<Cart />} /> */}

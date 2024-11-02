@@ -9,8 +9,9 @@ form {
     background-color: #fff4e6; /* Light orange background */
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    margin-top: 150px;
-    margin-bottom: 350px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    text-align: right;
   }
   
 
@@ -64,4 +65,10 @@ form {
   div {
     margin-bottom: 15px;
   }
-  
+  .back-to-login-btn {
+      margin-top: 20px;
+      background-color: rgba(0, 0, 0, 0.5);
+}
+.back-to-login-btn:hover {
+  background-color: rgba(197, 171, 171, 0.5);
+}
