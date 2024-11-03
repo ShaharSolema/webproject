@@ -1,0 +1,25 @@
+/* src/styles/Store.css */
+
+.product-store {
+    margin-top: 20px;
+  }
+  
+  .product-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* מרווח בין המוצרים */
+  }
+  
+  .product {
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+  }
+  
+  .cart {
+    margin-top: 20px;
+    border-top: 2px solid #000;
+    padding-top: 10px;
+  }
+  
