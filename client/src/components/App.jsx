@@ -1,29 +1,29 @@
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-
+// src/App.jsx
+import React from 'react';
 import Header from './Constant/Header';
 import Footer from './Constant/Footer';
 import FloatingIcon from './Constant/FloatingIcon';
 import Home from './Home/Home';
 import Courses from './Courses';
-import ProductStore from './ProductStore';
+import ProductStore from './ProductStore'; // ייבוא רכיב החנות
 import About from './About';
 import FAQ from './FAQ';
 import Contact from './Contact';
 import RegistrationForm from "./RegistrationForm";
-import Highlight from '../components/Home/Highlight'; // ייבוא רכיב ההיילייט
+import Highlight from '../components/Home/Highlight';
+
 
 import '../styles/main.css';
 
 function App() {
-  // הגדרת סגנונות inline
   const containerStyles = {
     padding: '20px',
-    paddingTop: '80px', // ריפוד עליון
-    paddingBottom: '0', // הסרת ריפוד תחתון
-    minHeight: 'calc(100vh - 60px)', // הכנס גובה פוטר מדויק
+    paddingTop: '80px',
+    paddingBottom: '0',
+    minHeight: 'calc(100vh - 60px)',
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'space-between', // למלא את כל הגובה
+    justifyContent: 'space-between',
   };
 
   return (

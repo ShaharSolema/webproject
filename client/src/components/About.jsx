@@ -1,5 +1,5 @@
 import React from "react";
-import "../styles/About.css"; // ודא שהנתיב נכון כאן
+import "../styles/About.css"; 
 
 const About = () => {
   return (
