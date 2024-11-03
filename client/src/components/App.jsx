@@ -12,6 +12,7 @@ import Contact from './Contact';
 import RegistrationForm from "./RegistrationForm";
 import Highlight from '../components/Home/Highlight'; // ייבוא רכיב ההיילייט
 import UsersUpdate from './Admin/UsersUpdate'
+import UserUpdateForm from './UserUpdateForm';
 
 import '../styles/main.css';
 
@@ -41,6 +42,7 @@ function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/highlight" element={<Highlight />} />
           <Route path="/usersadmin" element ={<UsersUpdate/>} />
+          <Route path="/userupdate" element ={<UserUpdateForm/>} />
         </Routes>
         <FloatingIcon />
       </div>
