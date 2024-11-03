@@ -95,9 +95,9 @@ const MenuButton = () => {
               </a>
               {showSubmenu && (
                 <ul className="dropdown-menu show" style={styles.subtext}>
-                  <li><a className="dropdown-item" href="/courses/advanced">קורסים מתקדמים</a></li>
-                  <li><a className="dropdown-item" href="/courses/beginner">קורסים למתחילים</a></li>
-                  <li><a className="dropdown-item" href="/courses/workshops">סדנאות</a></li>
+                  <li><a className="dropdown-item" href="/advanced">קורסים מתקדמים</a></li>
+                  <li><a className="dropdown-item" href="/beginner">קורסים למתחילים</a></li>
+                  <li><a className="dropdown-item" href="/workshops">סדנאות</a></li>
                 </ul>
               )}
             </li>

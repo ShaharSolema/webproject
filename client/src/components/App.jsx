@@ -1,11 +1,9 @@
-// src/App.jsx
-import React from 'react';
+import 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; // ייבוא רכיבים
 import Header from './Constant/Header';
 import Footer from './Constant/Footer';
 import FloatingIcon from './Constant/FloatingIcon';
 import Home from './Home/Home';
-import Courses from './Courses';
 import ProductStore from './ProductStore'; // ייבוא רכיב החנות
 import About from './About';
 import FAQ from './FAQ';
@@ -14,6 +12,9 @@ import RegistrationForm from "./RegistrationForm";
 import Highlight from '../components/Home/Highlight'; // ייבוא רכיב ההיילייט
 import UsersUpdate from './Admin/UsersUpdate';
 import UserUpdateForm from './UserUpdateForm';
+import BeginnerCourses from './BeginnerCourses'; // ייבוא קורסים למתחילים
+import AdvancedCourses from './AdvancedCourses'; // ייבוא קורסים מתקדמים
+import Workshops from './Workshops'; // ייבוא סדנאות
 
 import '../styles/main.css';
 
@@ -36,7 +37,9 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/RegistrationForm" element={<RegistrationForm />} />
-          <Route path="/courses" element={<Courses />} />
+          <Route path="/beginner" element={<BeginnerCourses />} /> {/* קורסים למתחילים */}
+          <Route path="/advanced" element={<AdvancedCourses />} /> {/* קורסים מתקדמים */}
+          <Route path="/workshops" element={<Workshops />} /> {/* סדנאות */}
           <Route path="/productstore" element={<ProductStore />} />
           <Route path="/about" element={<About />} />
           <Route path="/faq" element={<FAQ />} />
