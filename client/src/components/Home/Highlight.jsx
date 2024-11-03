@@ -45,11 +45,21 @@ const Highlight = () => {
         <div className="gallery">
           <button className="close-btn" onClick={closeGallery}>✖</button>
           <div className="gallery-content">
+<<<<<<< HEAD
             <img src={images[currentGalleryIndex][currentImageIndex]} alt="Gallery" />
           </div>
           <div className="gallery-buttons">
             <button onClick={goToPreviousImage}>◀</button>
             <button onClick={goToNextImage}>▶</button>
+=======
+            <p>תמונות עיגול {openGallery + 1}</p>
+            {/* הצגת התמונות */}
+            <div className="gallery-images">
+              {images[openGallery].map((img, imgIndex) => (
+                <img key={imgIndex} src={require(`../data/pictures/${img}`)} alt={`תמונה ${imgIndex + 1}`} />
+              ))}
+            </div>
+>>>>>>> e56b8b7aacf5650f53a0ce55cf7a68b26e34630d
           </div>
         </div>
       )}
