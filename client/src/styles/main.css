@@ -117,3 +117,56 @@ header .col-6 {
         font-size: 1.5rem; /* גודל אחיד לאייקונים עבור כפתורים שונים */
     }
 }
+
+/* עיצוב הפוטר */
+.footer {
+    background-color: rgb(250, 210, 204);
+    color: white;
+    padding: 0; /* הסרת padding */
+    text-align: center;
+    width: 100%;
+    margin: 0; /* הסרת margin */
+    position: relative; /* למנוע בעיות מיקום */
+    z-index: 10; /* למעלה מאלמנטים אחרים */
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 0; /* הסרת padding */
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.footer-section {
+    flex: 1 1 200px;
+    margin: 0; /* הסרת ה-margin */
+    text-align: end;
+}
+
+.footer-logo {
+    width: 600px;
+    height: auto;
+    max-width: 100%;
+    display: block;
+    margin-left: -80px;
+}
+
+.icons-style {
+    display: flex;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+}
+
+.icons-style li {
+    margin: 0 5px;
+}
+
+.footer-right {
+    background-color: rgb(250, 210, 204);
+    text-align: center;
+    padding: 5px;
+    margin: 0;
+}

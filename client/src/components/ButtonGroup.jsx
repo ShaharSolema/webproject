@@ -19,7 +19,7 @@ const ButtonGroup = () => {
     padding: '10px', // מרווח פנימי
     fontSize: '10px', // גודל טקסט קטן יותר
   };
-
+  
   return (
     <>
       <button style={buttonStyle} className="btn btn-light me-2" onClick={toggleLoginPopup}>
