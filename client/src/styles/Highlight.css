@@ -20,6 +20,11 @@
     background-image: url('../styles/art.png'); /* נתיב לתמונת הרקע הקבועה */
     background-size: cover;
     background-position: center;
+    transition: transform 0.3s; /* אפקט מעבר */
+}
+
+.circle:hover {
+    transform: scale(1.05); /* הגדלת העיגול במצב ריחוף */
 }
 
 .circle-title {
@@ -29,11 +34,11 @@
 
 /* סגנונות עבור הגלריה */
 .gallery {
-    position: fixed;
+    position: fixed; /* מיקום קבוע */
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 80%; /* קביעת רוחב הריבוע */
+    width: 80%; /* קביעת רוחב הגלריה */
     max-width: 600px; /* רוחב מקסימלי */
     background-color: rgba(0, 0, 0, 0.9);
     border-radius: 10px;
@@ -43,6 +48,8 @@
     color: white;
     padding: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    transition: opacity 0.3s; /* אפקט מעבר לגלריה */
+    z-index: 1000; /* ז-אינדקס גבוה */
 }
 
 .close-btn {
@@ -62,12 +69,15 @@
     justify-content: center;
     align-items: center;
     text-align: center;
+    width: 100%; /* רוחב 100% */
+    height: 100%; /* גובה 100% */
 }
 
-.gallery-content img, .gallery-content video {
-    max-width: 100%;
-    max-height: 80vh; /* הגבלת גובה המדיה */
-    object-fit: contain;
+.gallery-content img, 
+.gallery-content video {
+    width: 100%; /* רוחב 100% */
+    height: 100%; /* גובה 100% */
+    object-fit: cover; /* תופס את כל החלל ללא חיתוך */
 }
 
 /* עיצוב חיצים */
@@ -80,6 +90,7 @@
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
+    transition: color 0.3s; /* אפקט מעבר על החצים */
 }
 
 .left-arrow {
@@ -88,4 +99,22 @@
 
 .right-arrow {
     right: 10px;
+}
+
+.gallery-arrow:hover {
+    color: lightgray; /* שינוי צבע החצים במצב ריחוף */
+}
+
+/* סגנון עבור ה-overlay */
+.gallery-overlay {
+    position: fixed; /* מיקום קבוע */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.8); /* רקע שחור עם שקיפות */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999; /* לוודא שה-overlay מעל כל תוכן אחר */
 }

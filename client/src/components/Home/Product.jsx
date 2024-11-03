@@ -1,6 +1,5 @@
 // Product.jsx
 import React from 'react';
-import './Product.css'; // ודא שיש קובץ CSS אם צריך
 
 const Product = ({ image, price, onAddToCart, name }) => {
     return (

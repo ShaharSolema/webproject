@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import '../../styles/Highlight.css';
 
 // ייבוא התמונות והסרטונים
@@ -17,16 +17,17 @@ import Guides4 from '../../styles/pictures/Guides/VID-20240905-WA0013.mp4';
 import Thespringbrushes1 from '../../styles/pictures/Thespringbrushes/IMG-20240905-WA0019.jpg';
 import Thespringbrushes2 from '../../styles/pictures/Thespringbrushes/IMG-20240905-WA0021.jpg';
 
-
 const Highlight = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [openGallery, setOpenGallery] = useState(false);
   const [currentGalleryIndex, setCurrentGalleryIndex] = useState(0);
+  const galleryRef = useRef(null); // Ref for the gallery container
+  const videoRef = useRef(null); // Ref for the video element
 
   // מערך עם התמונות והסרטונים
   const media = [
-    [Courses1, Courses2, Courses3, Courses4, Courses5, Courses6,Courses6,Courses7,Courses8], // קורסים
-    [Guides1, Guides2, Guides3,Guides4], // הדרכות
+    [Courses1, Courses2, Courses3, Courses4, Courses5, Courses6, Courses7, Courses8], // קורסים
+    [Guides1, Guides2, Guides3, Guides4], // הדרכות
     [Thespringbrushes1, Thespringbrushes2], // מכחולים
   ];
 
@@ -40,6 +41,7 @@ const Highlight = () => {
 
   const closeGallery = () => {
     setOpenGallery(false);
+    setCurrentImageIndex(0); // איפוס האינדקס כאשר הגלריה נסגרת
   };
 
   const goToNextImage = () => {
@@ -53,6 +55,29 @@ const Highlight = () => {
   const currentMedia = media[currentGalleryIndex][currentImageIndex];
   const isVideo = currentMedia.endsWith('.mp4'); // בדיקה אם הקובץ הוא וידאו
 
+  // פונקציה לסגירה בלחיצה מחוץ לגלריה
+  const handleClickOutside = (event) => {
+    if (galleryRef.current && !galleryRef.current.contains(event.target)) {
+      closeGallery();
+    }
+  };
+
+  // הוספת מאזין לאירועים
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
+  // פונקציה שמבצע את הגדרת עוצמת הקול לאחר פתיחת הגלריה
+  useEffect(() => {
+    if (isVideo && videoRef.current) {
+      videoRef.current.volume = 0.6; // הגדר עוצמת קול ל-60%
+      videoRef.current.play(); // הפעל את הווידאו אם הוא פתוח
+    }
+  }, [isVideo, openGallery]); // פעולה זו תופעל כאשר יש שינוי ב-isVideo או openGallery
+
   return (
     <div className="highlight-container">
       {titles.map((title, index) => (
@@ -63,17 +88,18 @@ const Highlight = () => {
       ))}
 
       {openGallery && (
-        <div className="gallery">
-          <button className="close-btn" onClick={closeGallery}>✖</button>
-          <div className="gallery-arrow left-arrow" onClick={goToPreviousImage}>◀</div>
-          <div className="gallery-content">
-            {isVideo ? (
-              <video src={currentMedia} controls autoPlay />
-            ) : (
-              <img src={currentMedia} alt="Gallery" />
-            )}
+        <div className="gallery-overlay" onClick={closeGallery}>
+          <div className="gallery" ref={galleryRef} onClick={(e) => e.stopPropagation()}>
+            <div className="gallery-arrow left-arrow" onClick={goToPreviousImage}>◀</div>
+            <div className="gallery-content">
+              {isVideo ? (
+                <video ref={videoRef} src={currentMedia} autoPlay controls={false} />
+              ) : (
+                <img src={currentMedia} alt="Gallery" />
+              )}
+            </div>
+            <div className="gallery-arrow right-arrow" onClick={goToNextImage}>▶</div>
           </div>
-          <div className="gallery-arrow right-arrow" onClick={goToNextImage}>▶</div>
         </div>
       )}
     </div>
