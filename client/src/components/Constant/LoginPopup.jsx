@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
 import { loginUser, checkLoginStatus, logoutUser } from '../../utils/auth';
 import RegistrationForm from '../RegistrationForm'; 
-import UserUpdateForm from '../UserUpdateForm';
 import logo from '../../styles/Michal.jpg';
 import '../../styles/LoginPopup.css';
 
@@ -13,7 +12,6 @@ const LoginPopup = ({ onClose }) => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [loginError, setLoginError] = useState(null);
   const [showRegistration, setShowRegistration] = useState(false);
-  const [showUpdateForm, setShowUpdateForm] = useState(false);
   const [isExiting, setIsExiting] = useState(false);
   const popupRef = useRef();
 
@@ -77,8 +75,10 @@ const LoginPopup = ({ onClose }) => {
   };
 
   const handleToggleUpdateForm = () => {
-    navigate('/userupdate');
+    // Navigate to the user update page
+    navigate('/userupdate', { state: { user } });
   };
+
   return (
     <div className={`login-popup-overlay ${isExiting ? 'exit' : ''}`}>
       <div className="login-popup" ref={popupRef}>
@@ -102,14 +102,6 @@ const LoginPopup = ({ onClose }) => {
             <button onClick={handleToggleUpdateForm} className="btn btn-secondary mb-2">
               עדכן את פרטי החשבון
             </button>
-
-            {showUpdateForm && (
-              <UserUpdateForm
-                initialData={user}
-                onSubmit={handleUpdateData}
-                onCancel={handleToggleUpdateForm}
-              />
-            )}
           </>
         ) : (
           <>

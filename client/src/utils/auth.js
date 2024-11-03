@@ -67,3 +67,23 @@ export const logoutUser = async () => {
     return { success: false, error: error.response?.data?.message || 'Logout failed' };
   }
 };
+
+export const fetchUserData = async () => {
+  // Implement fetching user data based on your API
+  const response = await fetch(API_ROUTES.USERS.GET_BY_ID(userId)); // Replace userId with the actual ID
+  if (!response.ok) throw new Error('Failed to fetch user data');
+  return response.json();
+};
+
+export const updateUserData = async (userId, data) => {
+  const response = await fetch(API_ROUTES.USERS.UPDATE(userId), {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  });
+
+  if (!response.ok) throw new Error('Failed to update user data');
+  return response.json();
+};
