@@ -38,7 +38,6 @@
     background-color: rgba(0, 0, 0, 0.9);
     border-radius: 10px;
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
     color: white;
@@ -58,20 +57,35 @@
 }
 
 .gallery-content {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     text-align: center;
 }
 
-.gallery-content img {
+.gallery-content img, .gallery-content video {
     max-width: 100%;
-    max-height: 400px; /* הגבלת גובה התמונה */
+    max-height: 80vh; /* הגבלת גובה המדיה */
+    object-fit: contain;
 }
 
-.gallery-buttons {
-    margin-top: 20px;
-}
-
-.gallery-buttons button {
-    margin: 0 10px;
-    padding: 10px;
+/* עיצוב חיצים */
+.gallery-arrow {
+    font-size: 2rem;
+    color: white;
+    background: none;
+    border: none;
     cursor: pointer;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.left-arrow {
+    left: 10px;
+}
+
+.right-arrow {
+    right: 10px;
 }

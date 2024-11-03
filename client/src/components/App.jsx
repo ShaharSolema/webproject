@@ -21,6 +21,8 @@ function App() {
   // הגדרת סגנונות inline
   const containerStyles = {
     padding: '20px', // הוספת padding של 20 פיקסלים מכל צד
+    paddingTop: '80px',  // ריפוד נוסף לחלק העליון (בהתאם לגובה ה-HEADER שלך)
+    paddingBottom: '60px', // ריפוד נוסף לחלק התחתון (בהתאם לגובה ה-FOOTER שלך)
   };
 
   return (
