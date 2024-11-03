@@ -1,0 +1,28 @@
+.about-container {
+    max-width: 800px; /* הגבלת רוחב המיכל */
+    margin: 0 auto; /* מרכז את המיכל */
+    padding: 20px; /* ריפוד פנימי */
+    text-align: right; /* יישור לימין */
+    font-family: 'Calibri', sans-serif; /* גופן Calibri */
+    line-height: 1.6; /* גובה השורה */
+    background-color: #f7f7f7; /* צבע רקע */
+    border-radius: 8px; /* פינות מעוגלות */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* הצללה קלה */
+}
+  
+h2 {
+    color: pink; /* צבע ורוד לכותרת */
+    margin-bottom: 20px; /* מרחק מתחת לכותרת */
+    font-size: 28px; /* גודל הכותרת */
+    text-align: center; /* יישור הכותרת לאמצע */
+    font-weight: bold; /* הדגשת הכותרת */
+}
+  
+p {
+    margin-bottom: 15px; /* מרחק בין הפסקאות */
+    font-size: 16px; /* גודל הפסקאות */
+    color: #555; /* צבע לפסקאות */
+    direction: rtl; /* יישור טקסט מימין לשמאל */
+    text-align: right; /* יישור לימין */
+  }
+  
