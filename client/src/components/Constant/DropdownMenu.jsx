@@ -102,7 +102,7 @@ const MenuButton = () => {
               )}
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="/product-store">חנות מוצרים</a>
+              <a className="nav-link" href="/productstore">חנות מוצרים</a>
             </li>
             <li className="nav-item">
               <a className="nav-link" href="/about">קצת עליי</a>

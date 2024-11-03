@@ -1,4 +1,5 @@
-// src/App.jsx
+//App.jsx
+
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; // ייבוא רכיבים
 import Header from './Constant/Header';
@@ -13,7 +14,8 @@ import Contact from './Contact';
 import RegistrationForm from "./RegistrationForm";
 import Highlight from '../components/Home/Highlight'; // ייבוא רכיב ההיילייט
 import UsersUpdate from './Admin/UsersUpdate';
-import UserUpdateForm from './UserUpdateForm';
+
+//import UserUpdateForm from './UserUpdateForm';
 
 import '../styles/main.css';
 
@@ -37,13 +39,13 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/RegistrationForm" element={<RegistrationForm />} />
           <Route path="/courses" element={<Courses />} />
-          <Route path="/productstore" element={<ProductStore />} />
+    
           <Route path="/about" element={<About />} />
           <Route path="/faq" element={<FAQ />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/highlight" element={<Highlight />} />
           <Route path="/usersadmin" element={<UsersUpdate />} />
-          <Route path="/userupdate" element={<UserUpdateForm />} />
+          <Route path="/productstore" element={<ProductStore />} />
         </Routes>
         <FloatingIcon />
       </div>
@@ -52,4 +54,4 @@ function App() {
   );
 }
 
-export default App;
+export default App;
