@@ -27,4 +27,10 @@ export const API_ROUTES = {
     UPDATE_ITEM: (userId) => `/carts/${userId}`,
     DELETE_ITEM: (userId, productId) => `/carts/${userId}/${productId}`,
   },
+  STATISTICS: {
+    USER_REGISTRATIONS: `/api/statistics/registrations`,
+    USER_ENGAGEMENT: `/api/statistics/user-engagement`,
+    PRODUCT_SALES: `/api/statistics/sales`,
+    CART_ITEMS: `/api/statistics/cart-items`,
+  },
 };
