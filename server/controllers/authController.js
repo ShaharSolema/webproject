@@ -81,7 +81,7 @@ const generateToken = (id) => {
 
 const checkLoginStatus = (req, res) => {
   if (req.user) {
-    return res.status(200).json({ isLoggedIn: true, user: req.user });
+    return res.status(200).json({ isLoggedIn: true, user: req.user, isAdmin: req.user.manager });
   } else {
     return res.status(401).json({ isLoggedIn: false });
   }

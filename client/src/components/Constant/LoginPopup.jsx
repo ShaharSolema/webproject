@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react'; 
 import PropTypes from 'prop-types'; 
+import { useNavigate } from 'react-router-dom';
 import { loginUser, checkLoginStatus, logoutUser } from '../../utils/auth';
 import RegistrationForm from '../RegistrationForm'; 
 import logo from '../../styles/Michal.jpg'; // ייבוא הלוגו
@@ -8,20 +9,27 @@ import '../../styles/LoginPopup.css';
 const LoginPopup = ({ onClose }) => {
   const [formData, setFormData] = useState({ username: '', password: '' });
   const [user, setUser] = useState(null);
+  const [isAdmin, setIsAdmin] = useState(false); // New: Track admin status
   const [loginError, setLoginError] = useState(null);
   const [showRegistration, setShowRegistration] = useState(false);
   const [isExiting, setIsExiting] = useState(false); // חדש: מצב יציאה
   const popupRef = useRef();
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchLoginStatus = async () => {
       const status = await checkLoginStatus();
       if (status.isLoggedIn) {
         setUser(status.user);
+        setIsAdmin(status.user.manager);
       }
     };
     fetchLoginStatus();
   }, []);
+  const handleAdminRedirect = () => {
+    navigate('/usersadmin'); // Redirect to AdminPage
+  };
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -44,6 +52,7 @@ const LoginPopup = ({ onClose }) => {
     const loginResult = await loginUser(formData);
     if (loginResult.success) {
       setUser(loginResult.user);
+      setIsAdmin(loginResult.user.manager); // New: Set admin status after login
       setLoginError(null); // אפס שגיאה במקרה של הצלחה
     } else {
       setLoginError(loginResult.error); // עדכן שגיאה במקרה של כישלון
@@ -54,6 +63,7 @@ const LoginPopup = ({ onClose }) => {
     const logoutResult = await logoutUser();
     if (logoutResult.success) {
       setUser(null);
+      setIsAdmin(false); // Reset admin status
     } else {
       console.error('Logout failed:', logoutResult.error);
     }
@@ -78,6 +88,11 @@ const LoginPopup = ({ onClose }) => {
             <button onClick={handleLogout} className="btn btn-primary mb-2">
               יציאה מהמשתמש
             </button>
+            {isAdmin && ( // Only show this button if the user is an admin
+              <button onClick={handleAdminRedirect} className="btn btn-warning mb-2">
+                Users Admin
+              </button>
+            )}
           </>
         ) : (
           <>

@@ -11,6 +11,7 @@ import FAQ from './FAQ';
 import Contact from './Contact';
 import RegistrationForm from "./RegistrationForm";
 import Highlight from '../components/Home/Highlight'; // ייבוא רכיב ההיילייט
+import UsersUpdate from './Admin/UsersUpdate'
 
 import '../styles/main.css';
 
@@ -40,6 +41,7 @@ function App() {
           <Route path="/faq" element={<FAQ />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/highlight" element={<Highlight />} />
+          <Route path="/usersadmin" element ={<UsersUpdate/>} />
         </Routes>
         <FloatingIcon />
       </div>

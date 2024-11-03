@@ -112,13 +112,6 @@ const userSchema = new Schema({
     type: Boolean,
     required: true,
     default: false,
-    immutable: true,
-    validate: {
-      validator: function(v) {
-        return v === false;
-      },
-      message: "This field must always be false."//manager
-    }
   },
   firstname: {
     type: String,
