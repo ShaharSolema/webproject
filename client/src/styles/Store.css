@@ -8,27 +8,62 @@
     font-size: 2em;
 }
 
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* 5 עמודות */
+    gap: 20px; /* רווח בין הריבועים */
+}
+
 .product-card {
     border: 1px solid #ccc;
     padding: 10px;
-    margin: 10px;
     text-align: center;
+    display: flex;
+    flex-direction: column; /* פריסת תוכן אנכית */
+    align-items: center; /* סידור מרכזי */
 }
 
 .product-image {
     width: 100%;
-    max-width: 200px; /* התאם את הגודל לפי הצורך */
+    height: auto; /* שומר על יחס גובה-רוחב */
+}
+
+.product-description {
+    margin: 10px 0; /* רווח בין התמונה לתיאור */
+}
+
+.quantity-control {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 10px 0; /* רווח מעל ומתחת */
+}
+
+.quantity-button {
+    background-color: pink;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 1.5em; /* גודל טקסט לכפתור */
+}
+
+.quantity-display {
+    margin: 0 10px; /* רווח משני הצדדים */
+    font-size: 1.5em; /* גודל טקסט לתצוגת הכמות */
 }
 
 .product-price {
-    font-size: 1.5em;
-    color: green;
+    font-size: 1.2em;
+    color: rgb(0, 0, 0);
+    margin: 10px 0; /* רווח מעל ומתחת למחיר */
 }
 
 .add-to-cart-button {
-    background-color: blue;
+    background-color: pink; /* צבע כפתור הוסף לסל */
     color: white;
     border: none;
     padding: 10px 20px;
     cursor: pointer;
+    margin-top: 10px; /* רווח מעל כפתור הוסף לסל */
 }

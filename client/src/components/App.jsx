@@ -27,7 +27,7 @@ function App() {
     padding: '0px',
     paddingTop: '80px',
     paddingBottom: '0',
-    minHeight: 'calc(100vh - 60px)', // כדי שהמיכל יתפוס את כל גובה המסך, עם התחשבות בפוטר
+    minHeight: 'calc(100vh - 60px)', // חישוב גובה מינימלי
     boxSizing: 'border-box',
     display: 'flex',
     flexDirection: 'column',
@@ -44,7 +44,6 @@ function App() {
           <Route path="/beginner" element={<BeginnerCourses />} /> {/* קורסים למתחילים */}
           <Route path="/advanced" element={<AdvancedCourses />} /> {/* קורסים מתקדמים */}
           <Route path="/workshops" element={<Workshops />} /> {/* סדנאות */}
-    
           <Route path="/about" element={<About />} />
           <Route path="/faq" element={<FAQ />} />
           <Route path="/contact" element={<Contact />} />
