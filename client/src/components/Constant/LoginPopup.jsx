@@ -32,6 +32,14 @@ const LoginPopup = ({ onClose }) => {
     navigate('/usersadmin');
   };
 
+  const handleProductsManagement = () => {
+    navigate('/productsmanagement');
+  };
+
+  const handleStatistics = () => {
+    navigate('/statistics');
+  };
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (popupRef.current && !popupRef.current.contains(event.target)) {
@@ -95,9 +103,17 @@ const LoginPopup = ({ onClose }) => {
               יציאה מהמשתמש
             </button>
             {isAdmin && (
-              <button onClick={handleAdminRedirect} className="btn btn-warning mb-2">
-                Users Admin
-              </button>
+              <>
+                <button onClick={handleAdminRedirect} className="btn btn-warning mb-2">
+                  Users Admin
+                </button>
+                <button onClick={handleProductsManagement} className="btn btn-warning mb-2">
+                  Products Management
+                </button>
+                <button onClick={handleStatistics} className="btn btn-warning mb-2">
+                  Statistics
+                </button>
+              </>
             )}
             <button onClick={handleToggleUpdateForm} className="btn btn-secondary mb-2">
               עדכן את פרטי החשבון
