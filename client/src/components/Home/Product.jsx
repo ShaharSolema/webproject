@@ -1,13 +1,34 @@
 // Product.jsx
-import React from 'react';
-import './Product.css'; // ודא שיש קובץ CSS אם צריך
+import React, { useState } from 'react';
 
-const Product = ({ image, price, onAddToCart, name }) => {
+const Product = ({ image, price, description, onAddToCart }) => {
+    const [quantity, setQuantity] = useState(0);
+
+    const handleAdd = () => {
+        setQuantity(prevQuantity => prevQuantity + 1);
+    };
+
+    const handleRemove = () => {
+        setQuantity(prevQuantity => (prevQuantity > 0 ? prevQuantity - 1 : 0));
+    };
+
     return (
         <div className="product-card">
-            <img src={image} alt={name} className="product-image" />
-            <h2 className="product-price">{price} ש"ח</h2>
-            <button className="add-to-cart-button" onClick={onAddToCart}>הוספה לסל</button>
+            <img src={image} alt="Product" className="product-image" />
+            <p className="product-description">{description}</p>
+            <div className="quantity-control">
+                <button onClick={handleRemove} className="quantity-button">-</button>
+                <span className="quantity-display">{quantity}</span>
+                <button onClick={handleAdd} className="quantity-button">+</button>
+            </div>
+            <p className="product-price">{price} ₪</p>
+            <button 
+                onClick={() => onAddToCart(quantity)} 
+                className="add-to-cart-button" 
+                disabled={quantity === 0}
+            >
+                הוסף לסל
+            </button>
         </div>
     );
 };
