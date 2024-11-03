@@ -73,6 +73,11 @@ imageUrl: {
   },
   message: (props)=> `${props.value} is not a valid URL`
 },
+quantitysold: {
+  type: Number,
+  required: false,
+  default: 0
+},
 createdAt: {
   type: Date,
   default: Date.now
