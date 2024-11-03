@@ -13,13 +13,14 @@ import Contact from './Contact';
 import RegistrationForm from "./RegistrationForm";
 import Highlight from '../components/Home/Highlight'; // ייבוא רכיב ההיילייט
 import UsersUpdate from './Admin/UsersUpdate';
-//
+import statistics from './Admin/Statistics';
 //import UserUpdateForm from './UserUpdateForm';
 import BeginnerCourses from './BeginnerCourses'; // ייבוא קורסים למתחילים
 import AdvancedCourses from './AdvancedCourses'; // ייבוא קורסים מתקדמים
 import Workshops from './Workshops'; // ייבוא סדנאות
 
 import '../styles/main.css';
+import Statistics from './Admin/Statistics';
 
 function App() {
   const containerStyles = {
@@ -49,6 +50,8 @@ function App() {
           <Route path="/highlight" element={<Highlight />} />
           <Route path="/usersadmin" element={<UsersUpdate />} />
           <Route path="/productstore" element={<ProductStore />} />
+          <Route path="/statistics" element={<Statistics />} />
+
         </Routes>
         <FloatingIcon />
       </div>
