@@ -1,25 +1,34 @@
-/* src/styles/Store.css */
+/* Store.css */
+.store-container {
+    padding: 20px;
+}
 
-.product-store {
-    margin-top: 20px;
-  }
-  
-  .product-list {
-    display: flex;
-    flex-direction: column;
-    gap: 20px; /* מרווח בין המוצרים */
-  }
-  
-  .product {
+.store-title {
+    text-align: center;
+    font-size: 2em;
+}
+
+.product-card {
     border: 1px solid #ccc;
     padding: 10px;
-    border-radius: 5px;
-    background-color: #f9f9f9;
-  }
-  
-  .cart {
-    margin-top: 20px;
-    border-top: 2px solid #000;
-    padding-top: 10px;
-  }
-  
+    margin: 10px;
+    text-align: center;
+}
+
+.product-image {
+    width: 100%;
+    max-width: 200px; /* התאם את הגודל לפי הצורך */
+}
+
+.product-price {
+    font-size: 1.5em;
+    color: green;
+}
+
+.add-to-cart-button {
+    background-color: blue;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+}
