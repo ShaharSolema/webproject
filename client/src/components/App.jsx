@@ -11,7 +11,7 @@ import Contact from './Contact';
 import RegistrationForm from "./RegistrationForm";
 import Highlight from '../components/Home/Highlight'; // ייבוא רכיב ההיילייט
 import UsersUpdate from './Admin/UsersUpdate';
-import UserUpdateForm from './UserUpdateForm';
+//import UserUpdateForm from './UserUpdateForm';
 import BeginnerCourses from './BeginnerCourses'; // ייבוא קורסים למתחילים
 import AdvancedCourses from './AdvancedCourses'; // ייבוא קורסים מתקדמים
 import Workshops from './Workshops'; // ייבוא סדנאות
@@ -46,7 +46,6 @@ function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/highlight" element={<Highlight />} />
           <Route path="/usersadmin" element={<UsersUpdate />} />
-          <Route path="/userupdate" element={<UserUpdateForm />} />
         </Routes>
         <FloatingIcon />
       </div>
