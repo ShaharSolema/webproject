@@ -28,9 +28,9 @@ export const API_ROUTES = {
     DELETE_ITEM: (userId, productId) => `/carts/${userId}/${productId}`,
   },
   STATISTICS: {
-    USER_REGISTRATIONS: `/api/statistics/registrations`,
-    USER_ENGAGEMENT: `/api/statistics/user-engagement`,
-    PRODUCT_SALES: `/api/statistics/sales`,
-    CART_ITEMS: `/api/statistics/cart-items`,
+    USER_REGISTRATIONS: `statistics/registrations`,
+    USER_ENGAGEMENT: `statistics/user-engagement`,
+    PRODUCT_SALES: `statistics/sales`,
+    CART_ITEMS: `statistics/cart-items`,
   },
 };
