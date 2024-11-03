@@ -122,12 +122,13 @@ header .col-6 {
 .footer {
     background-color: rgb(250, 210, 204);
     color: white;
-    padding: 0; /* הסרת padding */
+    padding: 0;
     text-align: center;
     width: 100%;
-    margin: 0; /* הסרת margin */
-    position: relative; /* למנוע בעיות מיקום */
-    z-index: 10; /* למעלה מאלמנטים אחרים */
+    position: fixed; /* מצמיד את הפוטר לתחתית המסך */
+    bottom: 0; /* מגדיר את המיקום לתחתית המסך */
+    left: 0;
+    z-index: 10;
 }
 
 .footer-container {

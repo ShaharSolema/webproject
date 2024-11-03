@@ -15,7 +15,7 @@ const FAQ = () => {
   ];
 
   return (
-    <div style={{ maxWidth: '600px', margin: '20px auto', textAlign: 'right' }}>
+    <div style={{ maxWidth: '100%', margin: '20px auto', textAlign: 'right' }}>
       {faqData.map((item, index) => (
         <div
           key={index}

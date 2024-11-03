@@ -1,32 +1,43 @@
 import { useState, useEffect, useRef } from 'react'; 
 import PropTypes from 'prop-types'; 
+import { useNavigate } from 'react-router-dom';
 import { loginUser, checkLoginStatus, logoutUser } from '../../utils/auth';
 import RegistrationForm from '../RegistrationForm'; 
-import logo from '../../styles/Michal.jpg'; // ייבוא הלוגו
+import UserUpdateForm from '../UserUpdateForm';
+import logo from '../../styles/Michal.jpg';
 import '../../styles/LoginPopup.css';
 
 const LoginPopup = ({ onClose }) => {
   const [formData, setFormData] = useState({ username: '', password: '' });
   const [user, setUser] = useState(null);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [loginError, setLoginError] = useState(null);
   const [showRegistration, setShowRegistration] = useState(false);
-  const [isExiting, setIsExiting] = useState(false); // חדש: מצב יציאה
+  const [showUpdateForm, setShowUpdateForm] = useState(false);
+  const [isExiting, setIsExiting] = useState(false);
   const popupRef = useRef();
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchLoginStatus = async () => {
       const status = await checkLoginStatus();
       if (status.isLoggedIn) {
         setUser(status.user);
+        setIsAdmin(status.user.manager);
       }
     };
     fetchLoginStatus();
   }, []);
 
+  const handleAdminRedirect = () => {
+    navigate('/usersadmin');
+  };
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (popupRef.current && !popupRef.current.contains(event.target)) {
-        handleClose(); // סגירת הפופאפ
+        handleClose();
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
@@ -34,9 +45,9 @@ const LoginPopup = ({ onClose }) => {
   }, [onClose]);
 
   const handleClose = () => {
-    setIsExiting(true); // הפעלת אנימציית יציאה
+    setIsExiting(true); 
     setTimeout(() => {
-      onClose(); // סגור את הפופאפ לאחר 300ms (משך האנימציה)
+      onClose(); 
     }, 300); 
   };
 
@@ -44,9 +55,10 @@ const LoginPopup = ({ onClose }) => {
     const loginResult = await loginUser(formData);
     if (loginResult.success) {
       setUser(loginResult.user);
-      setLoginError(null); // אפס שגיאה במקרה של הצלחה
+      setIsAdmin(loginResult.user.manager);
+      setLoginError(null);
     } else {
-      setLoginError(loginResult.error); // עדכן שגיאה במקרה של כישלון
+      setLoginError(loginResult.error);
     }
   };
 
@@ -54,6 +66,7 @@ const LoginPopup = ({ onClose }) => {
     const logoutResult = await logoutUser();
     if (logoutResult.success) {
       setUser(null);
+      setIsAdmin(false);
     } else {
       console.error('Logout failed:', logoutResult.error);
     }
@@ -63,21 +76,40 @@ const LoginPopup = ({ onClose }) => {
     setShowRegistration(!showRegistration);
   };
 
+  const handleToggleUpdateForm = () => {
+    navigate('/userupdate');
+  };
   return (
     <div className={`login-popup-overlay ${isExiting ? 'exit' : ''}`}>
       <div className="login-popup" ref={popupRef}>
         <h1>
-          <img src={logo} alt="Logo" className="logo" /> {/* הצגת הלוגו */}
+          <img src={logo} alt="Logo" className="logo" />
         </h1>
-        <hr className="divider" /> {/* קו חוצץ */}
+        <hr className="divider" />
         {showRegistration ? (
           <RegistrationForm onBackToLogin={toggleRegistration} /> 
         ) : user ? (
           <>
-            <h3>{user.name},היי</h3>
+            <h3>{user.name}, היי</h3>
             <button onClick={handleLogout} className="btn btn-primary mb-2">
               יציאה מהמשתמש
             </button>
+            {isAdmin && (
+              <button onClick={handleAdminRedirect} className="btn btn-warning mb-2">
+                Users Admin
+              </button>
+            )}
+            <button onClick={handleToggleUpdateForm} className="btn btn-secondary mb-2">
+              עדכן את פרטי החשבון
+            </button>
+
+            {showUpdateForm && (
+              <UserUpdateForm
+                initialData={user}
+                onSubmit={handleUpdateData}
+                onCancel={handleToggleUpdateForm}
+              />
+            )}
           </>
         ) : (
           <>
@@ -112,12 +144,11 @@ const LoginPopup = ({ onClose }) => {
           </>
         )}
       </div>
-      <div className="arrow-up"></div> {/* חץ למעלה */}
+      <div className="arrow-up"></div>
     </div>
   );
 };
 
-// הגדרת PropTypes
 LoginPopup.propTypes = {
   onClose: PropTypes.func.isRequired,
 };

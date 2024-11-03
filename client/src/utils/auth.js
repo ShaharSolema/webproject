@@ -18,21 +18,18 @@ export const loginUser = async (formData) => {
   try {
     const response = await axiosInstanse.post(API_ROUTES.AUTH.LOGIN, formData, { withCredentials: true });
     
-    // Log the entire response for debugging
-    console.log('Login API Response:', response.data);
+    console.log('Login API Response:', response.data); // Debugging
+
+    const userData = response.data?.user;
     
-    const userData = response.data?.user
-      ? {
-          username: response.data.user.username,
-          name: response.data.user.firstname, // Ensure this field exists in the response
-        }
-      : null;
-
-    if (userData) {
-      localStorage.setItem('user', JSON.stringify(userData)); // Save user data to localStorage
-    }
-
-    return { success: !!userData, user: userData };
+    return { 
+      success: !!userData, 
+      user: userData ? {
+        username: userData.username,
+        name: userData.firstname,
+        isAdmin: userData.manager, // Ensure this field is in the response
+      } : null
+    };
   } catch (error) {
     console.error('Error logging in:', error.response?.data || error.message);
     return { success: false, error: error.response?.data?.message || 'Login failed' };
