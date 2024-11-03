@@ -17,14 +17,15 @@ import '../styles/main.css';
 function App() {
   // הגדרת סגנונות inline
   const containerStyles = {
-    padding: '20px',
-    paddingTop: '80px', // ריפוד עליון
-    paddingBottom: '0', // הסרת ריפוד תחתון
-    minHeight: 'calc(100vh - 60px)', // הכנס גובה פוטר מדויק
+    padding: '0px',
+    paddingTop: '80px',
+    paddingBottom: '0',
+    minHeight: '100vh', // כדי שהמיכל יתפוס את כל גובה המסך
+    boxSizing: 'border-box',
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'space-between', // למלא את כל הגובה
-  };
+};
+
 
   return (
     <Router>
