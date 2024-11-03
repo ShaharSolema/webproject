@@ -1,62 +1,77 @@
 .highlight-container {
     display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 20px;
+}
+
+.circle-container {
+    display: flex;
     flex-direction: column;
-    align-items: center; /* מרכז את התוכן במרכז אופקית */
-    margin-top: 20px; /* הוספת רווח מעל */
-  }
-  
-  .pink-rectangle {
-    background-color: #ffc0cb; /* צבע הרקע של הריבוע הפינקית */
-    width: 100%; /* מקצה את כל הרוחב */
+    align-items: center;
+}
+
+.circle {
+    width: 100px;
+    height: 100px;
+    border: 2px solid black;
+    border-radius: 50%;
+    cursor: pointer;
+    background-image: url('../styles/art.png'); /* נתיב לתמונת הרקע הקבועה */
+    background-size: cover;
+    background-position: center;
+}
+
+.circle-title {
+    margin-top: 10px;
+    text-align: center;
+}
+
+/* סגנונות עבור הגלריה */
+.gallery {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%; /* קביעת רוחב הריבוע */
+    max-width: 600px; /* רוחב מקסימלי */
+    background-color: rgba(0, 0, 0, 0.9);
+    border-radius: 10px;
     display: flex;
-    justify-content: center; /* מרכז את העיגולים */
-    padding: 20px 0; /* הוספת מרווח פנימי למעלה ולמטה */
-  }
-  
-  .circle {
-    width: 100px; /* רוחב העיגול */
-    height: 100px; /* גובה העיגול */
-    border: 2px solid black; /* גבול שחור לעיגול */
-    border-radius: 50%; /* הופך את האלמנט לעיגול */
-    display: flex;
-    align-items: center; /* מרכז את הכותרת במרכז אנכית */
-    justify-content: center; /* מרכז את הכותרת במרכז אופקית */
-    margin: 0 20px; /* הוספת רווחים בין העיגולים */
-    cursor: pointer; /* מצביע על כך שהעיגול ניתן ללחיצה */
-    background-size: cover; /* מתאים את התמונה אם יש */
-  }
-  
-  .circle-title {
-    margin-top: 10px; /* רווח בין העיגול לכותרת */
-    text-align: center; /* מרכז את הכותרת */
-  }
-  
-  .gallery {
-    position: fixed; /* מחזיק את הגלריה במיקום קבוע */
-    top: 0; /* מיקום עליון */
-    left: 0; /* מיקום שמאלי */
-    width: 100%; /* רוחב מלא */
-    height: 100%; /* גובה מלא */
-    background-color: rgba(0, 0, 0, 0.8); /* צבע רקע שקוף כהה */
-    display: flex;
-    flex-direction: column; /* מכוון את התוכן לעמודה */
-    align-items: center; /* מרכז את התוכן במרכז אופקית */
-    justify-content: center; /* מרכז את התוכן במרכז אנכית */
-    color: white; /* צבע טקסט לבן */
-  }
-  
-  .close-btn {
-    position: absolute; /* מיקום קבוע לחצן סגירה */
-    top: 20px; /* מיקום עליון */
-    right: 20px; /* מיקום ימני */
-    font-size: 24px; /* גודל טקסט */
-    background: none; /* ללא רקע */
-    border: none; /* ללא גבול */
-    color: white; /* צבע טקסט לבן */
-    cursor: pointer; /* מצביע על כך שהכפתור ניתן ללחיצה */
-  }
-  
-  .gallery-content {
-    text-align: center; /* מרכז את תוכן הגלריה */
-  }
-  
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.close-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 24px;
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+}
+
+.gallery-content {
+    text-align: center;
+}
+
+.gallery-content img {
+    max-width: 100%;
+    max-height: 400px; /* הגבלת גובה התמונה */
+}
+
+.gallery-buttons {
+    margin-top: 20px;
+}
+
+.gallery-buttons button {
+    margin: 0 10px;
+    padding: 10px;
+    cursor: pointer;
+}

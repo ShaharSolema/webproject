@@ -2,51 +2,54 @@ import React, { useState } from 'react';
 import '../../styles/Highlight.css';
 
 const Highlight = () => {
-  const [openGallery, setOpenGallery] = useState(null);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [openGallery, setOpenGallery] = useState(false);
+  const [currentGalleryIndex, setCurrentGalleryIndex] = useState(0); // נוסיף אינדקס לתמונות בגלריה
 
-  // הגדרת תמונות לכל עיגול
   const images = [
-    ['one.png', 'one2.png', 'one3.png'], // תמונות לעיגול 1
-    ['gone.png', 'gone2.png'], // תמונות לעיגול 2
-    ['IMG-20240905-WA0019.jpg', 'IMG-20240905-WA0020.jpg'], // תמונות לעיגול 3
+    ['../styles/pictures/one2.png', '../styles/pictures/one3.png'], // קורסים
+    ['../styles/pictures/gone.png', '../styles/pictures/gone2.png'], // הדרכות
+    ['../styles/pictures/IMG-20240905-WA0019.jpg', '../styles/pictures/IMG-20240905-WA0020.jpg'], // מכחולים
   ];
 
-  // הגדרת כותרות לכל עיגול
-  const titles = [
-    'קורסים 1', // כותרת לעיגול 1
-    'הדרכות 2', // כותרת לעיגול 2
-    'מכחולים 3', // כותרת לעיגול 3
-  ];
+  const titles = ['קורסים', 'הדרכות', 'מכחולים'];
 
   const handleCircleClick = (index) => {
-    setOpenGallery(index);
+    setCurrentGalleryIndex(index); // שמירה של אינדקס הגלריה
+    setCurrentImageIndex(0); // אתחול התמונה הראשונה
+    setOpenGallery(true);
   };
 
   const closeGallery = () => {
-    setOpenGallery(null);
+    setOpenGallery(false);
+  };
+
+  const goToNextImage = () => {
+    setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images[currentGalleryIndex].length);
+  };
+
+  const goToPreviousImage = () => {
+    setCurrentImageIndex((prevIndex) => (prevIndex - 1 + images[currentGalleryIndex].length) % images[currentGalleryIndex].length);
   };
 
   return (
     <div className="highlight-container">
-      <div className="pink-rectangle">
-        {[1, 2, 3].map((circle, index) => (
-          <div key={index} className="circle" onClick={() => handleCircleClick(index)}>
-            <div className="circle-title">{titles[index]}</div>
-          </div>
-        ))}
-      </div>
+      {titles.map((title, index) => (
+        <div key={index} className="circle-container">
+          <div className={`circle circle${index + 1}`} onClick={() => handleCircleClick(index)}></div>
+          <div className="circle-title">{title}</div>
+        </div>
+      ))}
 
-      {openGallery !== null && (
+      {openGallery && (
         <div className="gallery">
-          <button className="close-btn" onClick={closeGallery}>X</button>
+          <button className="close-btn" onClick={closeGallery}>✖</button>
           <div className="gallery-content">
-            <p>תמונות עיגול {openGallery + 1}</p>
-            {/* הצגת התמונות */}
-            <div className="gallery-images">
-              {images[openGallery].map((img, imgIndex) => (
-                <img key={imgIndex} src={require(`./path/to/images/${img}`)} alt={`תמונה ${imgIndex + 1}`} />
-              ))}
-            </div>
+            <img src={images[currentGalleryIndex][currentImageIndex]} alt="Gallery" />
+          </div>
+          <div className="gallery-buttons">
+            <button onClick={goToPreviousImage}>◀</button>
+            <button onClick={goToNextImage}>▶</button>
           </div>
         </div>
       )}
