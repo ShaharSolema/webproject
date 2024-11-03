@@ -17,27 +17,31 @@ const LoginPopup = ({ onClose }) => {
 
   const navigate = useNavigate();
 
+  const fetchLoginStatus = async () => {
+    const status = await checkLoginStatus();
+    if (status.isLoggedIn) {
+      setUser(status.user);
+      setIsAdmin(status.user.manager);
+    }
+  };
+
   useEffect(() => {
-    const fetchLoginStatus = async () => {
-      const status = await checkLoginStatus();
-      if (status.isLoggedIn) {
-        setUser(status.user);
-        setIsAdmin(status.user.manager);
-      }
-    };
     fetchLoginStatus();
   }, []);
 
   const handleAdminRedirect = () => {
     navigate('/usersadmin');
+    handleClose();
   };
 
   const handleProductsManagement = () => {
     navigate('/productsmanagement');
+    handleClose();
   };
 
   const handleStatistics = () => {
     navigate('/statistics');
+    handleClose();
   };
 
   useEffect(() => {
@@ -63,6 +67,8 @@ const LoginPopup = ({ onClose }) => {
       setUser(loginResult.user);
       setIsAdmin(loginResult.user.manager);
       setLoginError(null);
+      navigate('/');
+      handleClose();
     } else {
       setLoginError(loginResult.error);
     }
@@ -73,6 +79,8 @@ const LoginPopup = ({ onClose }) => {
     if (logoutResult.success) {
       setUser(null);
       setIsAdmin(false);
+      handleClose();
+      navigate('/');
     } else {
       console.error('Logout failed:', logoutResult.error);
     }
@@ -83,8 +91,15 @@ const LoginPopup = ({ onClose }) => {
   };
 
   const handleToggleUpdateForm = () => {
-    // Navigate to the user update page
     navigate('/userupdate', { state: { user } });
+    handleClose();
+  };
+
+  // Enable Enter key to submit login
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter' && formData.username && formData.password) {
+      handleLogin();
+    }
   };
 
   return (
@@ -98,7 +113,7 @@ const LoginPopup = ({ onClose }) => {
           <RegistrationForm onBackToLogin={toggleRegistration} /> 
         ) : user ? (
           <>
-            <h3>{user.name}, היי</h3>
+            <h3>{user.firstname}, היי</h3>
             <button onClick={handleLogout} className="btn btn-primary mb-2">
               יציאה מהמשתמש
             </button>
@@ -136,6 +151,7 @@ const LoginPopup = ({ onClose }) => {
               placeholder="סיסמא"
               value={formData.password}
               onChange={(e) => setFormData({ ...formData, [e.target.name]: e.target.value })}
+              onKeyDown={handleKeyDown} // Add onKeyDown to handle Enter key
               className="form-control mb-2"
             />
             {loginError && <p className="text-danger">{loginError}</p>}
