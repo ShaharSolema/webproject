@@ -7,8 +7,9 @@ const Home = () => {
   return (
     <main className="pt-5 mt-5">
       <div className="container">
-        <h1>ברוכים הבאים לאתר MichalNail Art</h1>
-        <p>כאן תוכלו למצוא את כל המוצרים והשירותים שלנו בתחום אמנות הציפורניים.</p>
+        <h1>ברוכים הבאים לאתר</h1>
+        <h1>MichalNail Art</h1>
+
         <Highlight />
         
         {/* הוספת כותרת לקטגוריות */}
