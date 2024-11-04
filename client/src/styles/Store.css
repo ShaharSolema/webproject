@@ -10,8 +10,8 @@
 
 .product-grid {
     display: grid;
-    grid-template-columns: repeat(5, 1fr); /* 5 עמודות */
-    gap: 20px; /* רווח בין הריבועים */
+    grid-template-columns: repeat(4, 1fr); /* 4 עמודות */
+    gap: 40px; /* רווח בין הריבועים */
 }
 
 .product-card {
@@ -24,19 +24,21 @@
 }
 
 .product-image {
-    width: 100%;
-    height: auto; /* שומר על יחס גובה-רוחב */
+    width: 100%; /* רוחב המוצר תופס את כל רוחב הכרטיס */
+    height: 400px; /* הגבהה קבועה לכל התמונות */
+    object-fit: cover; /* שומר על יחס גובה-רוחב ומוודא שהתמונה ממלאת את הקופסה */
 }
 
+
 .product-description {
-    margin: 10px 0; /* רווח בין התמונה לתיאור */
+    margin: 20px 0; /* רווח בין התמונה לתיאור */
 }
 
 .quantity-control {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 10px 0; /* רווח מעל ומתחת */
+    margin: 5px 0; /* רווח מעל ומתחת */
 }
 
 .quantity-button {
@@ -67,3 +69,4 @@
     cursor: pointer;
     margin-top: 10px; /* רווח מעל כפתור הוסף לסל */
 }
+
