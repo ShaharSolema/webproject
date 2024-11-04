@@ -4,6 +4,7 @@ html {
 
 .login-popup-overlay {
   position: fixed;
+  height: 100vh;
   top: 0;
   left: 0;
   right: 0;
@@ -13,6 +14,7 @@ html {
   justify-content: center;
   align-items: flex-start; /* מיקום הפופאפ למעלה */
   animation: slide-down 0.3s ease-out; /* אפקט אנימציה */
+  z-index: 100000; /* ודא שה-overlay מעל כל האלמנטים */
 }
 
 .login-popup {
