@@ -13,7 +13,6 @@ import {
   ArcElement,
 } from 'chart.js';
 
-// Register the required components
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement);
 
 const StatisticsPage = () => {
@@ -100,7 +99,14 @@ const StatisticsPage = () => {
       {
         label: 'Cart Items',
         data: cartItems.map((item) => item.totalQuantity),
-        backgroundColor: 'rgba(153, 102, 255, 0.6)',
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.6)', // Red
+          'rgba(54, 162, 235, 0.6)', // Blue
+          'rgba(255, 206, 86, 0.6)', // Yellow
+          'rgba(75, 192, 192, 0.6)', // Green
+          'rgba(153, 102, 255, 0.6)', // Purple
+          'rgba(255, 159, 64, 0.6)', // Orange
+        ].slice(0, cartItems.length), // Limit colors to the number of cart items
       },
     ],
   };
@@ -111,12 +117,21 @@ const StatisticsPage = () => {
   return (
     <div className="statistics-page">
       <h1>Statistics Overview</h1>
+      
       <h2>User Registrations by Month</h2>
-      <Bar data={registrationChartData} options={{ responsive: true }} />
+      <div style={{ width: '70%', margin: '0 auto' }}>
+        <Bar data={registrationChartData} options={{ responsive: true }} />
+      </div>
+
       <h2>Product Sales</h2>
-      <Bar data={productSalesChartData} options={{ responsive: true }} />
+      <div style={{ width: '70%', margin: '0 auto' }}>
+        <Bar data={productSalesChartData} options={{ responsive: true }} />
+      </div>
+
       <h2>Items in Shopping Carts</h2>
-      <Pie data={cartItemsChartData} options={{ responsive: true }} />
+      <div style={{ width: '50%', margin: '0 auto' }}>
+        <Pie data={cartItemsChartData} options={{ responsive: true }} />
+      </div>
     </div>
   );
 };
