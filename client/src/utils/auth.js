@@ -75,15 +75,46 @@ export const fetchUserData = async () => {
   return response.json();
 };
 
-export const updateUserData = async (userId, data) => {
-  const response = await fetch(API_ROUTES.USERS.UPDATE(userId), {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(data),
-  });
+// Fetch all products function
+export const fetchProducts = async () => {
+  try {
+    const response = await axiosInstanse.get(API_ROUTES.PRODUCTS.GET_ALL, { withCredentials: true });
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching products:', error.response?.data || error.message);
+    throw new Error('Failed to fetch products');
+  }
+};
 
-  if (!response.ok) throw new Error('Failed to update user data');
-  return response.json();
+// Add product function
+export const addProduct = async (product) => {
+  try {
+    const response = await axiosInstanse.post(API_ROUTES.PRODUCTS.CREATE, product, { withCredentials: true });
+    return response.data;
+  } catch (error) {
+    console.error('Error adding product:', error.response?.data || error.message);
+    throw new Error('Failed to add product');
+  }
+};
+
+// Update product function
+export const updateProduct = async (id, product) => {
+  try {
+    const response = await axiosInstanse.put(API_ROUTES.PRODUCTS.UPDATE(id), product, { withCredentials: true });
+    return response.data;
+  } catch (error) {
+    console.error('Error updating product:', error.response?.data || error.message);
+    throw new Error('Failed to update product');
+  }
+};
+
+// Delete product function
+export const deleteProduct = async (id) => {
+  try {
+    const response = await axiosInstanse.delete(API_ROUTES.PRODUCTS.DELETE(id), { withCredentials: true });
+    return response.status === 200;
+  } catch (error) {
+    console.error('Error deleting product:', error.response?.data || error.message);
+    throw new Error('Failed to delete product');
+  }
 };

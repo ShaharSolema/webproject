@@ -18,7 +18,7 @@ import statistics from './Admin/Statistics';
 import BeginnerCourses from './BeginnerCourses'; // ייבוא קורסים למתחילים
 import AdvancedCourses from './AdvancedCourses'; // ייבוא קורסים מתקדמים
 import Workshops from './Workshops'; // ייבוא סדנאות
-
+import ProductsManagement from './Admin/ProductsManagement';
 import '../styles/main.css';
 import Statistics from './Admin/Statistics';
 
@@ -51,6 +51,7 @@ function App() {
           <Route path="/usersadmin" element={<UsersUpdate />} />
           <Route path="/productstore" element={<ProductStore />} />
           <Route path="/statistics" element={<Statistics />} />
+          <Route path="/productsmanagement" element={<ProductsManagement />} />
 
         </Routes>
         <FloatingIcon />
