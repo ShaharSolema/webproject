@@ -5,6 +5,7 @@ import { loginUser, checkLoginStatus, logoutUser } from '../../utils/auth';
 import RegistrationForm from '../RegistrationForm'; 
 import logo from '../../styles/Michal.jpg';
 import '../../styles/LoginPopup.css';
+import UserUpdateForm from '../UserUpdateForm';
 
 const LoginPopup = ({ onClose }) => {
   const [formData, setFormData] = useState({ username: '', password: '' });
@@ -13,6 +14,7 @@ const LoginPopup = ({ onClose }) => {
   const [loginError, setLoginError] = useState(null);
   const [showRegistration, setShowRegistration] = useState(false);
   const [isExiting, setIsExiting] = useState(false);
+  const [showUpdateForm, setShowUpdateForm] = useState(false); 
   const popupRef = useRef();
 
   const navigate = useNavigate();
@@ -91,8 +93,7 @@ const LoginPopup = ({ onClose }) => {
   };
 
   const handleToggleUpdateForm = () => {
-    navigate('/userupdate', { state: { user } });
-    handleClose();
+    setShowUpdateForm(!showUpdateForm);
   };
 
   // Enable Enter key to submit login
@@ -111,6 +112,8 @@ const LoginPopup = ({ onClose }) => {
         <hr className="divider" />
         {showRegistration ? (
           <RegistrationForm onBackToLogin={toggleRegistration} /> 
+        ) : showUpdateForm ? (
+          <UserUpdateForm user={user} onBackToLogin={handleToggleUpdateForm} /> // Pass user to update form
         ) : user ? (
           <>
             <h3>{user.firstname}, היי</h3>

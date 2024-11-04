@@ -39,8 +39,6 @@ exports.getUserById = async (req, res) => {
 
 // Update a user by ID
 exports.updateUser = async (req, res) => {
-  console.log('Updating user with ID:', req.params.id);
-    console.log('Request Body:', req.body); 
   try {
     const user = await User.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
 

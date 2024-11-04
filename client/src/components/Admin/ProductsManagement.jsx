@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { fetchProducts, updateProduct, deleteProduct, addProduct } from '../../utils/auth'; // Example path
+import { fetchProducts, updateProduct, deleteProduct, addProduct } from '../../utils/auth';
 import validator from 'validator';
 
 const categoryOptions = [
