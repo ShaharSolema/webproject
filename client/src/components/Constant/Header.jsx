@@ -61,7 +61,6 @@ const Header = () => {
 
       {/* Right column with dropdown menu button */}
       <div className="col text-end d-flex align-items-center justify-content-end">
-        <span className="me-3">היי, {username}</span>
         <DropdownMenu />
       </div>
     </header>
