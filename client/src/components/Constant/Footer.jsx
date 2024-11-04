@@ -59,17 +59,17 @@ const Footer = () => {
       margin: '20px auto', // מרכז את הלוגו
     },
     rightsText: {
-      margin: '10px 0',
+      color:'white',
       textAlign: 'center',
     },
     scrollToTop: {
       cursor: 'pointer',
       position: 'fixed',
-      bottom: '20px',
+      bottom: '35px',
       right: '20px',
       backgroundColor: 'rgb(250, 210, 204)',
       borderRadius: '50%',
-      padding: '10px',
+      padding: '15px',
       boxShadow: '0 2px 5px rgba(0, 0, 0, 0.3)',
       display: 'none', // מתחיל כמוסתר
       alignItems: 'center',
@@ -112,6 +112,8 @@ const Footer = () => {
               src="src/styles/Michal-logo2.jpeg"
               alt="MichalLogoFooter"
             />
+                  <p style={styles.rightsText}>© 2024 כל הזכויות שמורות</p>
+
           </div>
           <div style={styles.footerSection}>
             <h3 style={styles.footerSectionH3}>מחכה לכן ברשתות השונות</h3>
@@ -160,7 +162,6 @@ const Footer = () => {
           </div>
         </div>
       </div>
-      <p style={styles.rightsText}>© 2024 כל הזכויות שמורות</p>
       <div style={{ ...styles.scrollToTop, ...(visible ? styles.scrollToTopVisible : {}) }} onClick={scrollToTop}>
         <i className="bi bi-chevron-up" style={{ fontSize: '20px', color: 'white' }}></i>
       </div>

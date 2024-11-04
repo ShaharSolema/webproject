@@ -16,6 +16,7 @@ import BeginnerCourses from './BeginnerCourses'; // ייבוא קורסים למ
 import AdvancedCourses from './AdvancedCourses'; // ייבוא קורסים מתקדמים
 import Workshops from './Workshops'; // ייבוא סדנאות
 import ProductsManagement from './Admin/ProductsManagement';
+import MarqueeFooter from './Constant/MarqueeFooter';
 import '../styles/main.css';
 
 function App() {
@@ -53,6 +54,7 @@ function App() {
         <FloatingIcon />
       </div>
       <Footer />
+      <MarqueeFooter/>
     </Router>
   );
 }
