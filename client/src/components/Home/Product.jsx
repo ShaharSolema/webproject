@@ -12,9 +12,11 @@ const Product = ({ image, price, description, onAddToCart }) => {
         setQuantity(prevQuantity => (prevQuantity > 0 ? prevQuantity - 1 : 0));
     };
 
+    
+
     return (
         <div className="product-card">
-            <img src={image} alt="Product" className="product-image" />
+            <img src={image} alt={description} className="product-image" />
             <p className="product-description">{description}</p>
             <div className="quantity-control">
                 <button onClick={handleRemove} className="quantity-button">-</button>
@@ -26,6 +28,7 @@ const Product = ({ image, price, description, onAddToCart }) => {
                 onClick={() => onAddToCart(quantity)} 
                 className="add-to-cart-button" 
                 disabled={quantity === 0}
+                title={quantity === 0 ? "בחר כמות כדי להוסיף לסל" : ""}
             >
                 הוסף לסל
             </button>
