@@ -5,6 +5,12 @@ header {
     z-index: 1000; /* מבטיח שהכותרת תופיע מעל אלמנטים אחרים */
     padding: 10px 0; /* רווח פנימי כללי בכותרת */
 }
+body, html {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
 body {
     overflow-x: hidden; /* מונע גלילה אופקית */
     overflow-y: auto; /* מאפשר גלילה אנכית */
@@ -176,3 +182,7 @@ header .col-6 {
     padding: 5px;
     margin: 0;
 }
+.content {
+    flex-grow: 1;
+}
+

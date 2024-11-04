@@ -1,0 +1,54 @@
+.category-boxes {
+    display: flex;
+    flex-wrap: wrap; /* מאפשר לריבועים לעבור לשורה הבאה אם אין מספיק מקום */
+    justify-content: space-between; /* מרווח שווה בין הריבועים */
+}
+
+.category-box {
+    width: 300px; /* רוחב קבוע של 300 פיקסלים */
+    height: 300px; /* גובה קבוע של 300 פיקסלים */
+    margin-bottom: 20px; /* רווח מתחת לריבועים */
+    position: relative; /* מאפשר למרכז את הטקסט מעל התמונה */
+    overflow: hidden; /* מסתיר כל חלק מהתמונה שיוצא מהקופסה */
+    border-radius: 10px; /* עיגול הריבועים */
+}
+
+.category-image {
+    width: 100%; /* תמונה תתמלא את רוחב הקופסה */
+    height: 100%; /* תמונה תתמלא את גובה הקופסה */
+    object-fit: cover; /* שומר על יחס הצילום של התמונה */
+    transition: transform 1.4s ease; /* אנימציה על שינוי המידה */
+    border-radius: 10px; /* עיגול התמונות */
+}
+
+.category-box:hover .category-image {
+    transform: scale(1.2); /* מתמקדת התמונה כאשר העכבר מעל הריבוע */
+}
+
+.overlay {
+    position: absolute; /* מיקום מוחלט */
+    top: 0; /* מתחיל מהחלק העליון של הקופסה */
+    left: 0; /* מתחיל מהחלק השמאלי של הקופסה */
+    right: 0; /* חובק את החלק הימני של הקופסה */
+    bottom: 0; /* חובק את החלק התחתון של הקופסה */
+    background-color: rgba(0, 0, 0, 0.7); /* מסך שחור שקוף (שקיפות גבוהה יותר) */
+    transition: opacity 0.4s ease; /* אנימציה על שינוי שקיפות */
+    opacity: 0; /* מתחיל כלא נראה */
+}
+
+.category-box:hover .overlay {
+    opacity: 1; /* מופיע כאשר העכבר מעל הריבוע */
+}
+
+.category-name {
+    position: absolute; /* מיקום הטקסט על התמונה */
+    top: 50%; /* ממקם את הטקסט במרכז האנכי */
+    left: 50%; /* ממקם את הטקסט במרכז האופקי */
+    transform: translate(-50%, -50%); /* ממרכז את הטקסט בצורה מדויקת */
+    color: white; /* צבע טקסט */
+    font-weight: bold; /* הדגשה של הטקסט */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7); /* צל טקסט לשיפור קריאות */
+    font-size: 23px; /* גודל טקסט חדש (שנה לפי הצורך) */
+    text-align: center;
+    font-family:  Calibri;
+}
