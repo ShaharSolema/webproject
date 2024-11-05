@@ -7,14 +7,14 @@ import logo from '../../styles/Michal.jpg';
 import '../../styles/LoginPopup.css';
 import UserUpdateForm from '../UserUpdateForm';
 
-const LoginPopup = ({ onClose }) => {
+const LoginPopup = ({ onClose, setGlobalUser }) => {
   const [formData, setFormData] = useState({ username: '', password: '' });
-  const [user, setUser] = useState(null);
+  const [localUser, setLocalUser] = useState(null);
   const [isAdmin, setIsAdmin] = useState(false);
   const [loginError, setLoginError] = useState(null);
   const [showRegistration, setShowRegistration] = useState(false);
   const [isExiting, setIsExiting] = useState(false);
-  const [showUpdateForm, setShowUpdateForm] = useState(false); 
+  const [showUpdateForm, setShowUpdateForm] = useState(false);
   const popupRef = useRef();
 
   const navigate = useNavigate();
@@ -22,7 +22,8 @@ const LoginPopup = ({ onClose }) => {
   const fetchLoginStatus = async () => {
     const status = await checkLoginStatus();
     if (status.isLoggedIn) {
-      setUser(status.user);
+      setLocalUser(status.user);
+      setGlobalUser(status.user);
       setIsAdmin(status.user.manager);
     }
   };
@@ -59,7 +60,8 @@ const LoginPopup = ({ onClose }) => {
   const handleLogin = async () => {
     const loginResult = await loginUser(formData);
     if (loginResult.success) {
-      setUser(loginResult.user);
+      setLocalUser(loginResult.user);
+      setGlobalUser(loginResult.user);
       setIsAdmin(loginResult.user.manager);
       setLoginError(null);
       navigate('/');
@@ -72,7 +74,8 @@ const LoginPopup = ({ onClose }) => {
   const handleLogout = async () => {
     const logoutResult = await logoutUser();
     if (logoutResult.success) {
-      setUser(null);
+      setLocalUser(null);
+      setGlobalUser(null);
       setIsAdmin(false);
       handleClose();
       navigate('/');
@@ -105,10 +108,10 @@ const LoginPopup = ({ onClose }) => {
         {showRegistration ? (
           <RegistrationForm onBackToLogin={toggleRegistration} /> 
         ) : showUpdateForm ? (
-          <UserUpdateForm user={user} onBackToLogin={handleToggleUpdateForm} />
-        ) : user ? (
+          <UserUpdateForm user={localUser} onBackToLogin={handleToggleUpdateForm} /> // Pass user to update form
+        ) : localUser ? (
           <>
-            <h3>{user.firstname}, היי</h3>
+            <h3>{localUser.firstname}, היי</h3>
             <button onClick={handleLogout} className="btn btn-primary mb-2">
               יציאה מהמשתמש
             </button>
@@ -180,6 +183,7 @@ const LoginPopup = ({ onClose }) => {
 
 LoginPopup.propTypes = {
   onClose: PropTypes.func.isRequired,
+  setGlobalUser: PropTypes.func.isRequired,
 };
 
 export default LoginPopup;

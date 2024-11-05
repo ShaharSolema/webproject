@@ -76,7 +76,7 @@ const StatisticsPage = () => {
     labels: userRegistrations.map((reg) => `Month ${reg.month}`),
     datasets: [
       {
-        label: 'User Registrations',
+        label: 'מספר נרשמים',
         data: userRegistrations.map((reg) => reg.count),
         backgroundColor: 'rgba(75, 192, 192, 0.6)',
       },
@@ -87,7 +87,7 @@ const StatisticsPage = () => {
     labels: productSales.map((sale) => sale.productName),
     datasets: [
       {
-        label: 'Total Sales',
+        label: 'כלל המכירות',
         data: productSales.map((sale) => sale.totalSales),
         backgroundColor: 'rgba(255, 99, 132, 0.6)',
       },
@@ -98,7 +98,7 @@ const StatisticsPage = () => {
     labels: cartItems.map((item) => item.productName),
     datasets: [
       {
-        label: 'Cart Items',
+        label: 'מוצרים בעגלה',
         data: cartItems.map((item) => item.totalQuantity),
         backgroundColor: [
           'rgba(255, 99, 132, 0.6)', // Red

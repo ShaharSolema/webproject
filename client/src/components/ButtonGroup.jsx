@@ -10,13 +10,16 @@ const ButtonGroup = () => {
   const [user, setUser] = useState(null);
 
   // Fetch user data when component mounts
+  const checkAuth = async () => {
+    const status = await checkLoginStatus();
+    if (status.isLoggedIn) {
+      setUser(status.user);
+    } else {
+      setUser(null);
+    }
+  };
+
   useEffect(() => {
-    const checkAuth = async () => {
-      const status = await checkLoginStatus();
-      if (status.isLoggedIn) {
-        setUser(status.user);
-      }
-    };
     checkAuth();
   }, []);
 
@@ -24,8 +27,10 @@ const ButtonGroup = () => {
     setShowLoginPopup(!showLoginPopup);
   };
 
-  const closeLoginPopup = () => {
+  const closeLoginPopup = async () => {
     setShowLoginPopup(false);
+    // Refresh user status when login popup closes
+    await checkAuth();
   };
 
   const toggleCartPopup = () => {
@@ -49,7 +54,7 @@ const ButtonGroup = () => {
         <i className="bi bi-person-fill"></i> {/* User icon */}
       </button>  
 
-      {showLoginPopup && <LoginPopup onClose={closeLoginPopup} />}
+      {showLoginPopup && <LoginPopup onClose={closeLoginPopup} setGlobalUser={setUser} />}
 
       <button style={buttonStyle} className="btn btn-light me-2" onClick={toggleCartPopup}>
         <i className="bi bi-bag-heart"></i> {/* Bag icon */}
@@ -59,6 +64,7 @@ const ButtonGroup = () => {
         isOpen={showCartPopup}
         onClose={closeCartPopup}
         user={user}
+        key={user ? user._id : 'no-user'} // Force re-render when user changes
       />
     </>
   );

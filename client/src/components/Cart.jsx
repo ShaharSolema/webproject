@@ -10,34 +10,28 @@ const Cart = ({ isOpen, onClose, user }) => {
   const [isLoading, setIsLoading] = useState(false);
   const cartRef = useRef();
 
-  // Reset isExiting when isOpen changes
+  // Reset cart items when user changes
   useEffect(() => {
-    if (isOpen) {
-      setIsExiting(false);
-    }
-  }, [isOpen]);
+    setCartItems([]);
+  }, [user]);
 
-  // Fetch cart data when component mounts and when cart is opened
+  // Fetch cart data when component mounts, when cart is opened, or when user changes
   useEffect(() => {
     const fetchCartData = async () => {
-      if (!user) {
+      if (!user || !isOpen) {
         setIsLoading(false);
         return;
       }
 
-      if (isOpen) {
-        try {
-          setIsLoading(true);
-          console.log('Fetching cart for user:', user._id); // Debug log
-          const cartData = await getCart(user._id);
-          console.log('Cart data received:', cartData); // Debug log
-          setCartItems(cartData?.items || []);
-        } catch (err) {
-          console.error('Error fetching cart:', err);
-          setCartItems([]);
-        } finally {
-          setIsLoading(false);
-        }
+      try {
+        setIsLoading(true);
+        const cartData = await getCart(user._id);
+        setCartItems(cartData?.items || []);
+      } catch (err) {
+        console.error('Error fetching cart:', err);
+        setCartItems([]);
+      } finally {
+        setIsLoading(false);
       }
     };
 
