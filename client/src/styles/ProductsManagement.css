@@ -1,94 +1,93 @@
-/* כיווניות מימין לשמאל */
+/* הגדרות כלליות */
+
 .products-management {
+    max-width: 900px; /* רוחב מקסימלי */
+    margin: 0 auto; /* ממרכז את התוכן */
+    background-color: white; /* צבע רקע לבן עבור הקונטיינר */
+    border-radius: 8px; /* קצוות מעוגלים */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* צל עדין */
+    padding: 20px; /* רווח פנימי */
     direction: rtl;
-    font-family: Arial, sans-serif;
-    max-width: 800px;
-    margin: auto;
-    padding: 20px;
-  }
-  
-  h2, h3 {
-    text-align: center;
-    color: #333;
-  }
-  
-  /* עיצוב טבלת המוצרים */
-  .products-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 20px;
-  }
-  
-  .products-table th, .products-table td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: center;
-  }
-  
-  .products-table th {
-    background-color: #f4f4f4;
-    color: #333;
-    font-weight: bold;
-  }
-  
-  .products-table img {
-    max-width: 50px;
-    border-radius: 4px;
-  }
-  
-  /* עיצוב הטופס להוספת מוצר */
-  .new-product-table {
-    width: 100%;
-    border-collapse: collapse;
     margin-top: 20px;
-  }
-  
-  .new-product-table td {
-    padding: 8px;
-    border: none;
-    text-align: right;
-  }
-  
-  .new-product-table input[type="text"],
-  .new-product-table input[type="number"] {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    box-sizing: border-box;
-  }
-  
-  .new-product-table label {
-    display: flex;
-    align-items: center;
-    margin-bottom: 4px;
-    font-size: 0.9em;
-  }
-  
-  .new-product-table input[type="checkbox"] {
-    margin-left: 8px;
-  }
-  
-  button {
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 1em;
-    width: 100%;
-  }
-  
-  button:hover {
-    background-color: #45a049;
-  }
-  
-  /* עיצוב הודעות שגיאה */
-  .error-message {
-    color: #ff0000;
-    font-size: 0.9em;
-    margin-bottom: 10px;
-    text-align: center;
-  }
-  
+    font-family: calibri;
+}
+
+.products-management h2, .products-management h3 {
+    text-align: center; /* מרכז את הכותרות */
+    color: #333; /* צבע טקסט כהה */
+    margin-bottom: 20px; /* רווח תחתון */
+}
+
+/* עיצוב טבלת המוצרים */
+.products-management .products-table, .products-management .new-product-table {
+    width: 100%; /* רוחב מלא */
+    border-collapse: collapse; /* מסיר גבולות כפולים */
+    margin-bottom: 20px; /* רווח תחתון */
+}
+
+.products-management .products-table th, .products-management .products-table td, .products-management .new-product-table td {
+    border: 1px solid #ddd; /* גבול לכל תא */
+    padding: 12px; /* רווח פנימי בתאים */
+    text-align: right; /* טקסט מימין לשמאל */
+}
+
+.products-management .products-table th {
+    background-color: #FCEFBB; /* צבע רקע לתאים בכותרת */
+    color: #333; /* צבע טקסט כהה */
+}
+
+.products-management .products-table img {
+    max-width: 50px; /* רוחב מקסימלי לתמונה */
+    border-radius: 4px; /* קצוות מעוגלים */
+}
+
+/* עיצוב הטופס להוספת מוצר */
+.products-management .new-product-table {
+    margin-top: 20px; /* רווח מעל הטבלה */
+}
+
+.products-management .new-product-table td {
+    border: 1px solid #ddd; /* גבול לתאים */
+}
+
+.products-management .new-product-table input[type="text"],
+.products-management .new-product-table input[type="number"] {
+    width: 100%; /* רוחב מלא */
+    padding: 10px; /* רווח פנימי */
+    border: 1px solid #ddd; /* גבול */
+    border-radius: 4px; /* קצוות מעוגלים */
+    box-sizing: border-box; /* כולל גבול ורווחים ברוחב */
+}
+
+/* סידור ה-checkboxים בשורה */
+.products-management .checkbox-group {
+    display: flex; /* משתמש ב-flexbox */
+    flex-wrap: wrap; /* מאפשר לשבור שורה */
+    gap: 10px; /* רווח בין ה-checkboxים */
+    margin-top: 10px; /* מרווח בין השורה הקודמת ל-checkboxים */
+}
+
+/* עיצוב כפתורים */
+.products-management button {
+    background-color: rgb(250, 210, 204); /* צבע רקע ירוק */
+    color: white; /* צבע טקסט לבן */
+    padding: 10px 15px; /* רווח פנימי */
+    border: none; /* ללא גבולות */
+    border-radius: 4px; /* קצוות מעוגלים */
+    cursor: pointer; /* מצביע כאשר מרחפים מעל */
+    font-size: 1em; /* גודל טקסט */
+    width: 48%; /* רוחב כפתור */
+    margin: 10px 1%; /* מרווחים בין הכפתורים */
+}
+
+.products-management button:hover {
+    background-color: #CEE7D3; /* שינוי צבע ברוורס */
+}
+
+/* עיצוב הודעות שגיאה */
+.products-management .error-message {
+    color: #ff0000; /* צבע אדום */
+    font-size: 0.9em; /* גודל טקסט קטן יותר */
+    margin-bottom: 10px; /* רווח תחתון */
+    text-align: center; /* מרכז את הטקסט */
+}

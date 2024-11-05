@@ -30,7 +30,6 @@ const ProductsManagement = () => {
   });
   const [editMode, setEditMode] = useState(false);
   const [currentProductId, setCurrentProductId] = useState(null);
-  const [error, setError] = useState(null);
   const [validationErrors, setValidationErrors] = useState({});
 
   useEffect(() => {
@@ -47,15 +46,15 @@ const ProductsManagement = () => {
     if (!newProduct.name) {
       errors.name = "חובה שם מוצר";
     } else if (!validator.isLength(newProduct.name, { min: 2, max: 20 })) {
-      errors.name = "השם חייב להכיל בין 2 ל20 אותיות";
+      errors.name = "השם חייב להכיל בין 2 ל-20 אותיות";
     }
 
     if (newProduct.description && !validator.isLength(newProduct.description, { min: 2, max: 60 })) {
-      errors.description = "תיאור חייב להכיל בין 2 ל60 אותיות";
+      errors.description = "תיאור חייב להכיל בין 2 ל-60 אותיות";
     }
 
     if (newProduct.price <= 0) {
-      errors.price = "מחיר חייב להיות גדול מ0";
+      errors.price = "מחיר חייב להיות גדול מ-0";
     }
 
     if (newProduct.discount < 0 || newProduct.discount > 100) {
@@ -86,18 +85,48 @@ const ProductsManagement = () => {
   const handleAddProduct = async () => {
     if (validateProduct()) {
       await addProduct(newProduct);
-      setNewProduct({
-        name: '',
-        price: '',
-        description: '',
-        stock: '',
-        discount: '',
-        categories: [],
-        imageUrl: ''
-      });
-      const updatedProducts = await fetchProducts();
-      setProducts(updatedProducts);
+      resetForm();
+      await reloadProducts();
     }
+  };
+
+  const handleEditProduct = (product) => {
+    setNewProduct(product);
+    setEditMode(true);
+    setCurrentProductId(product.id);
+  };
+
+  const handleUpdateProduct = async () => {
+    if (validateProduct()) {
+      await updateProduct(currentProductId, newProduct);
+      resetForm();
+      await reloadProducts();
+      setEditMode(false);
+      setCurrentProductId(null);
+    }
+  };
+
+  const handleDeleteProduct = async (id) => {
+    await deleteProduct(id);
+    await reloadProducts();
+  };
+
+  const resetForm = () => {
+    setNewProduct({
+      name: '',
+      price: '',
+      description: '',
+      stock: '',
+      discount: '',
+      categories: [],
+      imageUrl: ''
+    });
+    setValidationErrors({}); // ניקוי הודעות השגיאה
+  };
+
+  const reloadProducts = async () => {
+    const updatedProducts = await fetchProducts();
+    setProducts(updatedProducts);
   };
 
   return (
@@ -128,14 +157,15 @@ const ProductsManagement = () => {
               <td>{product.categories.join(', ')}</td>
               <td><img src={product.imageUrl} alt={product.name} style={{ width: '50px' }} /></td>
               <td>
-                {/* כפתורי עריכה ומחיקה */}
+                <button onClick={() => handleEditProduct(product)}>עריכה</button>
+                <button onClick={() => handleDeleteProduct(product.id)}>מחיקה</button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
 
-      <h3>הוספת מוצר חדש</h3>
+      <h3>הוספת/עדכון מוצר</h3>
       <table className="new-product-table">
         <tbody>
           <tr>
@@ -146,6 +176,7 @@ const ProductsManagement = () => {
                 value={newProduct.name}
                 onChange={(e) => setNewProduct({ ...newProduct, name: e.target.value })}
               />
+              {validationErrors.name && <span className="error">{validationErrors.name}</span>}
             </td>
           </tr>
           <tr>
@@ -156,6 +187,7 @@ const ProductsManagement = () => {
                 value={newProduct.price}
                 onChange={(e) => setNewProduct({ ...newProduct, price: e.target.value })}
               />
+              {validationErrors.price && <span className="error">{validationErrors.price}</span>}
             </td>
           </tr>
           <tr>
@@ -166,6 +198,7 @@ const ProductsManagement = () => {
                 value={newProduct.description}
                 onChange={(e) => setNewProduct({ ...newProduct, description: e.target.value })}
               />
+              {validationErrors.description && <span className="error">{validationErrors.description}</span>}
             </td>
           </tr>
           <tr>
@@ -186,6 +219,7 @@ const ProductsManagement = () => {
                 value={newProduct.discount}
                 onChange={(e) => setNewProduct({ ...newProduct, discount: e.target.value })}
               />
+              {validationErrors.discount && <span className="error">{validationErrors.discount}</span>}
             </td>
           </tr>
           <tr>
@@ -217,20 +251,12 @@ const ProductsManagement = () => {
           </tr>
           <tr>
             <td colSpan="2">
-              <button onClick={handleAddProduct}>הוסף מוצר</button>
-              <button
-                onClick={() => setNewProduct({
-                  name: '',
-                  price: '',
-                  description: '',
-                  stock: '',
-                  discount: '',
-                  categories: [],
-                  imageUrl: ''
-                })}
-              >
-                איפוס
-              </button>
+              {editMode ? (
+                <button onClick={handleUpdateProduct}>עדכן מוצר</button>
+              ) : (
+                <button onClick={handleAddProduct}>הוסף מוצר</button>
+              )}
+              <button onClick={resetForm}>איפוס</button>
             </td>
           </tr>
         </tbody>
