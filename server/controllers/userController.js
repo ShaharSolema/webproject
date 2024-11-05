@@ -47,7 +47,6 @@ exports.updateUser = async (req, res) => {
     }
     res.status(200).json(user);
   } catch (error) {
-    console.error('Error updating user:', error); // Log error details
     res.status(400).json({ message: error.message });
   }
 };

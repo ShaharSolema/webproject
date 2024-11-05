@@ -1,9 +1,24 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import LoginPopup from './Constant/LoginPopup';
+import Cart from './Cart';
+import { checkLoginStatus } from '../utils/auth';
 
 const ButtonGroup = () => {
   const [showLoginPopup, setShowLoginPopup] = useState(false);
+  const [showCartPopup, setShowCartPopup] = useState(false);
+  const [user, setUser] = useState(null);
+
+  // Fetch user data when component mounts
+  useEffect(() => {
+    const checkAuth = async () => {
+      const status = await checkLoginStatus();
+      if (status.isLoggedIn) {
+        setUser(status.user);
+      }
+    };
+    checkAuth();
+  }, []);
 
   const toggleLoginPopup = () => {
     setShowLoginPopup(!showLoginPopup);
@@ -11,6 +26,14 @@ const ButtonGroup = () => {
 
   const closeLoginPopup = () => {
     setShowLoginPopup(false);
+  };
+
+  const toggleCartPopup = () => {
+    setShowCartPopup(prev => !prev);
+  };
+
+  const closeCartPopup = () => {
+    setShowCartPopup(false);
   };
 
   const buttonStyle = {
@@ -28,11 +51,15 @@ const ButtonGroup = () => {
 
       {showLoginPopup && <LoginPopup onClose={closeLoginPopup} />}
 
-      <Link to="/cart">
-        <button className="btn btn-light me-2">
-          <i className="bi bi-bag-heart"></i> {/* Bag icon */}
-        </button>
-      </Link>
+      <button style={buttonStyle} className="btn btn-light me-2" onClick={toggleCartPopup}>
+        <i className="bi bi-bag-heart"></i> {/* Bag icon */}
+      </button>
+
+      <Cart 
+        isOpen={showCartPopup}
+        onClose={closeCartPopup}
+        user={user}
+      />
     </>
   );
 };

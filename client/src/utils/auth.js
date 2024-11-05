@@ -147,3 +147,40 @@ export const updateUser = async (userData) => {
     return { success: false, error: error.response?.data?.message || 'Update failed' };
   }
 };
+
+export const getCart = async (userId) => {
+  try {
+    console.log('Making request to get cart for user:', userId); // Debug log
+    const response = await axiosInstanse.get(API_ROUTES.CARTS.GET_BY_USER(userId), { 
+      withCredentials: true 
+    });
+    console.log('Cart response:', response.data); // Debug log
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching cart:', error);
+    return null;
+  }
+};
+
+export const updateCartItem = async (userId, productId, quantity) => {
+  try {
+    const response = await axiosInstanse.put(API_ROUTES.CARTS.UPDATE_ITEM(userId), {
+      productId,
+      quantity
+    },{ withCredentials: true });
+    return response.data;
+  } catch (error) {
+    console.error('Error updating cart:', error);
+    throw error;
+  }
+};
+
+export const removeCartItem = async (userId, productId) => {
+  try {
+    const response = await axiosInstanse.delete(API_ROUTES.CARTS.DELETE_ITEM(userId, productId),{ withCredentials: true });
+    return response.data;
+  } catch (error) {
+    console.error('Error removing item from cart:', error);
+    throw error;
+  }
+}; 
