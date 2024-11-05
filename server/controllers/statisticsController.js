@@ -2,6 +2,7 @@
 const User = require('../models/User'); // Path to User model
 const Product = require('../models/Product'); // Path to Product model
 const Cart = require('../models/Cart'); // Path to Cart model
+const Order = require('../models/Order');
 
 // Get user registrations by month
 const getUserRegistrations = async (req, res) => {
@@ -95,8 +96,49 @@ const getItemsInCarts = async (req, res) => {
   }
 };
 
+// Get monthly income
+const getMonthlyIncome = async (req, res) => {
+    try {
+        const monthlyIncome = await Order.aggregate([
+            {
+                $group: {
+                    _id: {
+                        year: { $year: "$createdAt" },
+                        month: { $month: "$createdAt" }
+                    },
+                    totalIncome: { $sum: "$totalAmount" }
+                }
+            },
+            {
+                $sort: {
+                    "_id.year": 1,
+                    "_id.month": 1
+                }
+            },
+            {
+                $project: {
+                    month: {
+                        $concat: [
+                            { $toString: "$_id.year" },
+                            "-",
+                            { $toString: "$_id.month" }
+                        ]
+                    },
+                    totalIncome: 1,
+                    _id: 0
+                }
+            }
+        ]);
+
+        res.json(monthlyIncome);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
 module.exports = {
   getUserRegistrations,
   getProductSales,
   getItemsInCarts,
+  getMonthlyIncome
 };

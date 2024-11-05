@@ -78,7 +78,7 @@ export const fetchUserData = async () => {
 // Fetch all products function
 export const fetchProducts = async () => {
   try {
-    const response = await axiosInstanse.get(API_ROUTES.PRODUCTS.GET_ALL, { withCredentials: true });
+    const response = await axiosInstanse.get(API_ROUTES.PRODUCTS.GET_ALL);
     return response.data;
   } catch (error) {
     console.error('Error fetching products:', error.response?.data || error.message);
@@ -150,28 +150,30 @@ export const updateUser = async (userData) => {
 
 export const getCart = async (userId) => {
   try {
-    console.log('Making request to get cart for user:', userId); // Debug log
     const response = await axiosInstanse.get(API_ROUTES.CARTS.GET_BY_USER(userId), { 
       withCredentials: true 
     });
-    console.log('Cart response:', response.data); // Debug log
     return response.data;
   } catch (error) {
     console.error('Error fetching cart:', error);
-    return null;
+    return { items: [] };
   }
 };
 
 export const updateCartItem = async (userId, productId, quantity) => {
   try {
-    const response = await axiosInstanse.put(API_ROUTES.CARTS.UPDATE_ITEM(userId), {
-      productId,
-      quantity
-    },{ withCredentials: true });
+    const response = await axiosInstanse.put(
+      API_ROUTES.CARTS.UPDATE_ITEM(userId), 
+      {
+        productId,
+        quantity
+      },
+      { withCredentials: true }
+    );
     return response.data;
   } catch (error) {
     console.error('Error updating cart:', error);
-    throw error;
+    throw new Error('Failed to update cart');
   }
 };
 
