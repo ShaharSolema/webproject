@@ -1,5 +1,5 @@
-import { useState, useEffect, useRef } from 'react'; 
-import PropTypes from 'prop-types'; 
+import { useState, useEffect, useRef } from 'react';
+import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
 import { loginUser, checkLoginStatus, logoutUser } from '../../utils/auth';
 import RegistrationForm from '../RegistrationForm'; 
@@ -31,18 +31,11 @@ const LoginPopup = ({ onClose }) => {
     fetchLoginStatus();
   }, []);
 
-  const handleAdminRedirect = () => {
-    navigate('/usersadmin');
-    handleClose();
-  };
-
-  const handleProductsManagement = () => {
-    navigate('/productsmanagement');
-    handleClose();
-  };
-
-  const handleStatistics = () => {
-    navigate('/statistics');
+  const handleAdminRedirect = (path) => {
+    navigate(path);
+    setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: 'smooth' }); // גלילה לראש העמוד
+    }, 100); // חיכוי קצר לניווט
     handleClose();
   };
 
@@ -96,7 +89,6 @@ const LoginPopup = ({ onClose }) => {
     setShowUpdateForm(!showUpdateForm);
   };
 
-  // Enable Enter key to submit login
   const handleKeyDown = (event) => {
     if (event.key === 'Enter' && formData.username && formData.password) {
       handleLogin();
@@ -113,7 +105,7 @@ const LoginPopup = ({ onClose }) => {
         {showRegistration ? (
           <RegistrationForm onBackToLogin={toggleRegistration} /> 
         ) : showUpdateForm ? (
-          <UserUpdateForm user={user} onBackToLogin={handleToggleUpdateForm} /> // Pass user to update form
+          <UserUpdateForm user={user} onBackToLogin={handleToggleUpdateForm} />
         ) : user ? (
           <>
             <h3>{user.firstname}, היי</h3>
@@ -122,17 +114,27 @@ const LoginPopup = ({ onClose }) => {
             </button>
             {isAdmin && (
               <>
-                <button onClick={handleAdminRedirect} className="btn btn-warning mb-2">
-                  Users Admin
-                </button>
-                <button onClick={handleProductsManagement} className="btn btn-warning mb-2">
-                  Products Management
-                </button>
-                <button onClick={handleStatistics} className="btn btn-warning mb-2">
-                  Statistics
-                </button>
+                <h4 className="admin-options-title">אפשרויות מנהל</h4>
+                <div className="icon-row mb-2">
+                  <i 
+                    className="bi bi-person-fill-gear admin-icon" 
+                    onClick={() => handleAdminRedirect('/usersadmin')}
+                    title="עריכת משתמשים"
+                  ></i>
+                  <i 
+                    className="bi bi-cart-plus admin-icon" 
+                    onClick={() => handleAdminRedirect('/productsmanagement')}
+                    title="ניהול מוצרים"
+                  ></i>
+                  <i 
+                    className="bi bi-pie-chart-fill admin-icon" 
+                    onClick={() => handleAdminRedirect('/statistics')}
+                    title="סטטיסטיקה"
+                  ></i>
+                </div>
               </>
             )}
+
             <button onClick={handleToggleUpdateForm} className="btn btn-secondary mb-2">
               עדכן את פרטי החשבון
             </button>
@@ -154,7 +156,7 @@ const LoginPopup = ({ onClose }) => {
               placeholder="סיסמא"
               value={formData.password}
               onChange={(e) => setFormData({ ...formData, [e.target.name]: e.target.value })}
-              onKeyDown={handleKeyDown} // Add onKeyDown to handle Enter key
+              onKeyDown={handleKeyDown}
               className="form-control mb-2"
             />
             {loginError && <p className="text-danger">{loginError}</p>}

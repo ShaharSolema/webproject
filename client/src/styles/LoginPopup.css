@@ -130,7 +130,38 @@ label {
 .btn.btn-primary.mb-2 {
   text-align: center;
 }
-h3{
+
+h3 {
   text-align: center;
   padding: 20px;
 }
+.icon-row {
+  display: flex;
+  justify-content: center; 
+  margin: 20px; 
+  margin-bottom: 20px;
+  
+}
+
+.admin-icon {
+  font-size: 40px;
+  margin: 0 20px; /* מרווח בין האייקונים */
+  cursor: pointer; /* שינוי סמן העכבר לכף יד */
+  transition: transform 0.3s; /* אפקט אנימציה על הגדלה */
+  margin-bottom: 20px;
+
+}
+
+.admin-icon:hover {
+  transform: scale(1.1); /* הגדלה של 10% על hover */
+}
+.admin-options-title {
+  font-size: 30px; /* גודל הפונט */
+  margin-bottom: 10px; /* רווח מתחת לכותרת */
+  text-align: center; /* מרכז את הכותרת */
+  font-family: calibri;
+  text-decoration: underline;
+  color: rgb(250, 210, 204);
+  text-decoration: ;
+}
+

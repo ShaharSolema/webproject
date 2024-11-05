@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import 'font-awesome/css/font-awesome.min.css'; // ייבוא CSS של Font Awesome
+import 'font-awesome/css/font-awesome.min.css';
 
 const FloatingIcon = () => {
   const [isAboveFooter, setIsAboveFooter] = useState(false);
-  const footerRef = React.useRef(null); // Reference for the footer
+  const [isHovered, setIsHovered] = useState(false);
+  const footerRef = React.useRef(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -12,8 +13,7 @@ const FloatingIcon = () => {
         const footerRect = footer.getBoundingClientRect();
         const windowHeight = window.innerHeight;
 
-        // Check if the bottom of the icon is above the top of the footer
-        if (footerRect.top <= windowHeight ) { // 50 is the height of the icon
+        if (footerRect.top <= windowHeight) {
           setIsAboveFooter(true);
         } else {
           setIsAboveFooter(false);
@@ -22,7 +22,7 @@ const FloatingIcon = () => {
     };
 
     window.addEventListener('scroll', handleScroll);
-    window.addEventListener('resize', handleScroll); // Update if window size changes
+    window.addEventListener('resize', handleScroll);
     return () => {
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('resize', handleScroll);
@@ -31,19 +31,23 @@ const FloatingIcon = () => {
 
   const iconStyle = {
     position: 'fixed',
-    bottom: isAboveFooter ? '220px' : '20px', // שינוי ל-70px כשהאייקון מעל הפוטר
+    bottom: isAboveFooter ? '220px' : '20px',
     left: '10px',
     zIndex: 998,
-    transition: 'bottom 0.3s', // מעבר חלק
-    fontSize: '50px', // גובה האייקון
-    color: 'green' // צבע האייקון
+    transition: 'bottom 0.3s, transform 0.3s', // מעבר חלק לגובה ולגודל
+    fontSize: '50px',
+    color: 'green',
+    transform: isHovered ? 'scale(1.2)' : 'scale(1)', // התרחבות בעת ריחוף
   };
-  
 
   return (
     <>
-      <div ref={footerRef}></div> {/* This div represents the footer */}
-      <div style={iconStyle}>
+      <div ref={footerRef}></div> {/* Div שמייצג את הפוטר */}
+      <div
+        style={iconStyle}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+      >
         <a href="https://wa.me/message/KT2QAE5WRHG3B1" target="_blank" rel="noopener noreferrer">
           <i className="fa fa-whatsapp" style={{ color: 'black' }}></i>
         </a>

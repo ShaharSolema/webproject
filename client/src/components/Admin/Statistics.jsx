@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Bar, Pie } from 'react-chartjs-2';
 import { API_ROUTES } from '../../utils/apiRoutes';
 import axiosInstanse from '../../utils/axiosConfig';
+import '../../styles/Statics.css';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -116,21 +117,23 @@ const StatisticsPage = () => {
 
   return (
     <div className="statistics-page">
-      <h1>Statistics Overview</h1>
+      <h1>סטטיסטיקה</h1>
       
-      <h2>User Registrations by Month</h2>
-      <div style={{ width: '70%', margin: '0 auto' }}>
-        <Bar data={registrationChartData} options={{ responsive: true }} />
-      </div>
+      <div className="charts-container">
+        <div className="chart-card">
+          <h2>רישום משתמשים לפי חודש</h2>
+          <Bar data={registrationChartData} options={{ responsive: true, maintainAspectRatio: false }} style={{ height: '100%' }} />
+        </div>
 
-      <h2>Product Sales</h2>
-      <div style={{ width: '70%', margin: '0 auto' }}>
-        <Bar data={productSalesChartData} options={{ responsive: true }} />
-      </div>
+        <div className="chart-card">
+          <h2>מכירת מוצרים</h2>
+          <Bar data={productSalesChartData} options={{ responsive: true, maintainAspectRatio: false }} style={{ height: '100%' }} />
+        </div>
 
-      <h2>Items in Shopping Carts</h2>
-      <div style={{ width: '50%', margin: '0 auto' }}>
-        <Pie data={cartItemsChartData} options={{ responsive: true }} />
+        <div className="chart-card" style={{ flex: '1 1 100%' }}> {/* שורה חדשה עבור הגרף השלישי */}
+          <h2>מוצרים בעגלה</h2>
+          <Pie data={cartItemsChartData} options={{ responsive: true, maintainAspectRatio: false }} style={{ height: '100%' }} />
+        </div>
       </div>
     </div>
   );
