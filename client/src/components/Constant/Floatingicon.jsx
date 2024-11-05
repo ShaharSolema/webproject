@@ -13,7 +13,7 @@ const FloatingIcon = () => {
         const windowHeight = window.innerHeight;
 
         // Check if the bottom of the icon is above the top of the footer
-        if (footerRect.top <= windowHeight - 50) { // 50 is the height of the icon
+        if (footerRect.top <= windowHeight ) { // 50 is the height of the icon
           setIsAboveFooter(true);
         } else {
           setIsAboveFooter(false);
@@ -31,13 +31,14 @@ const FloatingIcon = () => {
 
   const iconStyle = {
     position: 'fixed',
-    bottom: isAboveFooter ? '50px' : '10px', // Keep it at 10px until it gets to 50px above footer
+    bottom: isAboveFooter ? '220px' : '20px', // שינוי ל-70px כשהאייקון מעל הפוטר
     left: '10px',
     zIndex: 998,
-    transition: 'bottom 0.3s', // Smooth transition
+    transition: 'bottom 0.3s', // מעבר חלק
     fontSize: '50px', // גובה האייקון
     color: 'green' // צבע האייקון
   };
+  
 
   return (
     <>

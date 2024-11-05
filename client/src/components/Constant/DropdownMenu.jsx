@@ -4,6 +4,23 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import Logo from '../Logo';
 
 const MenuButton = () => {
+  const styles = {
+    nav: {
+      margin: '10px',
+    },
+    logo: {
+      position: 'absolute',
+      bottom: '100px', // מיקום הלוגו 100 פיקסלים מהתחתית
+      left: '0',
+      width: '100%',
+      display: 'flex',
+      justifyContent: 'center', // ליישר את הלוגו במרכז
+    },
+    subtext: {
+      textAlign: 'right',
+    },
+  };
+
   const [isHovered, setIsHovered] = useState(false);
   const [isCloseHovered, setIsCloseHovered] = useState(false);
   const [showOffcanvas, setShowOffcanvas] = useState(false);
@@ -54,9 +71,11 @@ const MenuButton = () => {
         ref={offcanvasRef}
         style={{
           backgroundColor: '#ffffff',
-          transition: 'transform 0.3s ease', 
-          transform: showOffcanvas ? 'translateX(0)' : 'translateX(100%)', 
-          visibility: showOffcanvas ? 'visible' : 'hidden', // שינוי מצב visibility
+          transition: 'transform 0.3s ease',
+          transform: showOffcanvas ? 'translateX(0)' : 'translateX(100%)',
+          visibility: showOffcanvas ? 'visible' : 'hidden',
+          height: '100vh', // הפנל יתפוס את כל גובה המסך
+          zIndex: 1050, // לוודא שהפנל מעל תוכן אחר
         }}
       >
         <div className="offcanvas-header">
@@ -110,6 +129,9 @@ const MenuButton = () => {
               <a className="nav-link" href="/contact">יצירת קשר</a>
             </li>
           </ul>
+        </div>
+        <div style={styles.logo}>
+          <Logo />
         </div>
       </div>
 
