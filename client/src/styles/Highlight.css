@@ -64,13 +64,12 @@
 }
 
 .gallery-content {
-    flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
     text-align: center;
-    width: 100%; /* רוחב 100% */
-    height: 100%; /* גובה 100% */
+    width: 90%; /* רוחב 100% */
+    height: 90%; /* גובה 100% */
 }
 
 .gallery-content img, 
@@ -94,11 +93,11 @@
 }
 
 .left-arrow {
-    left: 10px;
+    left: 5px;
 }
 
 .right-arrow {
-    right: 10px;
+    right: 5px;
 }
 
 .gallery-arrow:hover {
@@ -112,9 +111,29 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(0, 0, 0, 0.8); /* רקע שחור עם שקיפות */
+    background-color: rgba(0, 0, 0, 0.9); /* רקע שחור עם שקיפות */
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 999; /* לוודא שה-overlay מעל כל תוכן אחר */
+    height: 110vh;
+    z-index: 1000000; /* לוודא שה-overlay מעל כל תוכן אחר */
+}
+.volume-icon {
+    background: none; /* הסרת הרקע */
+    border: none; /* הסרת הגבול */
+    cursor: pointer; /* הוספת מצביע עכבר */
+    position: absolute; /* מאפשר מיקום יחסי */
+    top: 10px; /* המרחק מהחלק העליון */
+    right: 10px; /* המרחק מהצד הימני */
+    z-index: 10; /* ודא שהאייקון יהיה מעל שאר האלמנטים */
+    padding: 0; /* הסרת ריווח פנימי כדי שהכפתור יתאפס על האייקון בלבד */
+    font-size: 30px;
+}
+
+.volume-icon:hover {
+    background: none; /* הסרת הרקע */
+    border: none; /* הסרת הגבול */
+    cursor: pointer; /* הוספת מצביע עכבר */
+    position: absolute; /* אפשר למקם אותו באופן יחסי */
+   
 }

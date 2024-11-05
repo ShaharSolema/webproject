@@ -1,7 +1,6 @@
-import  { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import '../../styles/Highlight.css';
-
-// ייבוא התמונות והסרטונים
+import 'bootstrap-icons/font/bootstrap-icons.css';
 import Courses1 from '../data/pictures/pictures//Courses/VID-20241025-WA0020.mp4';
 import Courses2 from '../data/pictures/pictures//Courses/VID-20241025-WA0021.mp4';
 import Courses3 from '../data/pictures/pictures/Courses/VID-20241025-WA0022.mp4';
@@ -53,27 +52,24 @@ import Examples26 from '../data/pictures/pictures/Examples/WhatsApp Image 2024-1
 import Examples27 from '../data/pictures/pictures/Examples/WhatsApp Image 2024-11-03 at 22.21.36.jpeg';
 import Examples28 from '../data/pictures/pictures/Examples/WhatsApp Image 2024-11-03 at 22.21.36 (1).jpeg';
 
-
-
-
-
+// ... ייבוא כל הקבצים
 
 const Highlight = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [openGallery, setOpenGallery] = useState(false);
   const [currentGalleryIndex, setCurrentGalleryIndex] = useState(0);
-  const galleryRef = useRef(null); // Ref for the gallery container
-  const videoRef = useRef(null); // Ref for the video element
+  const [isMuted, setIsMuted] = useState(false); // ניהול מצב ההשתקה
+  const galleryRef = useRef(null);
+  const videoRef = useRef(null);
 
-  // מערך עם התמונות והסרטונים
   const media = [
-    [Courses1, Courses2, Courses3, Courses4, Courses5, Courses6,Courses7], // קורסים
-    [Guides1, Guides2, Guides3, Guides4,Guides5], // הדרכות
-    [Thespringbrushes1, Thespringbrushes2,Thespringbrushes3,Thespringbrushes4,Thespringbrushes5,Thespringbrushes6,Thespringbrushes7,Thespringbrushes8,Thespringbrushes9], // מכחולים
-    [Examples1,Examples2,Examples3,Examples4,Examples5,Examples6,Examples7,Examples8,Examples9,Examples10,Examples11,Examples12,Examples13,Examples14,Examples15,Examples16,Examples17,Examples18,Examples19,Examples20,Examples21,Examples22,Examples23,Examples24,Examples25,Examples26,Examples27,Examples28,Examples30],
+    [Courses1, Courses2, Courses3, Courses4, Courses5, Courses6, Courses7],
+    [Guides1, Guides2, Guides3, Guides4, Guides5],
+    [Thespringbrushes1, Thespringbrushes2, Thespringbrushes3, Thespringbrushes4, Thespringbrushes5, Thespringbrushes6, Thespringbrushes7, Thespringbrushes8, Thespringbrushes9],
+    [Examples1, Examples2, Examples3, Examples4, Examples5, Examples6, Examples7, Examples8, Examples9, Examples10, Examples11, Examples12, Examples13, Examples14, Examples15, Examples16, Examples17, Examples18, Examples19, Examples20, Examples21, Examples22, Examples23, Examples24, Examples25, Examples26, Examples27, Examples28, Examples30]
   ];
 
-  const titles = ['קורסים', 'הדרכות', 'מכחולים','דוגמאות להשראה'];
+  const titles = ['קורסים', 'הדרכות', 'מכחולים', 'דוגמאות להשראה'];
 
   const handleCircleClick = (index) => {
     setCurrentGalleryIndex(index);
@@ -83,11 +79,15 @@ const Highlight = () => {
 
   const closeGallery = () => {
     setOpenGallery(false);
-    setCurrentImageIndex(0); // איפוס האינדקס כאשר הגלריה נסגרת
+    setCurrentImageIndex(0);
   };
 
   const goToNextImage = () => {
-    setCurrentImageIndex((prevIndex) => (prevIndex + 1) % media[currentGalleryIndex].length);
+    if (currentImageIndex < media[currentGalleryIndex].length - 1) {
+      setCurrentImageIndex((prevIndex) => prevIndex + 1);
+    } else {
+      closeGallery();
+    }
   };
 
   const goToPreviousImage = () => {
@@ -95,30 +95,46 @@ const Highlight = () => {
   };
 
   const currentMedia = media[currentGalleryIndex][currentImageIndex];
-  const isVideo = currentMedia.endsWith('.mp4'); // בדיקה אם הקובץ הוא וידאו
+  const isVideo = currentMedia.endsWith('.mp4');
 
-  // פונקציה לסגירה בלחיצה מחוץ לגלריה
+  useEffect(() => {
+    let timer;
+    if (openGallery) {
+      if (isVideo && videoRef.current) {
+        videoRef.current.play();
+        videoRef.current.onended = () => goToNextImage();
+      } else {
+        timer = setTimeout(goToNextImage, 5000);
+      }
+    }
+    return () => {
+      clearTimeout(timer);
+      if (isVideo && videoRef.current) {
+        videoRef.current.onended = null;
+      }
+    };
+  }, [currentImageIndex, openGallery, isVideo]);
+
+  useEffect(() => {
+    if (isVideo && videoRef.current) {
+      videoRef.current.volume = isMuted ? 0 : 0.6;
+    }
+  }, [isVideo, isMuted]);
+
+  const toggleMute = () => {
+    setIsMuted((prevMute) => !prevMute);
+  };
+
   const handleClickOutside = (event) => {
     if (galleryRef.current && !galleryRef.current.contains(event.target)) {
       closeGallery();
     }
   };
 
-  // הוספת מאזין לאירועים
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
-
-  // פונקציה שמבצע את הגדרת עוצמת הקול לאחר פתיחת הגלריה
-  useEffect(() => {
-    if (isVideo && videoRef.current) {
-      videoRef.current.volume = 0.6; // הגדר עוצמת קול ל-60%
-      videoRef.current.play(); // הפעל את הווידאו אם הוא פתוח
-    }
-  }, [isVideo, openGallery]); // פעולה זו תופעל כאשר יש שינוי ב-isVideo או openGallery
 
   return (
     <div className="highlight-container">
@@ -132,15 +148,25 @@ const Highlight = () => {
       {openGallery && (
         <div className="gallery-overlay" onClick={closeGallery}>
           <div className="gallery" ref={galleryRef} onClick={(e) => e.stopPropagation()}>
-            <div className="gallery-arrow left-arrow" onClick={goToPreviousImage}>◀</div>
+            <div className="gallery-arrow left-arrow" onClick={goToPreviousImage}>
+              <i className="bi bi-arrow-left-circle-fill"></i>
+            </div>
             <div className="gallery-content">
               {isVideo ? (
-                <video ref={videoRef} src={currentMedia} autoPlay controls={false} />
+            <div className="video-container">
+            <video ref={videoRef} src={currentMedia} autoPlay controls={false} muted={isMuted} />
+            <button className="volume-icon" onClick={toggleMute}>
+                <i className={`bi ${isMuted ? 'bi-volume-mute-fill' : 'bi-volume-up-fill'}`}></i>
+            </button>
+        </div>
+        
               ) : (
                 <img src={currentMedia} alt="Gallery" />
               )}
             </div>
-            <div className="gallery-arrow right-arrow" onClick={goToNextImage}>▶</div>
+            <div className="gallery-arrow right-arrow" onClick={goToNextImage}>
+              <i className="bi bi-arrow-right-circle-fill"></i>
+            </div>
           </div>
         </div>
       )}
