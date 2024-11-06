@@ -5,29 +5,24 @@ exports.createOrUpdateCart = async (req, res) => {
     try {
         const { items } = req.body;
         const userId = req.user.id;
-        // Check if the cart for this user already exists
-        let cart = await Cart.findOne({ userId });
 
-        if (cart) {
-            // Update the cart with new items or update existing ones
-            items.forEach(item => {
-                const existingItem = cart.items.find(i => i.productId.equals(item.productId));
-                if (existingItem) {
-                    existingItem.quantity += item.quantity; // Update quantity
-                } else {
-                    cart.items.push(item); // Add new item
-                }
-            });
-            await cart.save();
-            return res.status(200).json(cart);
-        } else {
-            // Create a new cart
-            cart = new Cart({ userId, items });
-            await cart.save();
-            return res.status(201).json(cart);
-        }
+        // Find and update or create new cart
+        const cart = await Cart.findOneAndUpdate(
+            { userId: userId },
+            { items: items },
+            { new: true, upsert: true }
+        );
+
+        // Populate product details
+        await cart.populate('items.productId');
+        
+        return res.status(200).json(cart);
     } catch (error) {
-        return res.status(500).json({ message: 'Error creating/updating cart', error });
+        console.error('Error creating/updating cart:', error);
+        return res.status(500).json({ 
+            message: 'Error creating/updating cart', 
+            error: error.message 
+        });
     }
 };
 

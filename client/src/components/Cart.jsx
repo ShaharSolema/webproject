@@ -90,6 +90,27 @@ const Cart = ({ isOpen, onClose, user }) => {
     }
   };
 
+  // Add event listener for cart updates
+  useEffect(() => {
+    const handleCartUpdate = () => {
+      if (user) {
+        // Refresh cart data
+        getCart(user._id)
+          .then(cartData => setCartItems(cartData?.items || []))
+          .catch(err => {
+            console.error('Error fetching cart:', err);
+            setCartItems([]);
+          });
+      }
+    };
+
+    window.addEventListener('cartUpdated', handleCartUpdate);
+    
+    return () => {
+      window.removeEventListener('cartUpdated', handleCartUpdate);
+    };
+  }, [user]);
+
   if (!isOpen) return null;
 
   return (

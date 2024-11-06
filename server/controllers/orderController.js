@@ -4,10 +4,10 @@ const Cart = require('../models/Cart');
 
 const createOrder = async (req, res) => {
     try {
-        const { shippingAddress, paymentDetails, items, totalAmount, shippingCost } = req.body;
+        const { shippingAddress, paymentDetails, items, totalAmount, shippingCost, shippingMethod } = req.body;
         const userId = req.user._id;
 
-        // Create the order
+        // Create and save the order
         const order = new Order({
             user: userId,
             items: items.map(item => ({
@@ -15,8 +15,12 @@ const createOrder = async (req, res) => {
                 quantity: item.quantity,
                 price: item.productId.price
             })),
+            shippingMethod,
             shippingAddress,
-            paymentDetails,
+            paymentDetails: {
+                ...paymentDetails,
+                lastFourDigits: paymentDetails.cardNumber.slice(-4)
+            },
             totalAmount,
             shippingCost,
             status: 'received'
@@ -34,22 +38,24 @@ const createOrder = async (req, res) => {
             });
         }
 
-        // Clear user's cart
+        // Clear user's cart - Modified to ensure cart is cleared
         await Cart.findOneAndUpdate(
-            { user: userId },
-            { $set: { items: [] } }
+            { userId: userId },
+            { $set: { items: [] } },
+            { upsert: true, new: true }
         );
 
         res.status(201).json({
             success: true,
-            orderId: order._id
+            orderId: order._id,
+            purchaseNumber: order.purchaseNumber
         });
 
     } catch (error) {
         console.error('Order creation error:', error);
         res.status(500).json({
             success: false,
-            message: 'Failed to create order'
+            message: error.message || 'Failed to create order'
         });
     }
 };

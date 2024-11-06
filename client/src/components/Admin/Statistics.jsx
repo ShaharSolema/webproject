@@ -12,9 +12,21 @@ import {
   Tooltip,
   Legend,
   ArcElement,
+  PointElement,
+  LineElement
 } from 'chart.js';
 
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement);
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+  ArcElement,
+  PointElement,
+  LineElement
+);
 
 const StatisticsPage = () => {
   const [userRegistrations, setUserRegistrations] = useState([]);
@@ -140,48 +152,160 @@ const StatisticsPage = () => {
     ]
   };
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error}</p>;
+  const chartOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        position: 'top',
+        labels: {
+          font: {
+            size: 12,
+            family: "'Heebo', sans-serif"
+          },
+          padding: 20
+        }
+      },
+      tooltip: {
+        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+        padding: 12,
+        titleFont: {
+          size: 14,
+          family: "'Heebo', sans-serif"
+        },
+        bodyFont: {
+          size: 13,
+          family: "'Heebo', sans-serif"
+        }
+      }
+    },
+    animation: {
+      duration: 2000,
+      easing: 'easeInOutQuart'
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="loading-spinner">
+        <div className="spinner"></div>
+        <p>טוען נתונים...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="error-message">
+        <h2>שגיאה!</h2>
+        <p>{error}</p>
+      </div>
+    );
+  }
 
   return (
     <div className="statistics-page">
-      <h1>סטטיסטיקה</h1>
+      <div className="statistics-header">
+        <h1>סטטיסטיקה</h1>
+        <p>ניתוח נתונים ומגמות</p>
+      </div>
       
       <div className="charts-container">
         <div className="chart-card">
           <h2>רישום משתמשים לפי חודש</h2>
-          <Bar data={registrationChartData} options={{ responsive: true, maintainAspectRatio: false }} style={{ height: '100%' }} />
+          <div className="chart-wrapper">
+            <Bar 
+              data={registrationChartData} 
+              options={{
+                ...chartOptions,
+                scales: {
+                  y: {
+                    beginAtZero: true,
+                    grid: {
+                      color: 'rgba(0, 0, 0, 0.05)'
+                    }
+                  },
+                  x: {
+                    grid: {
+                      display: false
+                    }
+                  }
+                }
+              }}
+            />
+          </div>
         </div>
 
         <div className="chart-card">
           <h2>מכירת מוצרים</h2>
-          <Bar data={productSalesChartData} options={{ responsive: true, maintainAspectRatio: false }} style={{ height: '100%' }} />
+          <div className="chart-wrapper">
+            <Bar 
+              data={productSalesChartData} 
+              options={{
+                ...chartOptions,
+                scales: {
+                  y: {
+                    beginAtZero: true,
+                    grid: {
+                      color: 'rgba(0, 0, 0, 0.05)'
+                    }
+                  },
+                  x: {
+                    grid: {
+                      display: false
+                    }
+                  }
+                }
+              }}
+            />
+          </div>
         </div>
 
-        <div className="chart-card" style={{ flex: '1 1 100%' }}> {/* שורה חדשה עבור הגרף השלישי */}
+        <div className="chart-card">
           <h2>מוצרים בעגלה</h2>
-          <Pie data={cartItemsChartData} options={{ responsive: true, maintainAspectRatio: false }} style={{ height: '100%' }} />
+          <div className="chart-wrapper">
+            <Pie 
+              data={cartItemsChartData} 
+              options={{
+                ...chartOptions,
+                plugins: {
+                  ...chartOptions.plugins,
+                  legend: {
+                    ...chartOptions.plugins.legend,
+                    position: 'right'
+                  }
+                }
+              }}
+            />
+          </div>
         </div>
 
         <div className="chart-card">
           <h2>הכנסה חודשית</h2>
-          <Line 
-            data={incomeChartData} 
-            options={{ 
-              responsive: true, 
-              maintainAspectRatio: false,
-              scales: {
-                y: {
-                  beginAtZero: true,
-                  ticks: {
-                    callback: function(value) {
-                      return '₪' + value;
+          <div className="chart-wrapper">
+            <Line 
+              data={incomeChartData} 
+              options={{
+                ...chartOptions,
+                scales: {
+                  y: {
+                    beginAtZero: true,
+                    grid: {
+                      color: 'rgba(0, 0, 0, 0.05)'
+                    },
+                    ticks: {
+                      callback: (value) => `₪${value}`
+                    }
+                  },
+                  x: {
+                    grid: {
+                      display: false
                     }
                   }
                 }
-              }
-            }} 
-          />
+              }}
+            />
+          </div>
         </div>
       </div>
     </div>

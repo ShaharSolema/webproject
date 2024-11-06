@@ -19,6 +19,8 @@ import ProductsManagement from './Admin/ProductsManagement';
 import MarqueeFooter from './Constant/MarqueeFooter';
 import '../styles/main.css';
 import Checkout from './Checkout';
+import OrderSuccess from './OrderSuccess';
+
 function App() {
   const containerStyles = {
     padding: '0px',
@@ -50,6 +52,7 @@ function App() {
           <Route path="/statistics" element={<Statistics />} />
           <Route path="/productsmanagement" element={<ProductsManagement />} />
           <Route path="/checkout" element={<Checkout />} />
+          <Route path="/order-success" element={<OrderSuccess />} />
 
         </Routes>
       </div>

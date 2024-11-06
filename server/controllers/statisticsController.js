@@ -130,6 +130,16 @@ const getMonthlyIncome = async (req, res) => {
             }
         ]);
 
+        // If no sales data exists, return an array with current month and 0 income
+        if (monthlyIncome.length === 0) {
+            const currentDate = new Date();
+            const defaultData = [{
+                month: `${currentDate.getFullYear()}-${currentDate.getMonth() + 1}`,
+                totalIncome: 0
+            }];
+            return res.json(defaultData);
+        }
+
         res.json(monthlyIncome);
     } catch (error) {
         res.status(500).json({ message: error.message });

@@ -1,31 +1,105 @@
+.statistics-page {
+  padding: 2rem;
+  background-color: #f8f9fa;
+  min-height: 100vh;
+}
+
+.statistics-header {
+  text-align: center;
+  margin-bottom: 2rem;
+  color: #2c3e50;
+}
+
+.statistics-header h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.statistics-header p {
+  color: #666;
+  font-size: 1.1rem;
+}
+
 .charts-container {
-    display: flex; /* הופך את הקונטיינר לדיספל של flex */
-    flex-wrap: wrap; /* מאפשר לעטוף את הכרטיסים לשורות */
-    justify-content: space-between; /* מפזר את הכרטיסים במרווח שווה */
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.chart-card {
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  padding: 1.5rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  height: 400px;
+  position: relative;
+}
+
+.chart-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.1);
+}
+
+.chart-card h2 {
+  color: #2c3e50;
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+.chart-wrapper {
+  height: calc(100% - 60px);
+  position: relative;
+}
+
+.loading-spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.error-message {
+  text-align: center;
+  color: #e74c3c;
+  padding: 1rem;
+  background: #fdf0f0;
+  border-radius: 8px;
+  margin: 1rem 0;
+}
+
+@media (max-width: 768px) {
+  .charts-container {
+    grid-template-columns: 1fr;
   }
   
   .chart-card {
-    background-color: #fff; /* רקע לבן עבור הכרטיסים */
-    border: 1px solid #ddd; /* גבול סביב כל כרטיס */
-    border-radius: 8px; /* פינות מעוגלות */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* צל עבור כל כרטיס */
-    padding: 40px;
-    margin: 10px; /* מרווחים בין הכרטיסים */
-    flex: 1 1 calc(50% - 20px); /* מגדיר את הרוחב של הכרטיסים לשניים בשורה */
-    height: 450px; /* קביעת גובה קבוע לכרטיסים (שנה את הערך כאן לפי הצורך) */
-    overflow: hidden; /* מניעת חריגה של התוכן מהכרטיס */
+    height: 350px;
   }
-  
-  .chartjs-render-monitor {
-    height: 70%; /* קביעת גובה הגרפים כך שיתאימו לגובה של הכרטיסים */
-    width: 70%; /* ווידוא שהגרף יתפוס את כל הרוחב של הכרטיס */
-  }
-  
-  
-  .chart-card h2 {
-    font-size: 1.5em;
-    margin-bottom: 10px; /* מרווח מתחת לכותרת */
-    text-align: center; /* מרכז את הכותרת */
-  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
 
   

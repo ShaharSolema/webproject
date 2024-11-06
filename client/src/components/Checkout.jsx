@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import '../styles/Checkout.css';
+import { validateIsraeliCreditCard, formatIsraeliCreditCard } from '../utils/creditCardValidation';
+import { createOrder } from '../utils/auth';
 
 const Checkout = () => {
     const location = useLocation();
@@ -40,51 +42,176 @@ const Checkout = () => {
         }
     });
 
+    // Add new state for validation errors
+    const [validationErrors, setValidationErrors] = useState({
+        cardNumber: '',
+        expiry: ''
+    });
+
+    const validateExpiryDate = (value) => {
+        // Check format MM-YY
+        if (!/^\d{2}-\d{2}$/.test(value)) {
+            return 'פורמט לא תקין (MM-YY)';
+        }
+        
+        const [month, year] = value.split('-').map(num => parseInt(num, 10));
+        
+        // Validate month (1-12)
+        if (month < 1 || month > 12) {
+            return 'חודש לא תקין';
+        }
+        
+        const now = new Date();
+        const currentYear = now.getFullYear() % 100; // Get last 2 digits
+        const currentMonth = now.getMonth() + 1; // 1-12
+        
+        // Check if card is expired
+        if (year < currentYear || (year === currentYear && month < currentMonth)) {
+            return 'כרטיס האשראי פג תוקף';
+        }
+        
+        return ''; // No error
+    };
+
     if (!cartItems.length) {
         navigate('/');
         return null;
     }
 
     const handleInputChange = (section, field, value) => {
-        setFormData(prev => ({
-            ...prev,
-            [section]: {
-                ...prev[section],
-                [field]: value
+        if (section === 'payment') {
+            if (field === 'cardNumber') {
+                const formattedValue = formatIsraeliCreditCard(value);
+                setFormData(prev => ({
+                    ...prev,
+                    [section]: {
+                        ...prev[section],
+                        [field]: formattedValue
+                    }
+                }));
+
+                // Validate credit card when user finishes typing
+                if (value.replace(/\D/g, '').length === 16) {
+                    const isValid = validateIsraeliCreditCard(value);
+                    setValidationErrors(prev => ({
+                        ...prev,
+                        cardNumber: isValid ? '' : 'מספר כרטיס האשראי אינו תקין'
+                    }));
+                } else {
+                    setValidationErrors(prev => ({
+                        ...prev,
+                        cardNumber: ''
+                    }));
+                }
+            } else if (field === 'expiry') {
+                // Format expiry date as MM-YY
+                const cleanValue = value.replace(/\D/g, '');
+                let formattedValue = cleanValue;
+                
+                if (cleanValue.length >= 2) {
+                    formattedValue = cleanValue.slice(0, 2) + '-' + cleanValue.slice(2);
+                }
+                
+                // Ensure month is between 01-12
+                const month = parseInt(cleanValue.slice(0, 2));
+                if (month > 12) {
+                    formattedValue = '12' + (formattedValue.slice(2) || '');
+                }
+                
+                setFormData(prev => ({
+                    ...prev,
+                    [section]: {
+                        ...prev[section],
+                        [field]: formattedValue
+                    }
+                }));
+
+                // Validate expiry when full date is entered
+                if (formattedValue.length === 5) {
+                    const error = validateExpiryDate(formattedValue);
+                    setValidationErrors(prev => ({
+                        ...prev,
+                        expiry: error
+                    }));
+                } else {
+                    setValidationErrors(prev => ({
+                        ...prev,
+                        expiry: ''
+                    }));
+                }
+            } else {
+                setFormData(prev => ({
+                    ...prev,
+                    [section]: {
+                        ...prev[section],
+                        [field]: value
+                    }
+                }));
             }
-        }));
+        } else {
+            setFormData(prev => ({
+                ...prev,
+                [section]: {
+                    ...prev[section],
+                    [field]: value
+                }
+            }));
+        }
     };
 
     const handleSubmitOrder = async (e) => {
         e.preventDefault();
+        
+        // Validate credit card
+        const cleanCardNumber = formData.payment.cardNumber.replace(/\D/g, '');
+        const cardError = !validateIsraeliCreditCard(cleanCardNumber);
+        
+        // Validate expiry
+        const expiryError = validateExpiryDate(formData.payment.expiry);
+        
+        // Update validation errors
+        setValidationErrors({
+            cardNumber: cardError ? 'מספר כרטיס האשראי אינו תקין' : '',
+            expiry: expiryError
+        });
+
+        // If there are any validation errors, stop submission
+        if (cardError || expiryError) {
+            return;
+        }
+
         try {
             // Create order object
             const orderData = {
                 items: cartItems,
                 totalAmount: finalTotal,
-                shippingAddress: formData.shipping,
+                shippingMethod: shippingMethod,
+                shippingAddress: shippingMethod === 'pickup' ? {} : formData.shipping,
                 paymentDetails: {
                     ...formData.payment,
-                    cardNumber: formData.payment.cardNumber.slice(-4) // Only store last 4 digits
+                    cardNumber: cleanCardNumber,
+                    lastFourDigits: cleanCardNumber.slice(-4)
                 },
                 status: 'received',
+                shippingCost: getShippingCost(),
                 createdAt: new Date()
             };
 
-            // Send order to backend
-            const response = await fetch('/api/orders', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(orderData)
-            });
+            const result = await createOrder(orderData);
 
-            if (response.ok) {
-                alert('ההזמנה התקבלה בהצלחה!');
-                navigate('/');
+            if (result.success) {
+                // Clear local cart state by triggering a cart refresh
+                window.dispatchEvent(new CustomEvent('cartUpdated'));
+                
+                // Navigate to success page
+                navigate('/order-success', { 
+                    state: { 
+                        purchaseNumber: result.purchaseNumber 
+                    },
+                    replace: true
+                });
             } else {
-                throw new Error('Failed to create order');
+                throw new Error(result.error || 'Failed to create order');
             }
         } catch (error) {
             console.error('Error creating order:', error);
@@ -195,41 +322,51 @@ const Checkout = () => {
                     <div className="form-section shipping-details">
                         <h3>פרטי משלוח</h3>
                         <div className="form-grid">
-                            <input
-                                type="text"
-                                placeholder="שם מלא"
-                                value={formData.shipping.fullName}
-                                onChange={(e) => handleInputChange('shipping', 'fullName', e.target.value)}
-                                required
-                            />
-                            <input
-                                type="text"
-                                placeholder="רחוב ומספר"
-                                value={formData.shipping.street}
-                                onChange={(e) => handleInputChange('shipping', 'street', e.target.value)}
-                                required
-                            />
-                            <input
-                                type="text"
-                                placeholder="עיר"
-                                value={formData.shipping.city}
-                                onChange={(e) => handleInputChange('shipping', 'city', e.target.value)}
-                                required
-                            />
-                            <input
-                                type="text"
-                                placeholder="מיקוד"
-                                value={formData.shipping.zipCode}
-                                onChange={(e) => handleInputChange('shipping', 'zipCode', e.target.value)}
-                                required
-                            />
-                            <input
-                                type="tel"
-                                placeholder="טלפון"
-                                value={formData.shipping.phone}
-                                onChange={(e) => handleInputChange('shipping', 'phone', e.target.value)}
-                                required
-                            />
+                            <div className="input-group">
+                                <input
+                                    type="text"
+                                    placeholder="שם מלא"
+                                    value={formData.shipping.fullName}
+                                    onChange={(e) => handleInputChange('shipping', 'fullName', e.target.value)}
+                                    required
+                                />
+                            </div>
+                            <div className="input-group">
+                                <input
+                                    type="text"
+                                    placeholder="רחוב ומספר"
+                                    value={formData.shipping.street}
+                                    onChange={(e) => handleInputChange('shipping', 'street', e.target.value)}
+                                    required
+                                />
+                            </div>
+                            <div className="input-group">
+                                <input
+                                    type="text"
+                                    placeholder="עיר"
+                                    value={formData.shipping.city}
+                                    onChange={(e) => handleInputChange('shipping', 'city', e.target.value)}
+                                    required
+                                />
+                            </div>
+                            <div className="input-group">
+                                <input
+                                    type="text"
+                                    placeholder="מיקוד"
+                                    value={formData.shipping.zipCode}
+                                    onChange={(e) => handleInputChange('shipping', 'zipCode', e.target.value)}
+                                    required
+                                />
+                            </div>
+                            <div className="input-group">
+                                <input
+                                    type="tel"
+                                    placeholder="טלפון"
+                                    value={formData.shipping.phone}
+                                    onChange={(e) => handleInputChange('shipping', 'phone', e.target.value)}
+                                    required
+                                />
+                            </div>
                         </div>
                     </div>
                 )}
@@ -238,37 +375,55 @@ const Checkout = () => {
                     <div className="form-section payment-details">
                         <h3>פרטי תשלום</h3>
                         <div className="form-grid">
-                            <input
-                                type="text"
-                                placeholder="שם בעל הכרטיס"
-                                value={formData.payment.cardHolder}
-                                onChange={(e) => handleInputChange('payment', 'cardHolder', e.target.value)}
-                                required
-                            />
-                            <input
-                                type="text"
-                                placeholder="מספר כרטיס"
-                                value={formData.payment.cardNumber}
-                                onChange={(e) => handleInputChange('payment', 'cardNumber', e.target.value)}
-                                required
-                                maxLength="16"
-                            />
-                            <input
-                                type="text"
-                                placeholder="MM/YY"
-                                value={formData.payment.expiry}
-                                onChange={(e) => handleInputChange('payment', 'expiry', e.target.value)}
-                                required
-                                maxLength="5"
-                            />
-                            <input
-                                type="text"
-                                placeholder="CVV"
-                                value={formData.payment.cvv}
-                                onChange={(e) => handleInputChange('payment', 'cvv', e.target.value)}
-                                required
-                                maxLength="3"
-                            />
+                            <div className="input-group">
+                                <input
+                                    type="text"
+                                    placeholder="שם בעל הכרטיס"
+                                    value={formData.payment.cardHolder}
+                                    onChange={(e) => handleInputChange('payment', 'cardHolder', e.target.value)}
+                                    required
+                                />
+                            </div>
+                            <div className="input-group">
+                                <input
+                                    type="text"
+                                    placeholder="מספר כרטיס"
+                                    value={formData.payment.cardNumber}
+                                    onChange={(e) => handleInputChange('payment', 'cardNumber', e.target.value)}
+                                    required
+                                    maxLength="19"
+                                    pattern="\d{4}-\d{4}-\d{4}-\d{4}"
+                                    className={validationErrors.cardNumber ? 'error' : ''}
+                                />
+                                {validationErrors.cardNumber && (
+                                    <span className="error-message">{validationErrors.cardNumber}</span>
+                                )}
+                            </div>
+                            <div className="input-group">
+                                <input
+                                    type="text"
+                                    placeholder="MM-YY"
+                                    value={formData.payment.expiry}
+                                    onChange={(e) => handleInputChange('payment', 'expiry', e.target.value)}
+                                    required
+                                    maxLength="5"
+                                    pattern="\d{2}-\d{2}"
+                                    className={validationErrors.expiry ? 'error' : ''}
+                                />
+                                {validationErrors.expiry && (
+                                    <span className="error-message">{validationErrors.expiry}</span>
+                                )}
+                            </div>
+                            <div className="input-group">
+                                <input
+                                    type="text"
+                                    placeholder="CVV"
+                                    value={formData.payment.cvv}
+                                    onChange={(e) => handleInputChange('payment', 'cvv', e.target.value)}
+                                    required
+                                    maxLength="3"
+                                />
+                            </div>
                         </div>
                     </div>
 

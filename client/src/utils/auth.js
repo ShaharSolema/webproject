@@ -185,4 +185,79 @@ export const removeCartItem = async (userId, productId) => {
     console.error('Error removing item from cart:', error);
     throw error;
   }
-}; 
+};
+
+export const createOrder = async (orderData) => {
+    try {
+        const response = await axiosInstanse.post(API_ROUTES.ORDERS.CREATE, orderData, {
+            withCredentials: true
+        });
+
+        if (response.data.success) {
+            // Explicitly clear the cart after successful order
+            await clearCart();
+            
+            return { 
+                success: true, 
+                orderId: response.data.orderId,
+                purchaseNumber: response.data.purchaseNumber 
+            };
+        } else {
+            throw new Error(response.data.message || 'Failed to create order');
+        }
+    } catch (error) {
+        console.error('Error creating order:', error);
+        return { 
+            success: false, 
+            error: error.response?.data?.message || 'אירעה שגיאה בביצוע ההזמנה'
+        };
+    }
+};
+
+export const getAllOrders = async () => {
+    try {
+        const response = await axiosInstanse.get(API_ROUTES.ORDERS.ALL, {
+            withCredentials: true
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching orders:', error);
+        throw new Error('Failed to fetch orders');
+    }
+};
+
+export const updateOrderStatus = async (orderId, status) => {
+    try {
+        const response = await axiosInstanse.patch(
+            API_ROUTES.ORDERS.UPDATE_STATUS(orderId),
+            { status },
+            { withCredentials: true }
+        );
+        return response.data;
+    } catch (error) {
+        console.error('Error updating order status:', error);
+        throw new Error('Failed to update order status');
+    }
+};
+
+// Modify the clearCart function
+export const clearCart = async () => {
+    try {
+        const response = await axiosInstanse.post(
+            API_ROUTES.CARTS.CREATE_OR_UPDATE, 
+            { items: [] },  // Send empty items array
+            { withCredentials: true }
+        );
+        
+        // Trigger cart update event
+        window.dispatchEvent(new CustomEvent('cartUpdated'));
+        
+        return { success: true };
+    } catch (error) {
+        console.error('Error clearing cart:', error);
+        return { 
+            success: false, 
+            error: error.response?.data?.message || 'Failed to clear cart'
+        };
+    }
+};

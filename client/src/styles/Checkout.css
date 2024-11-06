@@ -86,23 +86,46 @@ td {
 
 .form-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 15px;
+    gap: 1.5rem;
+}
+
+.input-group {
+    position: relative;
+    width: 100%;
     margin-bottom: 20px;
 }
 
-input {
-    padding: 12px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 14px;
+.input-group input {
     width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
 }
 
-input:focus {
+.input-group input.error {
+    border-color: #ff4444;
+}
+
+.error-message {
+    color: #ff4444;
+    font-size: 0.8rem;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: 4px;
+    direction: rtl;
+}
+
+.form-grid input {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.form-grid input:focus {
     outline: none;
-    border-color: #4a90e2;
-    box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+    border-color: #007bff;
 }
 
 .checkout-actions {

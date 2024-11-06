@@ -13,4 +13,5 @@ router.get('/sales', isManager, statisticsController.getProductSales);
 // Route to get items in shopping carts categorized by product ID
 router.get('/cart-items', isManager, statisticsController.getItemsInCarts);
 
+router.get('/income', isManager, statisticsController.getMonthlyIncome);
 module.exports = router;
