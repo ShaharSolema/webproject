@@ -1,7 +1,7 @@
 .order-card {
     background: white;
     border-radius: 12px;
-    padding: 1.5rem;
+    padding: 0;
     box-shadow: 0 2px 8px rgba(0,0,0,0.08);
     transition: all 0.3s ease;
 }
@@ -34,6 +34,8 @@
     display: grid;
     gap: 1.5rem;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    padding: 1.5rem;
+    border-top: 1px solid #eee;
 }
 
 .customer-info, .shipping-info {
@@ -156,4 +158,34 @@
 
 .filter-group select {
     min-width: 150px;
-} 
+}
+
+.order-summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.order-summary:hover {
+    background-color: #f8f9fa;
+}
+
+.order-basic-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.order-preview-details {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.expand-icon {
+    color: #666;
+    font-size: 0.8rem;
+}
