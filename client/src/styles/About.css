@@ -1,28 +1,66 @@
-.about-container {
-    max-width: 800px; /* הגבלת רוחב המיכל */
-    margin: 0 auto; /* מרכז את המיכל */
-    padding: 20px; /* ריפוד פנימי */
-    text-align: right; /* יישור לימין */
-    font-family: 'Calibri', sans-serif; /* גופן Calibri */
-    line-height: 1.6; /* גובה השורה */
-    background-color: #f7f7f7; /* צבע רקע */
-    border-radius: 8px; /* פינות מעוגלות */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* הצללה קלה */
+.about-wrapper {
+  display: flex;
+  align-items: stretch;
+  width: 100%; /* פריסת כל הרוחב של הדף */
+  height: 600px; /* אפשר להתאים את הגובה לפי הצורך */
+  margin: 0; /* ביטול שוליים אופקיים */
+  margin-top: 100px;
+  background-color: #f7f7f7;
+  border-radius: 8px;
+  overflow: hidden; /* מניעת חריגות */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  position: relative; /* כדי לאפשר מיקום יחסית */
 }
-  
-h2 {
-    color: pink; /* צבע ורוד לכותרת */
-    margin-bottom: 20px; /* מרחק מתחת לכותרת */
-    font-size: 28px; /* גודל הכותרת */
-    text-align: center; /* יישור הכותרת לאמצע */
-    font-weight: bold; /* הדגשת הכותרת */
+
+.about-image {
+  position: absolute; /* מיקום מוחלט */
+  right: 0; /* ימינה */
+  top: 0;
+  width: 33.33%; /* תופס שליש מהתיבה */
+  height: 100%; /* כל הגובה של התיבה */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #e0f7f7; /* צבע רקע תואם לתמונה */
 }
-  
-p {
-    margin-bottom: 15px; /* מרחק בין הפסקאות */
-    font-size: 16px; /* גודל הפסקאות */
-    color: #555; /* צבע לפסקאות */
-    direction: rtl; /* יישור טקסט מימין לשמאל */
-    text-align: right; /* יישור לימין */
-  }
-  
+
+.about-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* מתאים את התמונה למיכל */
+  object-position: center; /* מיקום התמונה במרכז */
+}
+
+.about-text {
+  flex: 1;
+  padding: 20px;
+  font-family: 'Calibri', sans-serif;
+  line-height: 1.6;
+  text-align: right;
+  margin-right: 33.33%; /* מרווח שמשאיר מקום לתמונה בצד ימין */
+}
+
+.about-text h2 {
+  color: pink;
+  margin-bottom: 20px;
+  font-size: 28px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.about-text p {
+  margin-bottom: 15px;
+  font-size: 16px;
+  color: #555;
+  direction: rtl;
+  text-align: right;
+}
+
+.icon-link {
+  color: black; /* צבע שחור */
+  font-size: 20px;
+  width: 20px;
+  height: auto;
+  display: inline-flex; /* תוודא שהאייקונים ייכנסו באותה שורה */
+  margin: 0 10px; /* הוסף רווחים מימין ומשמאל */
+}

@@ -53,9 +53,10 @@ const MenuButton = () => {
         type="button"
         onClick={toggleOffcanvas}
         aria-controls="offcanvasNavbar"
+        
         style={{
           backgroundColor: isHovered ? 'rgba(230, 230, 230, 0.8)' : '#ffffff',
-          boxShadow: 'none',
+          boxShadow:'none',
           transition: 'background-color 0.3s ease',
         }}
         onMouseEnter={() => setIsHovered(true)}
@@ -153,4 +154,8 @@ const MenuButton = () => {
   );
 };
 
+
+
 export default MenuButton;
+
+
