@@ -7,7 +7,6 @@ import Home from './Home/Home';
 import ProductStore from './ProductStore'; // ייבוא רכיב החנות
 import About from './About';
 import FAQ from './FAQ';
-import Contact from './Contact';
 import RegistrationForm from "./RegistrationForm";
 import Highlight from '../components/Home/Highlight'; // ייבוא רכיב ההיילייט
 import UsersUpdate from './Admin/UsersUpdate';
@@ -47,7 +46,6 @@ function App() {
           <Route path="/workshops" element={<Workshops />} /> {/* סדנאות */}
           <Route path="/about" element={<About />} />
           <Route path="/faq" element={<FAQ />} />
-          <Route path="/contact" element={<Contact />} />
           <Route path="/highlight" element={<Highlight />} />
           <Route path="/usersadmin" element={<UsersUpdate />} />
           <Route path="/productstore" element={<ProductStore />} />

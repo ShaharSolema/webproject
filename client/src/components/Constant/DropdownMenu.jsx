@@ -126,9 +126,6 @@ const MenuButton = () => {
             <li className="nav-item">
               <a className="nav-link" href="/faq">שאלות ותשובות</a>
             </li>
-            <li className="nav-item">
-              <a className="nav-link" href="/contact">יצירת קשר</a>
-            </li>
           </ul>
         </div>
         <div style={styles.logo}>
