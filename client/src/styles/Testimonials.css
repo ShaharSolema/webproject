@@ -2,6 +2,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    max-width: 500px;
+    margin-left: 30%;
   }
   
   .testimonial-container {
@@ -19,8 +21,9 @@
     margin: 10px; /* רווח בין הריבועים */
     padding: 10px; /* רווח פנימי */
     width: 300px; /* רוחב קבוע לריבועים */
-    height: 300px; /* גובה קבוע לריבועים */
+    height: 350px; /* גובה קבוע לריבועים */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* צל לריבועים */
+    direction: rtl;
   }
   
   .testimonial-image {
@@ -33,11 +36,14 @@
   .instagram-tag {
     font-weight: bold; /* טקסט מודגש */
     margin-top: 5px; /* רווח בין התמונה לתיוג */
+    direction: ltr;
+    color: #FAD2CC;
   }
   
   .testimonial-text {
     margin-top: 5px; /* רווח בין התיוג להמלצה */
     text-align: center; /* יישור מרכזי */
+    color: black;
   }
   
   /* חוקים עבור החצים */
@@ -50,7 +56,7 @@
   
   .carousel-control-prev-icon,
   .carousel-control-next-icon {
-    background-color: #000; /* צבע החיצים */
+    background-color: #E4CDF9; /* צבע החיצים */
   }
   
   .carousel-control-prev {
@@ -59,5 +65,8 @@
   
   .carousel-control-next {
     right: -50px; /* מיקום החץ הימני מחוץ לתמונות */
+  }
+  .carousel-item {
+    transition: transform 1.3s ease; /* מעבר חלק בין התמונות */
   }
   

@@ -10,9 +10,6 @@ const Home = () => {
   return (
     <main className="pt-5 mt-5">
       <div className="container">
-        <h1>ברוכים הבאים לאתר</h1>
-        <h1>MichalNail Art</h1>
-
         <Highlight />
 
         

@@ -45,57 +45,64 @@ const UserUpdateForm = ({ user, onBackToLogin }) => {
     return regex.test(password);
   };
 
+  
   const validateField = (field, value) => {
     const errors = {};
-
+  
     switch (field) {
       case 'username':
-        if (!value) errors.username = 'Username is required';
-        else if (!validator.isAlphanumeric(value)) errors.username = 'Username contains invalid characters!';
-        else if (value.length < 6) errors.username = 'Username must be more than 6 characters';
+        if (!value) errors.username = 'לא הוזן שם משתמש';
+        else if (!validator.isAlphanumeric(value)) errors.username = 'השם משתמש מכיל תווים שגויים';
+        else if (value.length < 6) errors.username = 'שם משתמש חייב להיות יותר מ-6 אותיות';
         break;
       case 'email':
-        if (!validator.isEmail(value)) errors.email = 'Invalid email format';
+        if (!validator.isEmail(value)) errors.email = 'האימייל שגוי';
         break;
       case 'password':
-        if (value && !passwordValidator(value)) {
-          errors.password = 'Password must be at least 8 characters long and contain uppercase, lowercase, number, and special character';
+        if (!passwordValidator(value)) {
+          errors.password = 'הסיסמא חייבת להכיל לפחות 8 תווים, כולל אותיות קטנות, אות גדולה, מספרים ותו מיוחד';
         }
         break;
       case 'firstname':
-        if (!value) errors.firstname = 'First name is required';
+        if (!value) errors.firstname = 'לא הוזן שם פרטי';
         else if (!validator.isAlpha(value, 'en-US', { ignore: ' ' }) && !validator.isAlpha(value, 'he', { ignore: ' ' })) errors.firstname = 'First name contains invalid characters!';
-        else if (value.length < 2) errors.firstname = 'Firstname must be more than 2 characters';
+        else if (value.length < 2) errors.firstname = 'השם חייב להכיל יותר מ-2 אותיות';
         break;
       case 'lastname':
-        if (!value) errors.lastname = 'Last name is required';
+        if (!value) errors.lastname = 'לא הוזן שם משפחה';
         else if (!validator.isAlpha(value, 'en-US', { ignore: ' ' }) && !validator.isAlpha(value, 'he', { ignore: ' ' })) errors.lastname = 'Last name contains invalid characters!';
-        else if (value.length < 2) errors.lastname = 'Lastname must be more than 2 characters';
+        else if (value.length < 2) errors.lastname = 'השם משפחה חייב להיות יותר מ-2 אותיות';
         break;
       case 'street':
-        if (!value) errors.street = 'Street is required';
-        else if (value.length < 5) errors.street = 'Street must be more than 5 characters';
+        if (!value) errors.street = 'לא הוזן רחוב';
+        else if (value.length < 5) errors.street = 'שם הרחוב חייב להיות יותר מ-5 אותיות';
         break;
       case 'streetnum':
-        if (!value || isNaN(value)) errors.streetnum = 'Street number must be a number';
+        if (!value || isNaN(value)) errors.streetnum = 'לא הוזן מספר רחוב';
         break;
       case 'postalcode':
-        if (!value || isNaN(value)) errors.postalcode = 'Invalid postal code';
+        if (!value || isNaN(value)) errors.postalcode = 'מיקוד שגוי';
         break;
       case 'city':
-        if (!value) errors.city = 'City is required';
-        else if (value.length < 5) errors.city = 'City must be more than 5 characters';
+        if (!value) errors.city = 'לא הוזן עיר';
+        else if (value.length < 5) errors.city = 'שם העיר חייב להיות יותר מ-5 אותיות';
         break;
       case 'telephone':
-        if (!validator.isMobilePhone(value, 'he-IL')) errors.telephone = 'Invalid telephone number';
+        if (!validator.isMobilePhone(value, 'he-IL')) errors.telephone = 'מספר פלאפון שגוי';
         break;
       case 'birthday':
-        if (!value) errors.birthday = 'Birthday is required';
+        if (!value) errors.birthday = 'לא הוזן תאריך לידה';
+        else {
+          const birthDate = new Date(value);
+          const today = new Date();
+  
+          if (birthDate > today) errors.birthday = 'תאריך הלידה לא יכול להיות אחרי התאריך הנוכחי';
+        }
         break;
       default:
         break;
     }
-
+  
     return errors;
   };
 
@@ -132,14 +139,14 @@ const UserUpdateForm = ({ user, onBackToLogin }) => {
         const userDataWithId = { ...formData, id: user._id }; 
         const result = await updateUser(userDataWithId); 
       if (result.success) {
-        alert('User data updated successfully');
+        alert('עדון פרטים בוצע בהצלחה');
         window.location.href = '/'; 
       } else {
         setErrors({ form: result.error });
       }
     } catch (error) {
-      console.error('Error updating user:', error.message);
-      setErrors({ form: 'Update failed. Please try again later.' });
+      console.error('שגיאה בעדכון הפרטים', error.message);
+      setErrors({ form: 'העדכון נכשל. נסה שנית מאוחר יותר' });
     } finally {
       setIsSubmitting(false);
     }
@@ -147,7 +154,7 @@ const UserUpdateForm = ({ user, onBackToLogin }) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <h1>Update User Information</h1>
+      <h1>עדכון פרטי משתמש</h1>
       {[
         { label: ':אימייל', name: 'email', type: 'email' },
         { label: ':שם פרטי', name: 'firstname', type: 'text' },
@@ -171,7 +178,7 @@ const UserUpdateForm = ({ user, onBackToLogin }) => {
           {errors[field.name] && <p>{errors[field.name]}</p>}
         </div>
       ))}
-      <button type="submit" disabled={isSubmitting}>Update</button>
+      <button type="submit" disabled={isSubmitting}>עדכן פרטים</button>
       {errors.form && <p className="error">{errors.form}</p>}
       <button onClick={onBackToLogin} className="back-to-login-btn">
         חזרה להתחברות
