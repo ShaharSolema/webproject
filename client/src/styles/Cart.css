@@ -12,6 +12,7 @@
 }
 
 .cart-popup {
+    margin-top: 20px;
     width: 90%;
     max-width: 500px;
     max-height: 80vh;
@@ -19,6 +20,14 @@
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    transform: translateY(0);
+    transition: all 0.3s ease-in-out;
+    opacity: 1;
+}
+
+.cart-popup.closing {
+    transform: translateY(-100%);
+    opacity: 0;
 }
 
 .cart-title {
@@ -237,4 +246,23 @@ h1 {
     height: 1px;
     background-color: #e0e0e0;
     margin: 0 0 20px 0;
+}
+
+.login-popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    z-index: 1000;
+    opacity: 1;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.login-popup-overlay.closing {
+    opacity: 0;
 }

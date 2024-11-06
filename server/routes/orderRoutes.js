@@ -8,5 +8,6 @@ const authenticate = require('../Middleware/authMiddleware');
 router.post('/create', authenticate, orderController.createOrder);
 router.get('/all', isManager, orderController.getOrders);
 router.patch('/:orderId/status', isManager, orderController.updateOrderStatus);
+router.get('/user/:userId', authenticate, orderController.getUserOrders);
 
 module.exports = router; 

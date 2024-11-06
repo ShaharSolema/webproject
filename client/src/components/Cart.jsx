@@ -8,8 +8,17 @@ import { useNavigate } from 'react-router-dom';
 const Cart = ({ isOpen, onClose, user }) => {
   const [cartItems, setCartItems] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [isClosing, setIsClosing] = useState(false);
   const cartRef = useRef();
   const navigate = useNavigate();
+
+  const handleClose = () => {
+    setIsClosing(true);
+    setTimeout(() => {
+      setIsClosing(false);
+      onClose();
+    }, 300); // Match this with the CSS transition duration
+  };
 
   // Fetch cart data when component mounts or when cart is opened
   useEffect(() => {
@@ -40,7 +49,7 @@ const Cart = ({ isOpen, onClose, user }) => {
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (cartRef.current && !cartRef.current.contains(event.target)) {
-        onClose();
+        handleClose();
       }
     };
 
@@ -51,14 +60,14 @@ const Cart = ({ isOpen, onClose, user }) => {
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [isOpen, onClose]);
+  }, [isOpen]);
 
   const handleCheckoutClick = () => {
     const total = cartItems.reduce((sum, item) => 
       sum + (item.productId.price * item.quantity), 0
     );
 
-    onClose();
+    handleClose();
     navigate('/checkout', { 
       state: { 
         cartItems: cartItems,
@@ -114,8 +123,8 @@ const Cart = ({ isOpen, onClose, user }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="login-popup-overlay">
-      <div className="login-popup cart-popup" ref={cartRef}>
+    <div className={`login-popup-overlay ${isClosing ? 'closing' : ''}`}>
+      <div className={`login-popup cart-popup ${isClosing ? 'closing' : ''}`} ref={cartRef}>
         <h1>
           <img src={logo} alt="Logo" className="logo" />
         </h1>
