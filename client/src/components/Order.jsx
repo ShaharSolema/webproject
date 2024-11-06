@@ -1,7 +1,7 @@
 import React from 'react';
 import '../styles/Order.css';
 
-const Order = ({ order, onStatusChange, statusOptions }) => {
+const Order = ({ order, onStatusChange, statusOptions, showCancelButton, onCancelOrder }) => {
     const formatDate = (dateString) => {
         const date = new Date(dateString);
         return new Intl.DateTimeFormat('he-IL', {
@@ -21,15 +21,18 @@ const Order = ({ order, onStatusChange, statusOptions }) => {
                     <span className="order-date">{formatDate(order.createdAt)}</span>
                 </div>
                 <div className="order-status">
-                    <select
-                        value={order.status}
-                        onChange={(e) => onStatusChange(order._id, e.target.value)}
-                        className={`status-${order.status}`}
-                    >
-                        {Object.entries(statusOptions).map(([value, label]) => (
-                            <option key={value} value={value}>{label}</option>
-                        ))}
-                    </select>
+                    {showCancelButton ? (
+                        <button 
+                            onClick={onCancelOrder}
+                            className="btn btn-danger btn-sm"
+                        >
+                            ביטול הזמנה
+                        </button>
+                    ) : (
+                        <span className={`status-${order.status}`}>
+                            {statusOptions[order.status]}
+                        </span>
+                    )}
                 </div>
             </div>
 

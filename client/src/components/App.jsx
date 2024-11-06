@@ -21,7 +21,7 @@ import '../styles/main.css';
 import Checkout from './Checkout';
 import OrderSuccess from './OrderSuccess';
 import OrderManagement from './Admin/OrderManagement';
-
+import OrderHistory from './OrderHistory';
 
 function App() {
   const containerStyles = {
@@ -56,7 +56,7 @@ function App() {
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/order-success" element={<OrderSuccess />} />
           <Route path="/ordersmanagement" element={<OrderManagement />} />
- 
+          <Route path="/order-history" element={<OrderHistory />} />
         </Routes>
       </div>
       <FloatingIcon />

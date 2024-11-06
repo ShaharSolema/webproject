@@ -37,5 +37,6 @@ export const API_ROUTES = {
     CREATE: `/orders/create`,
     ALL: `/orders/all`,
     UPDATE_STATUS: (orderId) => `/orders/${orderId}/status`,
+    GET_USER_ORDERS: (userId) => `/orders/user/${userId}`,
   },
 };

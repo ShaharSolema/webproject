@@ -113,8 +113,21 @@ const updateOrderStatus = async (req, res) => {
     }
 };
 
+const getUserOrders = async (req, res) => {
+    try {
+        const orders = await Order.find({ user: req.params.userId })
+            .populate('user', 'firstname lastname email telephone')
+            .populate('items.productId', 'name price');
+        
+        res.json(orders);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
 module.exports = {
     createOrder,
     getOrders,
-    updateOrderStatus
+    updateOrderStatus,
+    getUserOrders
 }; 

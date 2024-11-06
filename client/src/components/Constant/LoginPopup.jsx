@@ -98,6 +98,11 @@ const LoginPopup = ({ onClose, setGlobalUser }) => {
     }
   };
 
+  const handleOrderHistoryRedirect = () => {
+    navigate('/order-history');
+    handleClose();
+  };
+
   return (
     <div className={`login-popup-overlay ${isExiting ? 'exit' : ''}`}>
       <div className="login-popup" ref={popupRef}>
@@ -112,6 +117,9 @@ const LoginPopup = ({ onClose, setGlobalUser }) => {
         ) : localUser ? (
           <>
             <h3>{localUser.firstname}, היי</h3>
+            <button onClick={handleOrderHistoryRedirect} className="btn btn-info mb-2">
+              <i className="bi bi-clock-history"></i> היסטוריית הזמנות
+            </button>
             <button onClick={handleLogout} className="btn btn-primary mb-2">
               יציאה מהמשתמש
             </button>
