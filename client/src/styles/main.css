@@ -9,12 +9,16 @@ body, html {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    font-family: calibri;
 }
 
 body {
     overflow-x: hidden; /* מונע גלילה אופקית */
     overflow-y: auto; /* מאפשר גלילה אנכית */
     margin: 0; /* מסיר מרג'ין לברירת מחדל */
+}
+.categories-title{
+    text-align: center;
 }
 
 /* עיצוב עמודות בכותרת */

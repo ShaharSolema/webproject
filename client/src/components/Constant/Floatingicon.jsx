@@ -9,10 +9,12 @@ const FloatingIcon = () => {
   useEffect(() => {
     const handleScroll = () => {
       const footer = footerRef.current;
+      const windowHeight = window.innerHeight;
+
       if (footer) {
         const footerRect = footer.getBoundingClientRect();
-        const windowHeight = window.innerHeight;
 
+        // אם הפוטר קרוב לתחתית, האייקון יישאר בגובה מעל הפוטר
         if (footerRect.top <= windowHeight) {
           setIsAboveFooter(true);
         } else {
@@ -21,23 +23,27 @@ const FloatingIcon = () => {
       }
     };
 
+    // מוסיף מאזינים לאירועים של גלילה והתאמת גודל
     window.addEventListener('scroll', handleScroll);
     window.addEventListener('resize', handleScroll);
+
+    // הפונקציה הזו תסיר את המאזינים כשלא נצטרך אותם
     return () => {
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('resize', handleScroll);
     };
-  }, []);
+  }, []); // מכניס את המאזינים כשקומפוננטה טוענת
 
+  // עיצוב האייקון
   const iconStyle = {
     position: 'fixed',
-    bottom: isAboveFooter ? '220px' : '20px',
+    bottom: isAboveFooter ? '220px' : '20px',  // אם האייקון מעל הפוטר, הוא יישאר 220px מעל הפוטר, אחרת ב-20px
     left: '10px',
     zIndex: 998,
-    transition: 'bottom 0.3s, transform 0.3s', // מעבר חלק לגובה ולגודל
+    transition: 'bottom 0.3s, transform 0.3s',
     fontSize: '50px',
     color: 'green',
-    transform: isHovered ? 'scale(1.2)' : 'scale(1)', // התרחבות בעת ריחוף
+    transform: isHovered ? 'scale(1.2)' : 'scale(1)',
   };
 
   return (

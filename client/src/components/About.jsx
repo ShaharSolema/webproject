@@ -45,7 +45,7 @@ const About = () => {
             <i className="bi bi-tiktok"></i>
           </a>
           <a href="https://api.whatsapp.com/message/KT2QAE5WRHG3B1?autoload=1&app_absent=0" target="_blank" rel="noopener noreferrer" className="icon-link"> 
-          <i class="bi bi-whatsapp"></i>
+          <i className="bi bi-whatsapp"></i>
           </a>
         </div>
       </div>

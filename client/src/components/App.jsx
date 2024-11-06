@@ -52,8 +52,8 @@ function App() {
           <Route path="/checkout" element={<Checkout />} />
 
         </Routes>
-        <FloatingIcon />
       </div>
+      <FloatingIcon />
       <Footer />
       <MarqueeFooter/>
     </Router>

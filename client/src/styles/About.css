@@ -16,12 +16,8 @@
   position: absolute; /* מיקום מוחלט */
   right: 0; /* ימינה */
   top: 0;
-  width: 33.33%; /* תופס שליש מהתיבה */
   height: 100%; /* כל הגובה של התיבה */
   display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #e0f7f7; /* צבע רקע תואם לתמונה */
 }
 
 .about-image img {
