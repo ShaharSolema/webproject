@@ -6,10 +6,10 @@ import axiosInstanse from './axiosConfig';
 export const checkLoginStatus = async () => {
   try {
     const response = await axiosInstanse.get(API_ROUTES.AUTH.CHECK_LOGIN, { withCredentials: true });
-    return response.data || { isLoggedIn: false };
+    return response.data || { isLoggedIn: false, user: null };
   } catch (error) {
     console.error('Error checking login status:', error);
-    return { isLoggedIn: false };
+    return { isLoggedIn: false, user: null };
   }
 };
 
@@ -60,7 +60,7 @@ export const registerUser = async (formData) => {
 export const logoutUser = async () => {
   try {
     await axiosInstanse.post(API_ROUTES.AUTH.LOGOUT, {}, { withCredentials: true });
-    localStorage.removeItem('user'); // Remove user data from localStorage on logout
+    localStorage.removeItem('user');
     return { success: true };
   } catch (error) {
     console.error('Error logging out:', error.response?.data || error.message);
@@ -259,5 +259,23 @@ export const clearCart = async () => {
             success: false, 
             error: error.response?.data?.message || 'Failed to clear cart'
         };
+    }
+};
+
+export const getUserOrders = async () => {
+    try {
+        // First check login status to get current user
+        const loginStatus = await checkLoginStatus();
+        if (!loginStatus.isLoggedIn || !loginStatus.user?._id) {
+            throw new Error('User not authenticated');
+        }
+
+        const response = await axiosInstanse.get(API_ROUTES.ORDERS.GET_USER_ORDERS(loginStatus.user._id), {
+            withCredentials: true
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching user orders:', error);
+        throw new Error('Failed to fetch user orders');
     }
 };

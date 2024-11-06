@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getAllOrders, updateOrderStatus } from '../utils/auth';
+import { getUserOrders, updateOrderStatus } from '../utils/auth';
 import Order from './Order';
 import '../styles/OrderHistory.css';
 
@@ -24,7 +24,7 @@ const OrderHistory = () => {
 
     const fetchUserOrders = async () => {
         try {
-            const fetchedOrders = await getAllOrders();
+            const fetchedOrders = await getUserOrders();
             // Sort orders by date (newest first)
             const sortedOrders = fetchedOrders.sort((a, b) => 
                 new Date(b.createdAt) - new Date(a.createdAt)
