@@ -1,4 +1,3 @@
-
 export const API_ROUTES = {
   AUTH: {
     REGISTER: `/auth/register`,
@@ -32,5 +31,11 @@ export const API_ROUTES = {
     USER_ENGAGEMENT: `statistics/user-engagement`,
     PRODUCT_SALES: `statistics/sales`,
     CART_ITEMS: `statistics/cart-items`,
+    MONTHLY_INCOME: `/api/statistics/income`,
+  },
+  ORDERS: {
+    CREATE: `/api/orders/create`,
+    ALL: `/api/orders/all`,
+    UPDATE_STATUS: (orderId) => `/api/orders/${orderId}/status`,
   },
 };

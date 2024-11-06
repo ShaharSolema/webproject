@@ -24,7 +24,7 @@ connectDB();
 
 app.use(`${config.api.prefix}/auth`, authRoute);
 app.use(`${config.api.prefix}/users`, authenticate, userRoutes);
-app.use(`${config.api.prefix}/products`, authenticate, productRoutes);
+app.use(`${config.api.prefix}/products`, productRoutes);
 app.use(`${config.api.prefix}/carts`, authenticate, cartRoutes);
 app.use(`${config.api.prefix}/statistics`, authenticate, statisticsRoutes);
 

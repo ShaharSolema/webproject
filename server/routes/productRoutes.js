@@ -2,12 +2,16 @@ const express = require('express');
 const router = express.Router();
 const productController = require('../controllers/productController');
 const isManager = require("../Middleware/isManager");
+const authenticate = require("../Middleware/authMiddleware");
 
-router.post('/',isManager, productController.createProduct);
-router.get('/',isManager, productController.getAllProducts);
+// Public routes (no authentication required)
+router.get('/', productController.getAllProducts);
 router.get('/:id', productController.getProductById);
-router.put('/:id', productController.updateProduct);
-router.delete('/:id',isManager, productController.deleteProduct);
 router.get("/search", productController.advancedSearch);
+
+// Protected routes (require authentication)
+router.post('/', authenticate, isManager, productController.createProduct);
+router.put('/:id', authenticate, isManager, productController.updateProduct);
+router.delete('/:id', authenticate, isManager, productController.deleteProduct);
 
 module.exports = router;

@@ -1,78 +1,88 @@
 .admin-page {
-    max-width: 800px;
-    margin: 20px auto;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  .admin-page h1 {
-    text-align: center;
-    color: #333;
-    margin-bottom: 20px;
-  }
-  
-  .error-message {
-    color: red;
-    text-align: center;
-  }
-  
-  .admin-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-    background-color: white;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  .admin-table th,
-  .admin-table td {
-    padding: 12px 15px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-  }
-  
-  .admin-table th {
-    background-color: #4CAF50;
-    color: white;
-  }
-  
-  .admin-table tr:hover {
-    background-color: #f1f1f1;
-  }
-  
-  .action-cell {
-    display: flex;
-    gap: 10px; /* Space between buttons */
-  }
-  
-  .action-button,
-  .delete-button {
-    padding: 8px 12px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .action-button {
-    background-color: #007bff;
-    color: white;
-  }
-  
-  .action-button:hover {
-    background-color: #0056b3;
-  }
-  
-  .delete-button {
-    background-color: #dc3545;
-    color: white;
-  }
-  
-  .delete-button:hover {
-    background-color: #c82333;
-  }
-  
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  direction: rtl; /* שינוי כיוון ל-rtl */
+  font-family: calibri;
+}
+
+.admin-page h1 {
+  text-align: right; /* טקסט מיושר מימין */
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.error-message {
+  color: red;
+  text-align: right; /* טקסט מיושר מימין */
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background-color: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  direction: rtl; /* שינוי כיוון ל-rtl */
+}
+
+.admin-table th,
+.admin-table td {
+  padding: 12px 15px;
+  text-align: center; /* טקסט מיושר במרכז */
+  border-bottom: 1px solid #ddd;
+}
+
+.admin-table th {
+  background-color: #FAD2CC ;
+  color: black;
+}
+
+.admin-table tr:hover {
+  background-color: #CEE7D3;
+}
+
+.action-cell {
+  display: flex;
+  gap: 10px; /* רווח בין הכפתורים */
+}
+
+.action-button,
+.delete-button {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.action-button {
+  background-color: #FCEFBB;
+  color: black;
+}
+
+.action-button:hover {
+  background-color: #FCEFBB;
+  transform: scale(1.05);
+}
+
+.delete-button {
+  background-color: #E4CDF9;
+  color: black;
+}
+
+.delete-button:hover {
+  background-color: #E4CDF9;
+  transform: scale(1.05);
+}
+.admin-page h1{
+  text-align: center;
+  color: #CEE7D3;
+  font-weight: 1000;
+  text-decoration: underline;
+}

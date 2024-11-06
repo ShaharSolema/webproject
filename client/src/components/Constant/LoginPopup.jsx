@@ -1,5 +1,5 @@
-import { useState, useEffect, useRef } from 'react'; 
-import PropTypes from 'prop-types'; 
+import { useState, useEffect, useRef } from 'react';
+import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
 import { loginUser, checkLoginStatus, logoutUser } from '../../utils/auth';
 import RegistrationForm from '../RegistrationForm'; 
@@ -7,14 +7,14 @@ import logo from '../../styles/Michal.jpg';
 import '../../styles/LoginPopup.css';
 import UserUpdateForm from '../UserUpdateForm';
 
-const LoginPopup = ({ onClose }) => {
+const LoginPopup = ({ onClose, setGlobalUser }) => {
   const [formData, setFormData] = useState({ username: '', password: '' });
-  const [user, setUser] = useState(null);
+  const [localUser, setLocalUser] = useState(null);
   const [isAdmin, setIsAdmin] = useState(false);
   const [loginError, setLoginError] = useState(null);
   const [showRegistration, setShowRegistration] = useState(false);
   const [isExiting, setIsExiting] = useState(false);
-  const [showUpdateForm, setShowUpdateForm] = useState(false); 
+  const [showUpdateForm, setShowUpdateForm] = useState(false);
   const popupRef = useRef();
 
   const navigate = useNavigate();
@@ -22,7 +22,8 @@ const LoginPopup = ({ onClose }) => {
   const fetchLoginStatus = async () => {
     const status = await checkLoginStatus();
     if (status.isLoggedIn) {
-      setUser(status.user);
+      setLocalUser(status.user);
+      setGlobalUser(status.user);
       setIsAdmin(status.user.manager);
     }
   };
@@ -31,18 +32,11 @@ const LoginPopup = ({ onClose }) => {
     fetchLoginStatus();
   }, []);
 
-  const handleAdminRedirect = () => {
-    navigate('/usersadmin');
-    handleClose();
-  };
-
-  const handleProductsManagement = () => {
-    navigate('/productsmanagement');
-    handleClose();
-  };
-
-  const handleStatistics = () => {
-    navigate('/statistics');
+  const handleAdminRedirect = (path) => {
+    navigate(path);
+    setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: 'smooth' }); // גלילה לראש העמוד
+    }, 100); // חיכוי קצר לניווט
     handleClose();
   };
 
@@ -66,7 +60,8 @@ const LoginPopup = ({ onClose }) => {
   const handleLogin = async () => {
     const loginResult = await loginUser(formData);
     if (loginResult.success) {
-      setUser(loginResult.user);
+      setLocalUser(loginResult.user);
+      setGlobalUser(loginResult.user);
       setIsAdmin(loginResult.user.manager);
       setLoginError(null);
       navigate('/');
@@ -79,7 +74,8 @@ const LoginPopup = ({ onClose }) => {
   const handleLogout = async () => {
     const logoutResult = await logoutUser();
     if (logoutResult.success) {
-      setUser(null);
+      setLocalUser(null);
+      setGlobalUser(null);
       setIsAdmin(false);
       handleClose();
       navigate('/');
@@ -96,7 +92,6 @@ const LoginPopup = ({ onClose }) => {
     setShowUpdateForm(!showUpdateForm);
   };
 
-  // Enable Enter key to submit login
   const handleKeyDown = (event) => {
     if (event.key === 'Enter' && formData.username && formData.password) {
       handleLogin();
@@ -113,26 +108,36 @@ const LoginPopup = ({ onClose }) => {
         {showRegistration ? (
           <RegistrationForm onBackToLogin={toggleRegistration} /> 
         ) : showUpdateForm ? (
-          <UserUpdateForm user={user} onBackToLogin={handleToggleUpdateForm} /> // Pass user to update form
-        ) : user ? (
+          <UserUpdateForm user={localUser} onBackToLogin={handleToggleUpdateForm} /> // Pass user to update form
+        ) : localUser ? (
           <>
-            <h3>{user.firstname}, היי</h3>
+            <h3>{localUser.firstname}, היי</h3>
             <button onClick={handleLogout} className="btn btn-primary mb-2">
               יציאה מהמשתמש
             </button>
             {isAdmin && (
               <>
-                <button onClick={handleAdminRedirect} className="btn btn-warning mb-2">
-                  Users Admin
-                </button>
-                <button onClick={handleProductsManagement} className="btn btn-warning mb-2">
-                  Products Management
-                </button>
-                <button onClick={handleStatistics} className="btn btn-warning mb-2">
-                  Statistics
-                </button>
+                <h4 className="admin-options-title">אפשרויות מנהל</h4>
+                <div className="icon-row mb-2">
+                  <i 
+                    className="bi bi-person-fill-gear admin-icon" 
+                    onClick={() => handleAdminRedirect('/usersadmin')}
+                    title="עריכת משתמשים"
+                  ></i>
+                  <i 
+                    className="bi bi-cart-plus admin-icon" 
+                    onClick={() => handleAdminRedirect('/productsmanagement')}
+                    title="ניהול מוצרים"
+                  ></i>
+                  <i 
+                    className="bi bi-pie-chart-fill admin-icon" 
+                    onClick={() => handleAdminRedirect('/statistics')}
+                    title="סטטיסטיקה"
+                  ></i>
+                </div>
               </>
             )}
+
             <button onClick={handleToggleUpdateForm} className="btn btn-secondary mb-2">
               עדכן את פרטי החשבון
             </button>
@@ -154,7 +159,7 @@ const LoginPopup = ({ onClose }) => {
               placeholder="סיסמא"
               value={formData.password}
               onChange={(e) => setFormData({ ...formData, [e.target.name]: e.target.value })}
-              onKeyDown={handleKeyDown} // Add onKeyDown to handle Enter key
+              onKeyDown={handleKeyDown}
               className="form-control mb-2"
             />
             {loginError && <p className="text-danger">{loginError}</p>}
@@ -178,6 +183,7 @@ const LoginPopup = ({ onClose }) => {
 
 LoginPopup.propTypes = {
   onClose: PropTypes.func.isRequired,
+  setGlobalUser: PropTypes.func.isRequired,
 };
 
 export default LoginPopup;

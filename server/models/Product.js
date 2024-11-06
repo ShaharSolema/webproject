@@ -2,8 +2,7 @@ const mongoose = require("mongoose");
 const validator = require("validator");
 const { default: isURL } = require("validator/lib/isURL");
 const Schema = mongoose.Schema;
-//ADD VALIDATIONS!!!
-//ADD BY MICHALS PRODUCTS
+
 const productSchema = new mongoose.Schema({
   name: {
     type: String,

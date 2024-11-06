@@ -7,9 +7,9 @@ const MarqueeFooter = () => {
   const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
   const [waitTime, setWaitTime] = useState(false); // state to track wait time
   const messages = [
-    'כל הזכויות שמורות',
+    'מבצע על המשלוחים,20% הנחה בהזמנה מעל 100 ש"ח',
     'מבצעים מיוחדים על כל הקורסים',
-    'הנחות על המוצרים בחנות שלנו'
+    'צרו קשר עוד היום למבצעים שווים'
   ];
 
   useEffect(() => {

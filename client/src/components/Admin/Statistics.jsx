@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Bar, Pie } from 'react-chartjs-2';
+import { Bar, Pie, Line } from 'react-chartjs-2';
 import { API_ROUTES } from '../../utils/apiRoutes';
 import axiosInstanse from '../../utils/axiosConfig';
+import '../../styles/Statics.css';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -19,6 +20,7 @@ const StatisticsPage = () => {
   const [userRegistrations, setUserRegistrations] = useState([]);
   const [productSales, setProductSales] = useState([]);
   const [cartItems, setCartItems] = useState([]);
+  const [monthlyIncome, setMonthlyIncome] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -55,12 +57,26 @@ const StatisticsPage = () => {
     }
   };
 
+  const fetchMonthlyIncome = async () => {
+    try {
+      const response = await axiosInstanse.get(API_ROUTES.STATISTICS.MONTHLY_INCOME, {
+        withCredentials: true,
+      });
+      setMonthlyIncome(response.data);
+    } catch (error) {
+      setError(error.message);
+    }
+  };
+
   useEffect(() => {
     const fetchStatistics = async () => {
       try {
-        await fetchUserRegistrations();
-        await fetchProductSales();
-        await fetchCartItems();
+        await Promise.all([
+          fetchUserRegistrations(),
+          fetchProductSales(),
+          fetchCartItems(),
+          fetchMonthlyIncome()
+        ]);
       } catch (error) {
         setError(error.message);
       } finally {
@@ -75,7 +91,7 @@ const StatisticsPage = () => {
     labels: userRegistrations.map((reg) => `Month ${reg.month}`),
     datasets: [
       {
-        label: 'User Registrations',
+        label: 'מספר נרשמים',
         data: userRegistrations.map((reg) => reg.count),
         backgroundColor: 'rgba(75, 192, 192, 0.6)',
       },
@@ -86,7 +102,7 @@ const StatisticsPage = () => {
     labels: productSales.map((sale) => sale.productName),
     datasets: [
       {
-        label: 'Total Sales',
+        label: 'כלל המכירות',
         data: productSales.map((sale) => sale.totalSales),
         backgroundColor: 'rgba(255, 99, 132, 0.6)',
       },
@@ -97,7 +113,7 @@ const StatisticsPage = () => {
     labels: cartItems.map((item) => item.productName),
     datasets: [
       {
-        label: 'Cart Items',
+        label: 'מוצרים בעגלה',
         data: cartItems.map((item) => item.totalQuantity),
         backgroundColor: [
           'rgba(255, 99, 132, 0.6)', // Red
@@ -111,26 +127,62 @@ const StatisticsPage = () => {
     ],
   };
 
+  const incomeChartData = {
+    labels: monthlyIncome.map(data => data.month),
+    datasets: [
+      {
+        label: 'הכנסה חודשית',
+        data: monthlyIncome.map(data => data.totalIncome),
+        fill: false,
+        borderColor: 'rgb(75, 192, 192)',
+        tension: 0.1
+      }
+    ]
+  };
+
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;
 
   return (
     <div className="statistics-page">
-      <h1>Statistics Overview</h1>
+      <h1>סטטיסטיקה</h1>
       
-      <h2>User Registrations by Month</h2>
-      <div style={{ width: '70%', margin: '0 auto' }}>
-        <Bar data={registrationChartData} options={{ responsive: true }} />
-      </div>
+      <div className="charts-container">
+        <div className="chart-card">
+          <h2>רישום משתמשים לפי חודש</h2>
+          <Bar data={registrationChartData} options={{ responsive: true, maintainAspectRatio: false }} style={{ height: '100%' }} />
+        </div>
 
-      <h2>Product Sales</h2>
-      <div style={{ width: '70%', margin: '0 auto' }}>
-        <Bar data={productSalesChartData} options={{ responsive: true }} />
-      </div>
+        <div className="chart-card">
+          <h2>מכירת מוצרים</h2>
+          <Bar data={productSalesChartData} options={{ responsive: true, maintainAspectRatio: false }} style={{ height: '100%' }} />
+        </div>
 
-      <h2>Items in Shopping Carts</h2>
-      <div style={{ width: '50%', margin: '0 auto' }}>
-        <Pie data={cartItemsChartData} options={{ responsive: true }} />
+        <div className="chart-card" style={{ flex: '1 1 100%' }}> {/* שורה חדשה עבור הגרף השלישי */}
+          <h2>מוצרים בעגלה</h2>
+          <Pie data={cartItemsChartData} options={{ responsive: true, maintainAspectRatio: false }} style={{ height: '100%' }} />
+        </div>
+
+        <div className="chart-card">
+          <h2>הכנסה חודשית</h2>
+          <Line 
+            data={incomeChartData} 
+            options={{ 
+              responsive: true, 
+              maintainAspectRatio: false,
+              scales: {
+                y: {
+                  beginAtZero: true,
+                  ticks: {
+                    callback: function(value) {
+                      return '₪' + value;
+                    }
+                  }
+                }
+              }
+            }} 
+          />
+        </div>
       </div>
     </div>
   );

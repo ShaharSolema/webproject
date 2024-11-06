@@ -3,81 +3,44 @@ import { getCart, updateCartItem, removeCartItem } from '../utils/auth';
 import logo from '../styles/Michal.jpg';
 import '../styles/Cart.css';
 import '../styles/LoginPopup.css';
+import { useNavigate } from 'react-router-dom';
 
 const Cart = ({ isOpen, onClose, user }) => {
-  const [isExiting, setIsExiting] = useState(false);
   const [cartItems, setCartItems] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const cartRef = useRef();
+  const navigate = useNavigate();
 
-  // Reset isExiting when isOpen changes
-  useEffect(() => {
-    if (isOpen) {
-      setIsExiting(false);
-    }
-  }, [isOpen]);
-
-  // Fetch cart data when component mounts and when cart is opened
+  // Fetch cart data when component mounts or when cart is opened
   useEffect(() => {
     const fetchCartData = async () => {
-      if (!user) {
+      if (!user || !isOpen) {
         setIsLoading(false);
         return;
       }
 
-      if (isOpen) {
-        try {
-          setIsLoading(true);
-          console.log('Fetching cart for user:', user._id); // Debug log
-          const cartData = await getCart(user._id);
-          console.log('Cart data received:', cartData); // Debug log
-          setCartItems(cartData?.items || []);
-        } catch (err) {
-          console.error('Error fetching cart:', err);
-          setCartItems([]);
-        } finally {
-          setIsLoading(false);
-        }
+      try {
+        setIsLoading(true);
+        const cartData = await getCart(user._id);
+        setCartItems(cartData?.items || []);
+      } catch (err) {
+        console.error('Error fetching cart:', err);
+        setCartItems([]);
+      } finally {
+        setIsLoading(false);
       }
     };
 
-    fetchCartData();
+    if (isOpen) {
+      fetchCartData();
+    }
   }, [user, isOpen]);
-
-  const handleUpdateQuantity = async (productId, newQuantity) => {
-    try {
-      await updateCartItem(user._id, productId, newQuantity);
-      // Refresh cart data after update
-      const updatedCart = await getCart(user._id);
-      setCartItems(updatedCart?.items || []);
-    } catch (err) {
-      console.error('Error updating quantity:', err);
-    }
-  };
-
-  const handleRemoveItem = async (productId) => {
-    try {
-      await removeCartItem(user._id, productId);
-      // Refresh cart data after removal
-      const updatedCart = await getCart(user._id);
-      setCartItems(updatedCart?.items || []);
-    } catch (err) {
-      console.error('Error removing item:', err);
-    }
-  };
-
-  const handleClose = () => {
-    setIsExiting(true);
-    setTimeout(() => {
-      onClose();
-    }, 300);
-  };
 
   // Handle click outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (cartRef.current && !cartRef.current.contains(event.target)) {
-        handleClose();
+        onClose();
       }
     };
 
@@ -88,69 +51,122 @@ const Cart = ({ isOpen, onClose, user }) => {
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [isOpen]);
+  }, [isOpen, onClose]);
+
+  const handleCheckoutClick = () => {
+    const total = cartItems.reduce((sum, item) => 
+      sum + (item.productId.price * item.quantity), 0
+    );
+
+    onClose();
+    navigate('/checkout', { 
+      state: { 
+        cartItems: cartItems,
+        totalAmount: total
+      }
+    });
+  };
+
+  const handleUpdateQuantity = async (productId, newQuantity) => {
+    try {
+      if (newQuantity <= 0) {
+        // Remove item if quantity is 0 or less
+        await updateCartItem(user._id, productId, 0);
+        // Update local state to remove the item
+        setCartItems(prev => prev.filter(item => item.productId._id !== productId));
+      } else {
+        // Update quantity
+        await updateCartItem(user._id, productId, newQuantity);
+        // Update local state with new quantity
+        setCartItems(prev => prev.map(item => 
+          item.productId._id === productId 
+            ? { ...item, quantity: newQuantity }
+            : item
+        ));
+      }
+    } catch (error) {
+      console.error('Error updating cart:', error);
+      alert('אירעה שגיאה בעדכון הכמות');
+    }
+  };
 
   if (!isOpen) return null;
 
   return (
-    <div className={`login-popup-overlay ${isExiting ? 'exit' : ''}`}>
-      <div className="login-popup" ref={cartRef}>
+    <div className="login-popup-overlay">
+      <div className="login-popup cart-popup" ref={cartRef}>
         <h1>
           <img src={logo} alt="Logo" className="logo" />
         </h1>
         <hr className="divider" />
-        <h3>Your Shopping Cart</h3>
+        <h3 className="cart-title">העגלה שלך</h3>
         
-        <div className="cart-items">
+        <div className="cart-items-container">
           {!user ? (
-            <p className="login-message">Please log in to view your shopping cart</p>
+            <p className="login-message">אנא התחבר/י כדי לצפות בעגלת הקניות</p>
           ) : isLoading ? (
-            <p>Loading cart items...</p>
+            <div className="loading-spinner">טוען...</div>
           ) : cartItems.length > 0 ? (
             cartItems.map((item) => (
               <div key={item.productId._id} className="cart-item">
-                <img src={item.productId.image} alt={item.productId.name} className="product-image" />
-                <div className="item-details">
-                  <h3>{item.productId.name}</h3>
-                  <p>${item.productId.price}</p>
-                  <div className="quantity-controls">
+                <div className="cart-item-image-container">
+                  <img 
+                    src={item.productId.imageUrl}
+                    alt={item.productId.name} 
+                    className="cart-item-image"
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = 'https://via.placeholder.com/150';
+                    }}
+                  />
+                </div>
+                <div className="cart-item-details">
+                  <h4 className="cart-item-name">{item.productId.name}</h4>
+                  <p className="cart-item-price">₪{item.productId.price}</p>
+                  <div className="quantity-control">
                     <button 
-                      onClick={() => handleUpdateQuantity(item.productId._id, Math.max(0, item.quantity - 1))}
-                      disabled={item.quantity <= 1}
-                      className="btn btn-secondary"
+                      onClick={() => handleUpdateQuantity(item.productId._id, item.quantity - 1)}
+                      className="quantity-btn decrease"
+                      aria-label="Decrease quantity"
                     >
-                      -
+                      <span className="quantity-btn-text">-</span>
                     </button>
-                    <span>{item.quantity}</span>
+                    <span className="quantity-display">{item.quantity}</span>
                     <button 
                       onClick={() => handleUpdateQuantity(item.productId._id, item.quantity + 1)}
-                      className="btn btn-secondary"
+                      className="quantity-btn increase"
+                      aria-label="Increase quantity"
                     >
-                      +
+                      <span className="quantity-btn-text">+</span>
                     </button>
                   </div>
-                  <button 
-                    className="btn btn-danger mb-2"
-                    onClick={() => handleRemoveItem(item.productId._id)}
-                  >
-                    Remove
-                  </button>
+                </div>
+                <div className="cart-item-total">
+                  ₪{(item.productId.price * item.quantity).toFixed(2)}
                 </div>
               </div>
             ))
           ) : (
-            <p className="empty-cart-message">Your cart is empty</p>
+            <p className="empty-cart-message">העגלה ריקה</p>
           )}
         </div>
 
         {user && cartItems.length > 0 && (
           <div className="cart-footer">
-            <div className="total mb-2">
-              Total: ${cartItems.reduce((sum, item) => 
-                sum + (item.productId.price * item.quantity), 0
-              ).toFixed(2)}
+            <div className="cart-total">
+              <span>סה"כ לתשלום:</span>
+              <span className="total-amount">
+                ₪{cartItems.reduce((sum, item) => 
+                  sum + (item.productId.price * item.quantity), 0
+                ).toFixed(2)}
+              </span>
             </div>
-            <button className="btn btn-primary mb-2">Checkout</button>
+            <button 
+              className="checkout-btn"
+              onClick={handleCheckoutClick}
+            >
+              המשך לתשלום
+            </button>
           </div>
         )}
       </div>

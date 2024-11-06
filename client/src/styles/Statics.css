@@ -1,0 +1,31 @@
+.charts-container {
+    display: flex; /* הופך את הקונטיינר לדיספל של flex */
+    flex-wrap: wrap; /* מאפשר לעטוף את הכרטיסים לשורות */
+    justify-content: space-between; /* מפזר את הכרטיסים במרווח שווה */
+  }
+  
+  .chart-card {
+    background-color: #fff; /* רקע לבן עבור הכרטיסים */
+    border: 1px solid #ddd; /* גבול סביב כל כרטיס */
+    border-radius: 8px; /* פינות מעוגלות */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* צל עבור כל כרטיס */
+    padding: 40px;
+    margin: 10px; /* מרווחים בין הכרטיסים */
+    flex: 1 1 calc(50% - 20px); /* מגדיר את הרוחב של הכרטיסים לשניים בשורה */
+    height: 450px; /* קביעת גובה קבוע לכרטיסים (שנה את הערך כאן לפי הצורך) */
+    overflow: hidden; /* מניעת חריגה של התוכן מהכרטיס */
+  }
+  
+  .chartjs-render-monitor {
+    height: 70%; /* קביעת גובה הגרפים כך שיתאימו לגובה של הכרטיסים */
+    width: 70%; /* ווידוא שהגרף יתפוס את כל הרוחב של הכרטיס */
+  }
+  
+  
+  .chart-card h2 {
+    font-size: 1.5em;
+    margin-bottom: 10px; /* מרווח מתחת לכותרת */
+    text-align: center; /* מרכז את הכותרת */
+  }
+
+  
