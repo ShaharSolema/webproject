@@ -117,7 +117,7 @@ const RegistrationForm = ({ onBackToLogin }) => {
     try {
       const result = await registerUser(formData);
       if (result.success) {
-        window.location.href = '/app';
+        window.location.href = '/';
       } else {
         setErrors({ form: result.error });
       }

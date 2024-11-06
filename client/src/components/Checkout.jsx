@@ -215,7 +215,7 @@ const Checkout = () => {
             }
         } catch (error) {
             console.error('Error creating order:', error);
-            alert('אירעה שגיאה בביצוע ההזמנה');
+            alert(error.response?.data?.message || 'אירעה שגיאה בביצוע ההזמנה');
         }
     };
 

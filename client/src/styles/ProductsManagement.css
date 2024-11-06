@@ -69,19 +69,18 @@
 
 /* עיצוב כפתורים */
 .products-management button {
-    background-color: rgb(250, 210, 204); /* צבע רקע ירוק */
-    color: white; /* צבע טקסט לבן */
-    padding: 10px 15px; /* רווח פנימי */
-    border: none; /* ללא גבולות */
-    border-radius: 4px; /* קצוות מעוגלים */
-    cursor: pointer; /* מצביע כאשר מרחפים מעל */
-    font-size: 1em; /* גודל טקסט */
-    width: 48%; /* רוחב כפתור */
-    margin: 10px 1%; /* מרווחים בין הכפתורים */
+    background-color: #fa8072; /* Salmon color */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin: 5px;
 }
 
 .products-management button:hover {
-    background-color: #CEE7D3; /* שינוי צבע ברוורס */
+    background-color: #ff6b6b;
 }
 
 /* עיצוב הודעות שגיאה */
@@ -90,4 +89,82 @@
     font-size: 0.9em; /* גודל טקסט קטן יותר */
     margin-bottom: 10px; /* רווח תחתון */
     text-align: center; /* מרכז את הטקסט */
+}
+
+/* Add these styles at the end of your CSS file */
+.success-popup {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #4CAF50;
+    color: white;
+    padding: 15px 30px;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    animation: slideDown 0.5s ease-out;
+    text-align: center;
+    font-size: 16px;
+}
+
+@keyframes slideDown {
+    from {
+        top: -100px;
+        opacity: 0;
+    }
+    to {
+        top: 20px;
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+/* Add at the top of your CSS file */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Update the success popup styles to ensure it's always visible */
+.success-popup {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #4CAF50;
+    color: white;
+    padding: 15px 30px;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    animation: slideDown 0.5s ease-out;
+    text-align: center;
+    font-size: 16px;
+}
+
+/* Add highlight effect for the form when in edit mode */
+.new-product-table {
+    transition: all 0.3s ease;
+}
+
+.new-product-table.edit-mode {
+    background-color: #f8f9fa;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Add styles for the edit mode heading */
+.products-management h3 {
+    margin-top: 30px;
+    padding: 10px;
+    background-color: #f8f9fa;
+    border-radius: 4px;
+    text-align: center;
 }

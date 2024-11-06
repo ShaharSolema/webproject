@@ -58,11 +58,11 @@ const productSchema = new mongoose.Schema({
 stock: {
   type: Number,
   required: true,
-  min: 0,
-  validator: function (v) {
-    return validator.isNumeric(v.toString(), { no_symbols: true });
-  },
-  message: (props) => `${props.value} is not a valid stock number`,
+  min: [0, 'Stock cannot be negative'],
+  validate: {
+    validator: Number.isInteger,
+    message: 'Stock must be a whole number'
+  }
 },
 imageUrl: {
   type: String,
@@ -81,6 +81,14 @@ createdAt: {
   type: Date,
   default: Date.now
 }
+});
+
+// Add a pre-save middleware to ensure stock never goes below 0
+productSchema.pre('save', function(next) {
+  if (this.stock < 0) {
+    this.stock = 0;
+  }
+  next();
 });
 
 //export the module

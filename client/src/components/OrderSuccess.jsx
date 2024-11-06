@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import './OrderSuccess.css';
+import '../styles/OrderSuccess.css';
 
 const OrderSuccess = () => {
     const location = useLocation();

@@ -23,6 +23,10 @@ const Product = ({
             return;
         }
 
+        if (stock <= 0) {
+            return;
+        }
+
         const newQuantity = quantity + 1;
         if (newQuantity <= stock) {
             setQuantity(newQuantity);
@@ -30,14 +34,13 @@ const Product = ({
         }
     };
 
-    const handleRemove = () => {
+    const handleSubtract = () => {
         if (!isLoggedIn) {
-            alert('Please log in to modify cart');
             return;
         }
 
-        if (quantity > 0) {
-            const newQuantity = quantity - 1;
+        const newQuantity = quantity - 1;
+        if (newQuantity >= 0) {
             setQuantity(newQuantity);
             onUpdateCart(newQuantity);
         }
@@ -51,27 +54,29 @@ const Product = ({
             <h3 className="product-name">{name}</h3>
             <p className="product-description">{description}</p>
             <p className="product-price">{price} ₪</p>
-            <div className="quantity-control">
-                <button 
-                    onClick={handleRemove} 
-                    className="quantity-button"
-                    disabled={quantity === 0 || !isLoggedIn}
-                >
-                    -
-                </button>
-                <span className="quantity-display">{quantity}</span>
-                <button 
-                    onClick={handleAdd} 
-                    className="quantity-button"
-                    disabled={quantity >= stock || !isLoggedIn}
-                >
-                    +
-                </button>
-            </div>
-            {stock <= 0 && <p className="out-of-stock">Out of Stock</p>}
-            {stock > 0 && <p className="stock-info">In Stock: {stock}</p>}
+            {stock <= 0 ? (
+                <p className="out-of-stock">אזל מהמלאי</p>
+            ) : (
+                <div className="quantity-controls">
+                    <button 
+                        onClick={handleSubtract} 
+                        className="quantity-button"
+                        disabled={!isLoggedIn || quantity === 0}
+                    >
+                        -
+                    </button>
+                    <span className="quantity">{quantity}</span>
+                    <button 
+                        onClick={handleAdd} 
+                        className="quantity-button"
+                        disabled={!isLoggedIn || quantity >= stock}
+                    >
+                        +
+                    </button>
+                </div>
+            )}
             {!isLoggedIn && (
-                <p className="login-notice">Log in to add to cart</p>
+                <p className="login-notice">התחבר כדי להוסיף לעגלה</p>
             )}
         </div>
     );

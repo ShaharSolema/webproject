@@ -1,61 +1,78 @@
 const Order = require('../models/Order');
 const Product = require('../models/Product');
 const Cart = require('../models/Cart');
+const mongoose = require('mongoose');
 
 const createOrder = async (req, res) => {
     try {
-        const { shippingAddress, paymentDetails, items, totalAmount, shippingCost, shippingMethod } = req.body;
-        const userId = req.user._id;
-
-        // Create and save the order
-        const order = new Order({
-            user: userId,
-            items: items.map(item => ({
-                productId: item.productId._id,
-                quantity: item.quantity,
-                price: item.productId.price
-            })),
-            shippingMethod,
-            shippingAddress,
-            paymentDetails: {
-                ...paymentDetails,
-                lastFourDigits: paymentDetails.cardNumber.slice(-4)
-            },
-            totalAmount,
-            shippingCost,
-            status: 'received'
-        });
-
-        await order.save();
-
-        // Update product quantities and sales
+        const { items, ...orderDetails } = req.body;
+        
+        // Validate stock levels for all items
         for (const item of items) {
-            await Product.findByIdAndUpdate(item.productId._id, {
-                $inc: {
-                    stock: -item.quantity,
-                    quantitysold: item.quantity
-                }
-            });
+            const product = await Product.findById(item.productId._id);
+            
+            if (!product) {
+                return res.status(400).json({
+                    success: false,
+                    message: `מוצר לא נמצא: ${item.productId.name}`
+                });
+            }
+
+            if (product.stock < item.quantity) {
+                return res.status(400).json({
+                    success: false,
+                    message: `כמות לא מספיקה במלאי עבור ${product.name}. כמות זמינה: ${product.stock}`
+                });
+            }
         }
 
-        // Clear user's cart - Modified to ensure cart is cleared
-        await Cart.findOneAndUpdate(
-            { userId: userId },
-            { $set: { items: [] } },
-            { upsert: true, new: true }
-        );
+        // Update stock levels and create order
+        const session = await mongoose.startSession();
+        session.startTransaction();
 
-        res.status(201).json({
-            success: true,
-            orderId: order._id,
-            purchaseNumber: order.purchaseNumber
-        });
+        try {
+            // Update stock levels
+            for (const item of items) {
+                await Product.findByIdAndUpdate(
+                    item.productId._id,
+                    { $inc: { stock: -item.quantity } },
+                    { session }
+                );
+            }
 
+            // Create the order
+            const order = new Order({
+                ...orderDetails,
+                items,
+                userId: req.user._id
+            });
+            await order.save({ session });
+
+            // Clear the user's cart
+            await Cart.findOneAndUpdate(
+                { userId: req.user._id },
+                { items: [] },
+                { session }
+            );
+
+            await session.commitTransaction();
+            
+            res.status(201).json({
+                success: true,
+                orderId: order._id,
+                purchaseNumber: order.purchaseNumber
+            });
+        } catch (error) {
+            await session.abortTransaction();
+            throw error;
+        } finally {
+            session.endSession();
+        }
     } catch (error) {
         console.error('Order creation error:', error);
         res.status(500).json({
             success: false,
-            message: error.message || 'Failed to create order'
+            message: 'אירעה שגיאה בביצוע ההזמנה'
         });
     }
 };

@@ -134,6 +134,11 @@ const LoginPopup = ({ onClose, setGlobalUser }) => {
                     onClick={() => handleAdminRedirect('/statistics')}
                     title="סטטיסטיקה"
                   ></i>
+                   <i 
+                    className="bi bi-box-seam-fill admin-icon" 
+                    onClick={() => handleAdminRedirect('/ordersmanagement')}
+                    title="ניהול הזמנות"
+                  ></i>
                 </div>
               </>
             )}

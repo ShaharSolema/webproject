@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { fetchProducts, updateProduct, deleteProduct, addProduct } from '../../utils/auth';
 import validator from 'validator';
 import '../../styles/ProductsManagement.css';
@@ -31,6 +31,9 @@ const ProductsManagement = () => {
   const [editMode, setEditMode] = useState(false);
   const [currentProductId, setCurrentProductId] = useState(null);
   const [validationErrors, setValidationErrors] = useState({});
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false);
+  const [successMessage, setSuccessMessage] = useState('');
+  const formRef = useRef(null);
 
   useEffect(() => {
     const loadProducts = async () => {
@@ -84,25 +87,50 @@ const ProductsManagement = () => {
 
   const handleAddProduct = async () => {
     if (validateProduct()) {
-      await addProduct(newProduct);
-      resetForm();
-      await reloadProducts();
+      try {
+        await addProduct(newProduct);
+        setSuccessMessage('המוצר נוסף בהצלחה');
+        setShowSuccessPopup(true);
+        setTimeout(() => setShowSuccessPopup(false), 3000);
+        resetForm();
+        await reloadProducts();
+      } catch (error) {
+        console.error('Error adding product:', error);
+        setSuccessMessage('שגיאה בהוספת המוצר');
+        setShowSuccessPopup(true);
+        setTimeout(() => setShowSuccessPopup(false), 3000);
+      }
     }
   };
 
   const handleEditProduct = (product) => {
     setNewProduct(product);
     setEditMode(true);
-    setCurrentProductId(product.id);
+    setCurrentProductId(product._id);
+    
+    formRef.current?.scrollIntoView({ 
+      behavior: 'smooth',
+      block: 'center'
+    });
   };
 
   const handleUpdateProduct = async () => {
     if (validateProduct()) {
-      await updateProduct(currentProductId, newProduct);
-      resetForm();
-      await reloadProducts();
-      setEditMode(false);
-      setCurrentProductId(null);
+      try {
+        await updateProduct(currentProductId, newProduct);
+        setSuccessMessage('המוצר עודכן בהצלחה');
+        setShowSuccessPopup(true);
+        setTimeout(() => setShowSuccessPopup(false), 3000);
+        resetForm();
+        await reloadProducts();
+        setEditMode(false);
+        setCurrentProductId(null);
+      } catch (error) {
+        console.error('Error updating product:', error);
+        setSuccessMessage('שגיאה בעדכון המוצר');
+        setShowSuccessPopup(true);
+        setTimeout(() => setShowSuccessPopup(false), 3000);
+      }
     }
   };
 
@@ -131,6 +159,12 @@ const ProductsManagement = () => {
 
   return (
     <div className="products-management">
+      {showSuccessPopup && (
+        <div className="success-popup">
+          {successMessage}
+        </div>
+      )}
+
       <h2>ניהול מוצרים</h2>
 
       <table className="products-table">
@@ -148,7 +182,7 @@ const ProductsManagement = () => {
         </thead>
         <tbody>
           {products.map((product) => (
-            <tr key={product.id}>
+            <tr key={product._id}>
               <td>{product.name}</td>
               <td>{product.price}</td>
               <td>{product.description}</td>
@@ -158,109 +192,111 @@ const ProductsManagement = () => {
               <td><img src={product.imageUrl} alt={product.name} style={{ width: '50px' }} /></td>
               <td>
                 <button onClick={() => handleEditProduct(product)}>עריכה</button>
-                <button onClick={() => handleDeleteProduct(product.id)}>מחיקה</button>
+                <button onClick={() => handleDeleteProduct(product._id)}>מחיקה</button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
 
-      <h3>הוספת/עדכון מוצר</h3>
-      <table className="new-product-table">
-        <tbody>
-          <tr>
-            <td>שם:</td>
-            <td>
-              <input
-                type="text"
-                value={newProduct.name}
-                onChange={(e) => setNewProduct({ ...newProduct, name: e.target.value })}
-              />
-              {validationErrors.name && <span className="error">{validationErrors.name}</span>}
-            </td>
-          </tr>
-          <tr>
-            <td>מחיר:</td>
-            <td>
-              <input
-                type="number"
-                value={newProduct.price}
-                onChange={(e) => setNewProduct({ ...newProduct, price: e.target.value })}
-              />
-              {validationErrors.price && <span className="error">{validationErrors.price}</span>}
-            </td>
-          </tr>
-          <tr>
-            <td>תיאור:</td>
-            <td>
-              <input
-                type="text"
-                value={newProduct.description}
-                onChange={(e) => setNewProduct({ ...newProduct, description: e.target.value })}
-              />
-              {validationErrors.description && <span className="error">{validationErrors.description}</span>}
-            </td>
-          </tr>
-          <tr>
-            <td>מלאי:</td>
-            <td>
-              <input
-                type="number"
-                value={newProduct.stock}
-                onChange={(e) => setNewProduct({ ...newProduct, stock: e.target.value })}
-              />
-            </td>
-          </tr>
-          <tr>
-            <td>הנחה (%):</td>
-            <td>
-              <input
-                type="number"
-                value={newProduct.discount}
-                onChange={(e) => setNewProduct({ ...newProduct, discount: e.target.value })}
-              />
-              {validationErrors.discount && <span className="error">{validationErrors.discount}</span>}
-            </td>
-          </tr>
-          <tr>
-            <td>קטגוריות:</td>
-            <td>
-              <div className="checkbox-group">
-                {categoryOptions.map((category) => (
-                  <label key={category}>
-                    <input
-                      type="checkbox"
-                      checked={newProduct.categories.includes(category)}
-                      onChange={() => handleCategoryChange(category)}
-                    />
-                    {category}
-                  </label>
-                ))}
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td>תמונה (URL):</td>
-            <td>
-              <input
-                type="text"
-                value={newProduct.imageUrl}
-                onChange={(e) => setNewProduct({ ...newProduct, imageUrl: e.target.value })}
-              />
-            </td>
-          </tr>
-          <tr>
-            <td colSpan="2">
-              {editMode ? (
-                <button onClick={handleUpdateProduct}>עדכן מוצר</button>
-              ) : (
-                <button onClick={handleAddProduct}>הוסף מוצר</button>
-              )}
-              <button onClick={resetForm}>איפוס</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <div ref={formRef}>
+        <h3>{editMode ? 'עריכת מוצר' : 'הוספת מוצר חדש'}</h3>
+        <table className="new-product-table">
+          <tbody>
+            <tr>
+              <td>שם:</td>
+              <td>
+                <input
+                  type="text"
+                  value={newProduct.name}
+                  onChange={(e) => setNewProduct({ ...newProduct, name: e.target.value })}
+                />
+                {validationErrors.name && <span className="error">{validationErrors.name}</span>}
+              </td>
+            </tr>
+            <tr>
+              <td>מחיר:</td>
+              <td>
+                <input
+                  type="number"
+                  value={newProduct.price}
+                  onChange={(e) => setNewProduct({ ...newProduct, price: e.target.value })}
+                />
+                {validationErrors.price && <span className="error">{validationErrors.price}</span>}
+              </td>
+            </tr>
+            <tr>
+              <td>תיאור:</td>
+              <td>
+                <input
+                  type="text"
+                  value={newProduct.description}
+                  onChange={(e) => setNewProduct({ ...newProduct, description: e.target.value })}
+                />
+                {validationErrors.description && <span className="error">{validationErrors.description}</span>}
+              </td>
+            </tr>
+            <tr>
+              <td>מלאי:</td>
+              <td>
+                <input
+                  type="number"
+                  value={newProduct.stock}
+                  onChange={(e) => setNewProduct({ ...newProduct, stock: e.target.value })}
+                />
+              </td>
+            </tr>
+            <tr>
+              <td>הנחה (%):</td>
+              <td>
+                <input
+                  type="number"
+                  value={newProduct.discount}
+                  onChange={(e) => setNewProduct({ ...newProduct, discount: e.target.value })}
+                />
+                {validationErrors.discount && <span className="error">{validationErrors.discount}</span>}
+              </td>
+            </tr>
+            <tr>
+              <td>קטגוריות:</td>
+              <td>
+                <div className="checkbox-group">
+                  {categoryOptions.map((category) => (
+                    <label key={category}>
+                      <input
+                        type="checkbox"
+                        checked={newProduct.categories.includes(category)}
+                        onChange={() => handleCategoryChange(category)}
+                      />
+                      {category}
+                    </label>
+                  ))}
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>תמונה (URL):</td>
+              <td>
+                <input
+                  type="text"
+                  value={newProduct.imageUrl}
+                  onChange={(e) => setNewProduct({ ...newProduct, imageUrl: e.target.value })}
+                />
+              </td>
+            </tr>
+            <tr>
+              <td colSpan="2">
+                {editMode ? (
+                  <button onClick={handleUpdateProduct}>עדכן מוצר</button>
+                ) : (
+                  <button onClick={handleAddProduct}>הוסף מוצר</button>
+                )}
+                <button onClick={resetForm}>איפוס</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };
