@@ -18,6 +18,9 @@
   top: 0;
   height: 100%; /* כל הגובה של התיבה */
   display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #e0f7f7; 
 }
 
 .about-image img {
