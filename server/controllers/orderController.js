@@ -80,7 +80,7 @@ const createOrder = async (req, res) => {
 const getOrders = async (req, res) => {
     try {
         const orders = await Order.find()
-            .populate('user', 'name email')
+            .populate('user', 'firstname lastname email telephone')
             .populate('items.productId', 'name price');
         
         res.json(orders);

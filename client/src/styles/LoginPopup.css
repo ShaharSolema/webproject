@@ -162,6 +162,10 @@ h3 {
   font-family: calibri;
   text-decoration: underline;
   color: rgb(250, 210, 204);
-  text-decoration: ;
+}
+
+.admin-icon.bi-box-seam-fill:hover {
+  color: #0056b3;
+  transform: scale(1.1);
 }
 

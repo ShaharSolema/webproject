@@ -20,6 +20,8 @@ import MarqueeFooter from './Constant/MarqueeFooter';
 import '../styles/main.css';
 import Checkout from './Checkout';
 import OrderSuccess from './OrderSuccess';
+import OrderManagement from './Admin/OrderManagement';
+
 
 function App() {
   const containerStyles = {
@@ -53,7 +55,8 @@ function App() {
           <Route path="/productsmanagement" element={<ProductsManagement />} />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/order-success" element={<OrderSuccess />} />
-
+          <Route path="/ordersmanagement" element={<OrderManagement />} />
+ 
         </Routes>
       </div>
       <FloatingIcon />

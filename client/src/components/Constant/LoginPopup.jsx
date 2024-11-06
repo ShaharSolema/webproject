@@ -137,7 +137,7 @@ const LoginPopup = ({ onClose, setGlobalUser }) => {
                    <i 
                     className="bi bi-box-seam-fill admin-icon" 
                     onClick={() => handleAdminRedirect('/ordersmanagement')}
-                    title="ניהול הזמנות"
+                    title="ניהול הזמנות ומשלוחים"
                   ></i>
                 </div>
               </>
