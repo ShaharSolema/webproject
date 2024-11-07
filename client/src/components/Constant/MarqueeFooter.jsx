@@ -13,7 +13,7 @@ const MarqueeFooter = () => {
   ];
 
   useEffect(() => {
-    let charIndex = isDeleting ? displayedText.length - 1 : displayedText.length + 1;
+    let charIndex = isDeleting ? displayedText.length - 1 : displayedText.length + 1;  
 
     const timeout = setTimeout(() => {
       // עדכון הטקסט המוצג עם מחיקה/הוספה

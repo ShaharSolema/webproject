@@ -42,6 +42,8 @@
     padding: 15px;
     overflow-y: auto;
     max-height: calc(80vh - 200px);
+    direction: rtl;
+
 }
 
 .cart-item {
@@ -72,18 +74,22 @@
     display: flex;
     flex-direction: column;
     gap: 8px;
+    
 }
 
 .cart-item-name {
     margin: 0;
     font-size: 1rem;
     color: #333;
+    
 }
 
 .cart-item-price {
     margin: 0;
     color: #666;
     font-weight: 500;
+    direction: rtl;
+
 }
 
 .quantity-control {
@@ -106,6 +112,7 @@
     transition: all 0.2s ease;
     position: relative;
     overflow: hidden;
+    
 }
 
 .quantity-btn.decrease {
@@ -184,6 +191,8 @@
     margin-bottom: 15px;
     font-size: 1.1rem;
     font-weight: 500;
+    direction: rtl;
+
 }
 
 .total-amount {
