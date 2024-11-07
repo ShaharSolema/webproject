@@ -35,10 +35,14 @@ const BugManagement = () => {
 
     const fetchBugs = async () => {
         try {
-            const response = await axiosInstanse.get(API_ROUTES.BUGS.GET_ALL);
+            const response = await axiosInstanse.get(API_ROUTES.BUGS.GET_ALL, {
+                withCredentials: true
+            });
             setBugs(response.data);
+            setFilteredBugs(response.data);
             setLoading(false);
         } catch (err) {
+            console.error('Error fetching bugs:', err);
             setError('שגיאה בטעינת הדיווחים');
             setLoading(false);
         }
@@ -58,20 +62,22 @@ const BugManagement = () => {
         setFilteredBugs(filtered);
     };
 
-    const handleStatusUpdate = async (bugId, newStatus, adminNotes) => {
+    const handleUpdate = async (bugId, updates) => {
         try {
-            await axiosInstanse.patch(API_ROUTES.BUGS.UPDATE_STATUS(bugId), {
-                status: newStatus,
-                adminNotes
-            });
+            const response = await axiosInstanse.patch(
+                API_ROUTES.BUGS.UPDATE(bugId),
+                updates,
+                { withCredentials: true }
+            );
             
             setBugs(bugs.map(bug => 
                 bug._id === bugId 
-                    ? { ...bug, status: newStatus, adminNotes }
+                    ? { ...bug, ...response.data }
                     : bug
             ));
         } catch (err) {
-            setError('שגיאה בעדכון הסטטוס');
+            console.error('Error updating bug:', err);
+            setError('שגיאה בעדכון הדיווח');
         }
     };
 
@@ -132,9 +138,39 @@ const BugManagement = () => {
                         <div key={bug._id} className={`bug-item priority-${bug.priority}`}>
                             <div className="bug-header">
                                 <h3>{bug.title}</h3>
-                                <span className={`status-badge status-${bug.status}`}>
-                                    {statusOptions[bug.status]}
-                                </span>
+                                <div className="bug-status-controls">
+                                    <div className="control-group">
+                                        <label>סטטוס:</label>
+                                        <select
+                                            value={bug.status}
+                                            onChange={(e) => handleUpdate(bug._id, { 
+                                                status: e.target.value,
+                                                adminNotes: bug.adminNotes
+                                            })}
+                                            className={`status-${bug.status}`}
+                                        >
+                                            {Object.entries(statusOptions).map(([value, label]) => (
+                                                <option key={value} value={value}>{label}</option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                    <div className="control-group">
+                                        <label>דחיפות:</label>
+                                        <select
+                                            value={bug.priority}
+                                            onChange={(e) => handleUpdate(bug._id, { 
+                                                priority: e.target.value,
+                                                status: bug.status,
+                                                adminNotes: bug.adminNotes
+                                            })}
+                                            className={`priority-${bug.priority}`}
+                                        >
+                                            {Object.entries(priorityOptions).map(([value, label]) => (
+                                                <option key={value} value={value}>{label}</option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
                             
                             <div className="bug-details">
@@ -153,19 +189,14 @@ const BugManagement = () => {
                             </div>
 
                             <div className="bug-actions">
-                                <select
-                                    value={bug.status}
-                                    onChange={(e) => handleStatusUpdate(bug._id, e.target.value, bug.adminNotes)}
-                                >
-                                    {Object.entries(statusOptions).map(([value, label]) => (
-                                        <option key={value} value={value}>{label}</option>
-                                    ))}
-                                </select>
-                                
                                 <textarea
                                     placeholder="הערות מנהל"
                                     value={bug.adminNotes || ''}
-                                    onChange={(e) => handleStatusUpdate(bug._id, bug.status, e.target.value)}
+                                    onChange={(e) => handleUpdate(bug._id, {
+                                        status: bug.status,
+                                        priority: bug.priority,
+                                        adminNotes: e.target.value
+                                    })}
                                 />
                             </div>
                         </div>
