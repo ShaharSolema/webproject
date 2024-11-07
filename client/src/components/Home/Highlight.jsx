@@ -69,7 +69,7 @@ const Highlight = () => {
     [Examples1, Examples2, Examples3, Examples4, Examples5, Examples6, Examples7, Examples8, Examples9, Examples10, Examples11, Examples12, Examples13, Examples14, Examples15, Examples16, Examples17, Examples18, Examples19, Examples20, Examples21, Examples22, Examples23, Examples24, Examples25, Examples26, Examples27, Examples28, Examples30]
   ];
 
-  const titles = ['קורסים', 'הדרכות', 'מכחולים', 'דוגמאות להשראה'];
+  const titles = ['קורסים', 'מדריכים', 'מכחולים', 'דוגמאות להשראה'];
 
   const handleCircleClick = (index) => {
     setCurrentGalleryIndex(index);

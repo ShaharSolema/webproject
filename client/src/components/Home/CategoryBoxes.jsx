@@ -9,9 +9,9 @@ import image4 from '../data/pictures/pictures/Examples/WhatsApp Image 2024-11-03
 
 const categories = [
   { name: 'חנות מוצרים', image:image1, link: '/productstore' },
-  { name: 'סדנאות', image: image2, link: '/workshops' },
-  { name: 'קורסים למתחילים', image: image3, link: '/beginner' },
-  { name: 'קורסים למתקדמים', image:image4, link: '/advanced' },
+  { name: 'קורסים והשתלמויות', image: image2, link: '/workshops' },
+  { name: 'שאלות נפוצות', image: image3, link: '/beginner' },
+  { name: 'קצת עליי', image:image4, link: '/advanced' },
 ];
 
 const CategoryBoxes = () => {

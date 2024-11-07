@@ -1,29 +1,215 @@
+header {
+  background-color: rgb(250, 210, 204); /* צבע רקע לכותרת */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* צל קל סביב הכותרת */
+  z-index: 1000; /* מבטיח שהכותרת תופיע מעל אלמנטים אחרים */
+  padding: 10px 0; /* רווח פנימי כללי בכותרת */
+}
+body, html {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-family: calibri;
+}
+
+body {
+  overflow-x: hidden; /* מונע גלילה אופקית */
+  overflow-y: auto; /* מאפשר גלילה אנכית */
+  margin: 0; /* מסיר מרג'ין לברירת מחדל */
+}
+.categories-title{
+  text-align: center;
+}
+
+/* עיצוב עמודות בכותרת */
+header .col {
+  display: flex;
+  align-items: center; /* ממרכז את התוכן אנכית */
+}
+
+/* עמודת מרכז עם לוגו */
+header .col-6 {
+  justify-content: center; /* ממרכז את התמונה באופן אופקי */
+}
+
+/* עיצוב לתמונה במרכז */
+.col-6 img {
+  max-width: 100%; /* תמונה תתפוס את כל רוחב האלמנט שלה */
+  height: auto; /* גובה התמונה יתאמת אוטומטית כדי לשמור על יחס הרוחב-גובה */
+}
+
+/* עיצוב כפתורים בהירים */
+.btn-light {
+  background-color: white; /* צבע רקע לבן לכפתור */
+  color: black; /* צבע טקסט שחור לכפתור */
+  border-color: white; /* צבע גבול לבן */
+}
+
+.btn-light:hover {
+  background-color: #f5f5f5; /* צבע רקע אפור בהיר כשמעבירים את העכבר */
+  border-color: white; /* שומר על גבול לבן במעבר עכבר */
+}
+
+.btn-light i {
+  font-size: 1.5rem; /* גודל אחיד לאייקונים */
+}
+
+/* עיצוב כפתור מותאם אישית */
+.btn-custom {
+  background-color: white; /* צבע רקע לבן לכפתור מותאם אישית */
+  color: black; /* צבע טקסט שחור לכפתור */
+  border-color: white; /* צבע גבול לבן */
+  border-radius: 8px; /* פינות מעוגלות לכפתור */
+}
+
+.btn-custom:hover,
+.btn-custom:focus {
+  background-color: #f5f5f5; /* צבע רקע אפור בהיר במעבר עכבר או במיקוד */
+  border-color: white; /* שומר על גבול לבן במעבר עכבר או במיקוד */
+}
+
+/* עיצוב כפתור התפריט הימני */
+.btn.no-caret::after {
+  display: none !important; /* הסרת החץ הנפתח של כפתור התפריט */
+}
+
+.btn-group.dropstart .dropdown-toggle {
+  border-radius: 8px !important; /* פינות מעוגלות לכפתור בתפריט נפתח */
+}
+
+.btn-group.dropstart:hover .dropdown-menu {
+  left: auto; /* מיקום התפריט לא יהיה מותאם למיקום הכפתור */
+  right: 100%; /* התפריט ייפתח לצד שמאל של הכפתור */
+}
+
+/* עיצוב רספונסיבי */
+@media (max-width: 768px) {
+  .col-6 img {
+      max-width: 150px; /* גודל מקסימלי לתמונה במסכים קטנים יותר */
+      max-height: 40px; /* גובה מקסימלי לתמונה במסכים קטנים יותר */
+  }
+
+  header {
+      padding: 10px; /* רווח פנימי של 10 פיקסלים סביב הכותרת במסכים קטנים יותר */
+  }
+}
+
+@media (max-width: 576px) {
+  .col-6 img {
+      max-width: 120px; /* גודל מקסימלי קטן יותר לתמונה במסכים מאוד קטנים */
+      max-height: 30px; /* גובה מקסימלי קטן יותר לתמונה במסכים מאוד קטנים */
+  }
+
+  .btn-group.dropstart {
+      width: 100%; /* התפריט יתפוס את כל רוחב המסך במסכים מאוד קטנים */
+      margin-top: 10px; /* רווח מעל התפריט */
+  }
+
+  .btn-custom {
+      width: 100%; /* כפתור מותאם אישית יתפוס את כל רוחב המסך במסכים מאוד קטנים */
+      margin-top: 10px; /* רווח מעל הכפתור */
+  }
+
+  .btn-light {
+      font-size: 1.25rem; /* הקטנת גודל האייקונים בכפתורים קטנים */
+      padding: 8px; /* הקטנת רווח פנימי בכפתורים קטנים */
+  }
+
+  /* עיצוב כפתור התפריט הימני */
+  .btn-group.dropstart .dropdown-toggle {
+      font-size: 2rem; /* הגדלת גודל האייקון בכפתור התפריט הימני */
+  }
+
+  .btn.no-caret {
+      font-size: 1.75rem; /* גודל טקסט גדול יותר לכפתור השמאלי */
+      padding: 12px 16px; /* רווח פנימי גדול יותר לכפתור השמאלי */
+      border: 2px solid #f5f5f5; /* גבול מדגיש בצבע אפור בהיר */
+      border-radius: 12px; /* פינות מעוגלות גדולות יותר */
+  }
+
+  .btn-light i,
+  .btn-custom i {
+      font-size: 1.5rem; /* גודל אחיד לאייקונים עבור כפתורים שונים */
+  }
+}
+
+/* עיצוב הפוטר */
+.footer {
+  background-color: rgb(250, 210, 204);
+  color: white;
+  padding: 0;
+  text-align: center;
 /* עיצוב הבאנר */
 .banner-container {
-    position: relative;
-    width: 100%;
-    overflow: hidden;
-  }
-  
-  .banner-img {
-    width: 100%;
-    height: auto;
-  }
-  
-  /* עיצוב החלון עם הזמן שנותר */
-  .countdown {
-    position: absolute;
-    top: 80%; /* להוריד את השעון קצת למטה */
-    left: 50%; /* מרכז אופקית */
-    transform: translateX(-50%); /* מיישר את השעון אופקית */
-    background-color: rgba(0, 0, 0, 0.5); /* רקע חצי שקוף */
-    color: white; /* צבע טקסט לבן */
-    padding: 10px;
-    border-radius: 5px;
-    width: 500px; /* רוחב קבוע לשעון */
-    font-size: 16px; /* גודל טקסט */
-    text-align: center; /* יישור טקסט */
-    word-wrap: break-word; /* לשבור מילים אם יש צורך */
-  }
-  
-  
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.banner-img {
+  width: 100%;
+  position: fixed; /* מצמיד את הפוטר לתחתית המסך */
+  bottom: 0; /* מגדיר את המיקום לתחתית המסך */
+  left: 0;
+  z-index: 10;
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 0; /* הסרת padding */
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.footer-section {
+  flex: 1 1 200px;
+  margin: 0; /* הסרת ה-margin */
+  text-align: end;
+}
+
+.footer-logo {
+  width: 600px;
+  height: auto;
+  max-width: 100%;
+  display: block;
+  margin-left: -80px;
+}
+
+.icons-style {
+  display: flex;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+}
+
+.icons-style li {
+  margin: 0 5px;
+}
+
+.footer-right {
+  background-color: rgb(250, 210, 204);
+  text-align: center;
+  padding: 5px;
+  margin: 0;
+}
+.content {
+  flex-grow: 1;
+}
+
+}
+
+/* עיצוב החלון עם הזמן שנותר */
+.countdown {
+  position: absolute;
+  top: 69%; /* להוריד את השעון קצת למטה */
+  left: 50%; /* מרכז אופקית */
+  transform: translateX(-50%); /* מיישר את השעון אופקית */
+  color: white; /* צבע טקסט לבן */
+  padding: 10px;
+  border-radius: 5px;
+  width: 500px; /* רוחב קבוע לשעון */
+  font-size: 16px; /* גודל טקסט */
+  text-align: center; /* יישור טקסט */
+  word-wrap: break-word; /* לשבור מילים אם יש צורך */
+}

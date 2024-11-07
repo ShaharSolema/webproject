@@ -39,8 +39,10 @@ const Home = () => {
             <span>המבצע ייגמר בעוד: {timeLeft}</span>
           </div>
         </div>
-
-        
+  
+        {/* מרווח נוסף בין הבאנר לקטגוריות */}
+        <div style={{ marginBottom: '80px' }}></div>
+  
         <h2 className="categories-title">קטגוריות</h2>
         <CategoryBoxes />
         <Testimonials />
@@ -48,6 +50,7 @@ const Home = () => {
       </div>
     </main>
   );
+  
 };
 
 export default Home;
