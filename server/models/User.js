@@ -29,7 +29,7 @@ const userSchema = new Schema({
     type: Number,
     validate: {
       validator: function (v) {
-        return Number.isInteger(v) && v > 0;
+        return Number.isInteger(v) && v >= 0;
       },
       message: (props) => `${props.value} is not a valid street number`,
     },
@@ -38,14 +38,14 @@ const userSchema = new Schema({
     type: Number,
     validate: {
       validator: function (v) {
-        return validator.isNumeric(v.toString(), { no_symbols: true });
+        return validator.isNumeric(v.toString(), { no_symbols: true }) && v>=0;
       },
       message: (props) => `${props.value} is not a valid postal code`,
     },
   },
   city: {
     type: String,
-    minlength: 5,
+    minlength: 2,
     maxlength: 30,
     validate: {
       validator: function (v) {
