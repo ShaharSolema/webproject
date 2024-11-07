@@ -170,6 +170,10 @@ export const updateCartItem = async (userId, productId, quantity) => {
       },
       { withCredentials: true }
     );
+    
+    // Dispatch cartUpdated event after successful update
+    window.dispatchEvent(new CustomEvent('cartUpdated'));
+    
     return response.data;
   } catch (error) {
     console.error('Error updating cart:', error);

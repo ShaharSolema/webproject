@@ -130,6 +130,8 @@ const ProductStore = () => {
         try {
             await updateCartItem(authStatus.user._id, productId, quantity);
             await fetchCartData();
+            // Dispatch cartUpdated event after successful cart update
+            window.dispatchEvent(new CustomEvent('cartUpdated'));
         } catch (error) {
             console.error('Error updating cart:', error);
             alert('Failed to update cart. Please try again.');
