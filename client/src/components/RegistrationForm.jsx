@@ -33,7 +33,7 @@ const RegistrationForm = ({ onBackToLogin }) => {
     switch (field) {
       case 'username':
         if (!value) errors.username = 'לא הוזן שם משתמש';
-        else if (!validator.isAlphanumeric(value)) errors.username = 'השם משתמש מכיל תווים שגויים';
+        else if (!validator.isAlphanumeric(value, 'en-US')) errors.username = 'השם משתמש מכיל תווים שגויים';
         else if (value.length < 6) errors.username = 'שם משתמש חייב להיות יותר מ-6 אותיות';
         break;
       case 'email':
@@ -56,17 +56,19 @@ const RegistrationForm = ({ onBackToLogin }) => {
         break;
       case 'street':
         if (!value) errors.street = 'לא הוזן רחוב';
-        else if (value.length < 5) errors.street = 'שם הרחוב חייב להיות יותר מ-5 אותיות';
+        else if (value.length < 2 || value.length > 30) errors.street = 'שם הרחוב חייב להיות בין 2 ל-30 אותיות';
+        else if (!validator.isAlpha(value, 'he', { ignore: ' ' }) && !validator.isAlpha(value, 'en-US', { ignore: ' ' })) errors.street = 'שם הרחוב מכיל תווים שגויים';
         break;
       case 'streetnum':
-        if (!value || isNaN(value)) errors.streetnum = 'לא הוזן מספר רחוב';
+        if (!value || isNaN(value) || !Number.isInteger(Number(value)) || Number(value) < 0) errors.streetnum = 'לא הוזן מספר רחוב תקין';
         break;
       case 'postalcode':
-        if (!value || isNaN(value)) errors.postalcode = 'מיקוד שגוי';
+        if (!value || isNaN(value) || !validator.isNumeric(value.toString(), { no_symbols: true }) || Number(value) < 0) errors.postalcode = 'מיקוד שגוי';
         break;
       case 'city':
         if (!value) errors.city = 'לא הוזן עיר';
-        else if (value.length < 5) errors.city = 'שם העיר חייב להיות יותר מ-5 אותיות';
+        else if (value.length < 2 || value.length > 30) errors.city = 'שם העיר חייב להיות בין 2 ל-30 אותיות';
+        else if (!validator.isAlpha(value, 'he', { ignore: ' ' }) && !validator.isAlpha(value, 'en-US', { ignore: ' ' })) errors.city = 'שם העיר מכיל תווים שגויים';
         break;
       case 'telephone':
         if (!validator.isMobilePhone(value, 'he-IL')) errors.telephone = 'מספר פלאפון שגוי';
