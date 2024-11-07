@@ -48,19 +48,16 @@ const OrderManagement = () => {
     const filterOrders = () => {
         let filtered = [...orders];
 
-        // Filter by status
         if (selectedStatus !== 'all') {
             filtered = filtered.filter(order => order.status === selectedStatus);
         }
 
-        // Filter by days
         if (selectedDays > 0) {
             const cutoffDate = new Date();
             cutoffDate.setDate(cutoffDate.getDate() - selectedDays);
             filtered = filtered.filter(order => new Date(order.createdAt) >= cutoffDate);
         }
 
-        // Sort by date (newest first)
         filtered.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
         setFilteredOrders(filtered);
@@ -79,6 +76,20 @@ const OrderManagement = () => {
         }
     };
 
+    const renderStatusUpdateButton = (order) => {
+        return (
+            <select 
+                value={order.status}
+                onChange={(e) => handleStatusChange(order._id, e.target.value)}
+                className="status-dropdown"
+            >
+                {Object.entries(statusOptions).map(([value, label]) => (
+                    <option key={value} value={value}>{label}</option>
+                ))}
+            </select>
+        );
+    };
+
     if (loading) return <div className="loading">טוען...</div>;
     if (error) return <div className="error">{error}</div>;
 
@@ -94,7 +105,8 @@ const OrderManagement = () => {
                     <div className="stat-box">
                         <span className="stat-label">ממתינות לטיפול</span>
                         <span className="stat-value">
-                            {filteredOrders.filter(order => order.status === 'received').length}
+                            {filteredOrders.filter(order => 
+                                order.status === 'received' || order.status === 'packed').length}
                         </span>
                     </div>
                     <div className="stat-box">
@@ -107,7 +119,7 @@ const OrderManagement = () => {
                     </div>
                 </div>
             </div>
-            
+
             <div className="filter-section">
                 <div className="filter-group">
                     <label>סנן לפי סטטוס:</label>
@@ -142,12 +154,16 @@ const OrderManagement = () => {
                     <div className="no-orders">לא נמצאו הזמנות</div>
                 ) : (
                     filteredOrders.map(order => (
-                        <Order
-                            key={order._id}
-                            order={order}
-                            onStatusChange={handleStatusChange}
-                            statusOptions={statusOptions}
-                        />
+                        <div key={order._id} className="order-item">
+                            <div className="order-status-dropdown">
+                                {renderStatusUpdateButton(order)} {/* התפריט הנפתח לעדכון סטטוס */}
+                            </div>
+                            <Order
+                                order={order}
+                                onStatusChange={handleStatusChange}
+                                statusOptions={statusOptions}
+                            />
+                        </div>
                     ))
                 )}
             </div>
@@ -155,4 +171,4 @@ const OrderManagement = () => {
     );
 };
 
-export default OrderManagement; 
+export default OrderManagement;
