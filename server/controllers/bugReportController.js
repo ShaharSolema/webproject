@@ -36,14 +36,15 @@ exports.getAllBugReports = async (req, res) => {
     }
 };
 
-exports.updateBugStatus = async (req, res) => {
+exports.updateBugReport = async (req, res) => {
     try {
-        const { status, adminNotes } = req.body;
+        const { status, priority, adminNotes } = req.body;
         const bugReport = await BugReport.findByIdAndUpdate(
             req.params.id,
             { 
-                status, 
-                adminNotes,
+                ...(status && { status }),
+                ...(priority && { priority }),
+                ...(adminNotes !== undefined && { adminNotes }),
                 updatedAt: Date.now()
             },
             { new: true }
@@ -55,6 +56,7 @@ exports.updateBugStatus = async (req, res) => {
         
         res.json(bugReport);
     } catch (error) {
+        console.error('Error updating bug report:', error);
         res.status(400).json({ message: error.message });
     }
 };

@@ -169,3 +169,8 @@ h3 {
   transform: scale(1.1);
 }
 
+.admin-icon.bi-bug-fill:hover {
+  color: #dc3545;  /* Red color on hover */
+  transform: scale(1.1);
+}
+

@@ -4,12 +4,12 @@ const bugReportController = require('../controllers/bugReportController');
 const authenticate = require('../Middleware/authMiddleware');
 const isManager = require('../Middleware/isManager');
 
-// Create new bug report (public access)
+// Public route
 router.post('/create', bugReportController.createBugReport);
 
-// Admin routes (protected)
+// Protected routes (admin only)
 router.get('/all', authenticate, isManager, bugReportController.getAllBugReports);
-router.patch('/:id/status', authenticate, isManager, bugReportController.updateBugStatus);
+router.patch('/:id', authenticate, isManager, bugReportController.updateBugReport);
 router.get('/user/:userId', authenticate, bugReportController.getUserBugReports);
 
 module.exports = router; 
