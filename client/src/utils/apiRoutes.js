@@ -42,7 +42,7 @@ export const API_ROUTES = {
   BUGS: {
     CREATE: `/bugs/create`,
     GET_ALL: `/bugs/all`,
-    UPDATE_STATUS: (id) => `/bugs/${id}/status`,
+    UPDATE: (id) => `/bugs/${id}`,
     GET_USER_BUGS: (userId) => `/bugs/user/${userId}`,
   },
 };

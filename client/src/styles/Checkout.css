@@ -8,6 +8,7 @@
 .checkout-container {
     background: white;
     padding: 30px;
+    width: 600px;
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
@@ -23,6 +24,7 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
+    
 }
 
 .order-items-table {
@@ -33,6 +35,8 @@ table {
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 20px;
+    width: 500px;
+
 }
 
 th, td {

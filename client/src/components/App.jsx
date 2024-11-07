@@ -21,6 +21,7 @@ import Checkout from './Checkout';
 import OrderSuccess from './OrderSuccess';
 import OrderManagement from './Admin/OrderManagement';
 import OrderHistory from './OrderHistory';
+import BugManagement from './Admin/BugManagement';
 
 function App() {
   const containerStyles = {
@@ -55,6 +56,7 @@ function App() {
           <Route path="/order-success" element={<OrderSuccess />} />
           <Route path="/ordersmanagement" element={<OrderManagement />} />
           <Route path="/order-history" element={<OrderHistory />} />
+          <Route path="/bugmanagement" element={<BugManagement />} />
         </Routes>
       </div>
       <FloatingIcon />

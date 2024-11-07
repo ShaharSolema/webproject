@@ -97,3 +97,40 @@
     border-radius: 8px;
     margin: 1rem 0;
 }
+.status-dropdown {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    background-color: #f8f9fa;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    width: 100%;
+}
+
+.status-dropdown:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.filter-section select,
+.status-dropdown {
+    cursor: pointer;
+}
+
+.select-option {
+    font-size: 0.9rem;
+    padding: 0.5rem;
+}
+.order-status-dropdown {
+    display: flex;
+    justify-content: flex-start; /* מציב את התפריט בצד שמאל */
+    margin-bottom: 10px;
+    width: 100%; /* או רוחב מותאם אישית */
+}
+
+.status-dropdown {
+    width: 150px;
+    padding: 5px;
+    font-size: 14px;
+}

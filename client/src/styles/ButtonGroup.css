@@ -1,12 +1,13 @@
 .cart-button-container {
   position: relative;
   display: inline-block;
+  top:6px ;
 }
 
 .cart-badge {
   position: absolute;
-  bottom: -5px;
-  left: -5px;
+  top:7px;
+  left: 2px;
   background: linear-gradient(45deg, #ff6b6b, #ff4d4d);
   color: white;
   border-radius: 50%;
@@ -22,6 +23,7 @@
   box-shadow: 0 2px 4px rgba(0,0,0,0.2);
   transform-origin: center;
   z-index: 100;
+  font-family: Calibri,Helvetica ;
 }
 
 /* Animation for when the badge first appears */
