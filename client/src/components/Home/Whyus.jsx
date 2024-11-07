@@ -7,6 +7,7 @@ const Whyus = () => {
     <section className="why-us-section text-center my-5">
       <div className="why-us-title-wrapper">
         <h2 className="why-us-title">למה לבחור בנו</h2>
+        <h2 className='why-us-shadow'>Why us</h2>
       </div>
       <div className="why-us-cards">
         <div className="why-us-card">
