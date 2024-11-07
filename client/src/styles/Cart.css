@@ -85,11 +85,20 @@
 }
 
 .cart-item-price {
-    margin: 0;
-    color: #666;
-    font-weight: 500;
-    direction: rtl;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
 
+.original-price {
+    color: #999;
+    text-decoration: line-through;
+    font-size: 0.9em;
+}
+
+.discounted-price {
+    color: #ff4444;
+    font-weight: bold;
 }
 
 .quantity-control {
@@ -175,6 +184,7 @@
     color: #333;
     min-width: 80px;
     text-align: left;
+    margin-left: 10px;
 }
 
 .cart-footer {
@@ -274,4 +284,16 @@ h1 {
 
 .login-popup-overlay.closing {
     opacity: 0;
+}
+
+.cart-item-discount-badge {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: #ff4444;
+    color: white;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: bold;
 }

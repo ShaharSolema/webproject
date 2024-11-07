@@ -241,20 +241,35 @@ const Checkout = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {cartItems.map(item => (
-                                    <tr key={item.productId._id}>
-                                        <td>
-                                            <img 
-                                                src={item.productId.imageUrl} 
-                                                alt={item.productId.name}
-                                                className="product-thumbnail"
-                                            />
-                                        </td>
-                                        <td>{item.productId.name}</td>
-                                        <td>{item.quantity}</td>
-                                        <td>₪{(item.productId.price * item.quantity).toFixed(2)}</td>
-                                    </tr>
-                                ))}
+                                {cartItems.map(item => {
+                                    const discountedPrice = item.productId.discount 
+                                        ? item.productId.price * (1 - item.productId.discount / 100) 
+                                        : item.productId.price;
+                                    
+                                    return (
+                                        <tr key={item.productId._id}>
+                                            <td>
+                                                <img 
+                                                    src={item.productId.imageUrl} 
+                                                    alt={item.productId.name}
+                                                    className="product-thumbnail"
+                                                />
+                                            </td>
+                                            <td>{item.productId.name}</td>
+                                            <td>{item.quantity}</td>
+                                            <td>
+                                                {item.productId.discount > 0 ? (
+                                                    <>
+                                                        <span className="original-price">₪{(item.productId.price * item.quantity).toFixed(2)}</span>
+                                                        <span className="discounted-price">₪{(discountedPrice * item.quantity).toFixed(2)}</span>
+                                                    </>
+                                                ) : (
+                                                    <>₪{(discountedPrice * item.quantity).toFixed(2)}</>
+                                                )}
+                                            </td>
+                                        </tr>
+                                    );
+                                })}
                             </tbody>
                         </table>
                     </div>

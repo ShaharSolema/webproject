@@ -63,9 +63,7 @@ const Cart = ({ isOpen, onClose, user }) => {
   }, [isOpen]);
 
   const handleCheckoutClick = () => {
-    const total = cartItems.reduce((sum, item) => 
-      sum + (item.productId.price * item.quantity), 0
-    );
+    const total = calculateTotal();
 
     handleClose();
     navigate('/checkout', { 
@@ -120,6 +118,18 @@ const Cart = ({ isOpen, onClose, user }) => {
     };
   }, [user]);
 
+  const calculateItemPrice = (item) => {
+    const originalPrice = item.productId.price;
+    const discount = item.productId.discount;
+    return discount ? originalPrice * (1 - discount / 100) : originalPrice;
+  };
+
+  const calculateTotal = () => {
+    return cartItems.reduce((sum, item) => 
+      sum + (calculateItemPrice(item) * item.quantity), 0
+    );
+  };
+
   if (!isOpen) return null;
 
   return (
@@ -149,10 +159,26 @@ const Cart = ({ isOpen, onClose, user }) => {
                       e.target.src = 'https://via.placeholder.com/150';
                     }}
                   />
+                  {item.productId.discount > 0 && (
+                    <div className="cart-item-discount-badge">
+                      {item.productId.discount}% הנחה
+                    </div>
+                  )}
                 </div>
                 <div className="cart-item-details">
                   <h4 className="cart-item-name">{item.productId.name}</h4>
-                  <p className="cart-item-price">₪{item.productId.price}</p>
+                  <div className="cart-item-price">
+                    {item.productId.discount > 0 ? (
+                      <>
+                        <span className="original-price">₪{item.productId.price.toFixed(2)}</span>
+                        <span className="discounted-price">
+                          ₪{calculateItemPrice(item).toFixed(2)}
+                        </span>
+                      </>
+                    ) : (
+                      <span>₪{item.productId.price.toFixed(2)}</span>
+                    )}
+                  </div>
                   <div className="quantity-control">
                     <button 
                       onClick={() => handleUpdateQuantity(item.productId._id, item.quantity - 1)}
@@ -172,7 +198,7 @@ const Cart = ({ isOpen, onClose, user }) => {
                   </div>
                 </div>
                 <div className="cart-item-total">
-                  ₪{(item.productId.price * item.quantity).toFixed(2)}
+                  ₪{(calculateItemPrice(item) * item.quantity).toFixed(2)}
                 </div>
               </div>
             ))
@@ -186,9 +212,7 @@ const Cart = ({ isOpen, onClose, user }) => {
             <div className="cart-total">
               <span>סה"כ לתשלום:</span>
               <span className="total-amount">
-                ₪{cartItems.reduce((sum, item) => 
-                  sum + (item.productId.price * item.quantity), 0
-                ).toFixed(2)}
+                ₪{calculateTotal().toFixed(2)}
               </span>
             </div>
             <button 

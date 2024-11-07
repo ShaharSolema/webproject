@@ -18,6 +18,7 @@ const ProductStore = () => {
     const [sortOrder, setSortOrder] = useState('default');
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 20;
+    const [showSaleOnly, setShowSaleOnly] = useState(false);
 
     // Predefined categories from your model
     const categories = [
@@ -54,20 +55,33 @@ const ProductStore = () => {
             );
         }
 
+        // Sale filter
+        if (showSaleOnly) {
+            result = result.filter(product => product.discount > 0);
+        }
+
         // Sort
         switch (sortOrder) {
             case 'price-asc':
-                result.sort((a, b) => a.price - b.price);
+                result.sort((a, b) => {
+                    const priceA = a.discount ? a.price * (1 - a.discount / 100) : a.price;
+                    const priceB = b.discount ? b.price * (1 - b.discount / 100) : b.price;
+                    return priceA - priceB;
+                });
                 break;
             case 'price-desc':
-                result.sort((a, b) => b.price - a.price);
+                result.sort((a, b) => {
+                    const priceA = a.discount ? a.price * (1 - a.discount / 100) : a.price;
+                    const priceB = b.discount ? b.price * (1 - b.discount / 100) : b.price;
+                    return priceB - priceA;
+                });
                 break;
             default:
                 break;
         }
 
         setFilteredProducts(result);
-    }, [products, searchTerm, selectedCategory, sortOrder]);
+    }, [products, searchTerm, selectedCategory, sortOrder, showSaleOnly]);
 
     // Function to fetch cart data
     const fetchCartData = async () => {
@@ -189,6 +203,13 @@ const ProductStore = () => {
                     <option value="price-asc">מחיר: מהנמוך לגבוה</option>
                     <option value="price-desc">מחיר: מהגבוה לנמוך</option>
                 </select>
+
+                <button 
+                    className={`sale-filter ${showSaleOnly ? 'active' : ''}`}
+                    onClick={() => setShowSaleOnly(!showSaleOnly)}
+                >
+                    {showSaleOnly ? 'הצג הכל' : 'מבצעים בלבד'}
+                </button>
             </div>
             
 
@@ -207,6 +228,7 @@ const ProductStore = () => {
                         description={product.description}
                         name={product.name}
                         stock={product.stock}
+                        discount={product.discount}
                         onUpdateCart={(quantity) => handleUpdateCart(product._id, quantity)}
                         isLoggedIn={authStatus.isLoggedIn}
                         initialQuantity={cartItems[product._id] || 0}

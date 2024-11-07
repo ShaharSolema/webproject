@@ -7,6 +7,7 @@ const Product = ({
     description, 
     name, 
     stock, 
+    discount,
     onUpdateCart,
     isLoggedIn,
     initialQuantity = 0
@@ -46,14 +47,31 @@ const Product = ({
         }
     };
 
+    // Calculate discounted price
+    const discountedPrice = discount ? price * (1 - discount / 100) : price;
+
     return (
         <div className="product-card">
             <div className="product-image-container">
+                {discount > 0 && (
+                    <div className="discount-badge">
+                        {discount}% הנחה
+                    </div>
+                )}
                 <img src={image} alt={name} className="product-image" />
             </div>
             <h3 className="product-name">{name}</h3>
             <p className="product-description">{description}</p>
-            <p className="product-price">{price} ₪</p>
+            <div className="price-container">
+                {discount > 0 ? (
+                    <>
+                        <span className="original-price">₪{price.toFixed(2)}</span>
+                        <span className="discounted-price">₪{discountedPrice.toFixed(2)}</span>
+                    </>
+                ) : (
+                    <p className="product-price">₪{price.toFixed(2)}</p>
+                )}
+            </div>
             {stock <= 0 ? (
                 <p className="out-of-stock">אזל מהמלאי</p>
             ) : (
