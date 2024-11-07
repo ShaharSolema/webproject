@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import Product from './Home/Product';
 import Cart from './Cart';
 import { fetchProducts, updateCartItem, checkLoginStatus, getCart } from '../utils/auth';
-import '../styles/Store.css';
+import '../styles/ProductStore.css';
 
 const ProductStore = () => {
     const [products, setProducts] = useState([]);
@@ -190,6 +190,7 @@ const ProductStore = () => {
                     <option value="price-desc">מחיר: מהגבוה לנמוך</option>
                 </select>
             </div>
+            
 
             {!authStatus.isLoggedIn && (
                 <div className="login-prompt">
