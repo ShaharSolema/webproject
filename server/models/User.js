@@ -16,7 +16,7 @@ const passwordValidator = function (password) {
 const userSchema = new Schema({
   street: {
     type: String,
-    minlength: 5,
+    minlength: 2,
     maxlength: 30,
     validate: {
       validator: function (v) {

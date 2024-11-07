@@ -210,12 +210,16 @@ const Checkout = () => {
                     },
                     replace: true
                 });
+            } else if (result.error.includes('כמות לא מספיקה')) {
+                // Handle specific error for insufficient quantity
+                alert(result.error);
             } else {
-                throw new Error(result.error || 'Failed to create order');
+                // General error alert
+                alert('אנא נסה שוב מאוחר יותר, אנו מצטערים על אי הנוחות');
             }
         } catch (error) {
             console.error('Error creating order:', error);
-            alert(error.response?.data?.message || 'אירעה שגיאה בביצוע ההזמנה');
+            alert('אנא נסה שוב מאוחר יותר, אנו מצטערים על אי הנוחות');
         }
     };
 
@@ -230,8 +234,8 @@ const Checkout = () => {
                         <table>
                             <thead>
                                 <tr>
-                                    <th>מוצר</th>
-                                    <th>פרטים</th>
+                                    <th>תמונה</th>
+                                    <th>שם מוצר</th>
                                     <th>כמות</th>
                                     <th>מחיר</th>
                                 </tr>

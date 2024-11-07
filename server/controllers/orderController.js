@@ -1,7 +1,6 @@
 const Order = require('../models/Order');
 const Product = require('../models/Product');
 const Cart = require('../models/Cart');
-const mongoose = require('mongoose');
 
 const createOrder = async (req, res) => {
     try {
@@ -12,6 +11,7 @@ const createOrder = async (req, res) => {
             const product = await Product.findById(item.productId._id);
             
             if (!product) {
+                console.error(`Product not found: ${item.productId.name}`);
                 return res.status(400).json({
                     success: false,
                     message: `מוצר לא נמצא: ${item.productId.name}`
@@ -19,55 +19,36 @@ const createOrder = async (req, res) => {
             }
 
             if (product.stock < item.quantity) {
+                console.error(`Insufficient stock for ${product.name}. Available: ${product.stock}`);
                 return res.status(400).json({
                     success: false,
                     message: `כמות לא מספיקה במלאי עבור ${product.name}. כמות זמינה: ${product.stock}`
                 });
             }
+
+            // Ensure price is set for each item
+            item.price = product.price;
         }
 
-        // Update stock levels and create order
-        const session = await mongoose.startSession();
-        session.startTransaction();
+        // Create the order
+        const order = new Order({
+            ...orderDetails,
+            items,
+            user: req.user._id // Ensure user ID is set
+        });
+        await order.save();
 
-        try {
-            // Update stock levels
-            for (const item of items) {
-                await Product.findByIdAndUpdate(
-                    item.productId._id,
-                    { $inc: { stock: -item.quantity } },
-                    { session }
-                );
-            }
+        // Clear the user's cart
+        await Cart.findOneAndUpdate(
+            { userId: req.user._id },
+            { items: [] }
+        );
 
-            // Create the order
-            const order = new Order({
-                ...orderDetails,
-                items,
-                userId: req.user._id
-            });
-            await order.save({ session });
-
-            // Clear the user's cart
-            await Cart.findOneAndUpdate(
-                { userId: req.user._id },
-                { items: [] },
-                { session }
-            );
-
-            await session.commitTransaction();
-            
-            res.status(201).json({
-                success: true,
-                orderId: order._id,
-                purchaseNumber: order.purchaseNumber
-            });
-        } catch (error) {
-            await session.abortTransaction();
-            throw error;
-        } finally {
-            session.endSession();
-        }
+        res.status(201).json({
+            success: true,
+            orderId: order._id,
+            purchaseNumber: order.purchaseNumber
+        });
     } catch (error) {
         console.error('Order creation error:', error);
         res.status(500).json({

@@ -203,14 +203,15 @@ export const createOrder = async (orderData) => {
                 purchaseNumber: response.data.purchaseNumber 
             };
         } else {
-            throw new Error(response.data.message || 'Failed to create order');
+            // Display the error message to the user
+            alert(response.data.message || 'Failed to create order');
+            return { success: false };
         }
     } catch (error) {
         console.error('Error creating order:', error);
-        return { 
-            success: false, 
-            error: error.response?.data?.message || 'אירעה שגיאה בביצוע ההזמנה'
-        };
+        // Display the error message to the user
+        alert(error.response?.data?.message || 'אירעה שגיאה בביצוע ההזמנה');
+        return { success: false };
     }
 };
 
