@@ -63,7 +63,7 @@
 .products-management .checkbox-group {
     display: flex; /* משתמש ב-flexbox */
     flex-wrap: wrap; /* מאפשר לשבור שורה */
-    gap: 10px; /* רווח בין ה-checkboxים */
+    gap: 10px; /* רווח ��ין ה-checkboxים */
     margin-top: 10px; /* מרווח בין השורה הקודמת ל-checkboxים */
 }
 
@@ -167,4 +167,22 @@ html {
     background-color: #f8f9fa;
     border-radius: 4px;
     text-align: center;
+}
+
+/* Add styles for the discounted price */
+.products-management .products-table td.discounted-price {
+    color: #ff4444;
+    font-weight: bold;
+}
+
+/* Optional: Add strikethrough to original price when there's a discount */
+.products-management .products-table tr:has(td.discounted-price) td:nth-child(2) {
+    text-decoration: line-through;
+    color: #999;
+}
+
+/* Make the discount percentage stand out */
+.products-management .products-table td:nth-child(3) {
+    font-weight: bold;
+    color: #28a745;
 }

@@ -10,6 +10,7 @@ const cookieParser = require("cookie-parser");
 const cartRoutes = require("./routes/cartRoutes");
 const statisticsRoutes = require ("./routes/statisticsRoutes")
 const orderRoutes = require("./routes/orderRoutes");
+const bugReportRoutes = require("./routes/bugReportRoutes");
 
 const app = express();
 app.use(cookieParser());
@@ -29,6 +30,7 @@ app.use(`${config.api.prefix}/products`, productRoutes);
 app.use(`${config.api.prefix}/carts`, authenticate, cartRoutes);
 app.use(`${config.api.prefix}/statistics`, authenticate, statisticsRoutes);
 app.use(`${config.api.prefix}/orders`,authenticate, orderRoutes);
+app.use(`${config.api.prefix}/bugs`, bugReportRoutes);
 
 app.listen(config.server.port, () => {
   console.log(`Server is Listening on Port ${config.server.port}`);

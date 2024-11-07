@@ -39,4 +39,10 @@ export const API_ROUTES = {
     UPDATE_STATUS: (orderId) => `/orders/${orderId}/status`,
     GET_USER_ORDERS: (userId) => `/orders/user/${userId}`,
   },
+  BUGS: {
+    CREATE: `/bugs/create`,
+    GET_ALL: `/bugs/all`,
+    UPDATE_STATUS: (id) => `/bugs/${id}/status`,
+    GET_USER_BUGS: (userId) => `/bugs/user/${userId}`,
+  },
 };

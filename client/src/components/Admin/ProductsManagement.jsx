@@ -157,6 +157,12 @@ const ProductsManagement = () => {
     setProducts(updatedProducts);
   };
 
+  const calculateDiscountedPrice = (price, discount) => {
+    if (!discount) return price;
+    const discountAmount = (price * discount) / 100;
+    return (price - discountAmount).toFixed(2);
+  };
+
   return (
     <div className="products-management">
       {showSuccessPopup && (
@@ -171,10 +177,11 @@ const ProductsManagement = () => {
         <thead>
           <tr>
             <th>שם מוצר</th>
-            <th>מחיר</th>
+            <th>מחיר מקורי</th>
+            <th>הנחה</th>
+            <th>מחיר אחרי הנחה</th>
             <th>תיאור</th>
             <th>מלאי</th>
-            <th>הנחה</th>
             <th>קטגוריות</th>
             <th>תמונה</th>
             <th>עריכה</th>
@@ -184,10 +191,13 @@ const ProductsManagement = () => {
           {products.map((product) => (
             <tr key={product._id}>
               <td>{product.name}</td>
-              <td>{product.price}</td>
+              <td>₪{product.price}</td>
+              <td>{product.discount}%</td>
+              <td className={product.discount > 0 ? 'discounted-price' : ''}>
+                ₪{calculateDiscountedPrice(product.price, product.discount)}
+              </td>
               <td>{product.description}</td>
               <td>{product.stock}</td>
-              <td>{product.discount}</td>
               <td>{product.categories.join(', ')}</td>
               <td><img src={product.imageUrl} alt={product.name} style={{ width: '50px' }} /></td>
               <td>

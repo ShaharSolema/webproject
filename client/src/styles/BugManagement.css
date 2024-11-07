@@ -1,0 +1,103 @@
+.bug-management {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.bug-stats {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+.bug-item {
+    background: white;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    border-right: 4px solid transparent;
+}
+
+.priority-low { border-right-color: #28a745; }
+.priority-medium { border-right-color: #ffc107; }
+.priority-high { border-right-color: #fd7e14; }
+.priority-critical { border-right-color: #dc3545; }
+
+.bug-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.status-badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.875rem;
+}
+
+.status-new { background: #e9ecef; }
+.status-in-progress { background: #cce5ff; }
+.status-resolved { background: #d4edda; }
+.status-closed { background: #f8f9fa; }
+
+.bug-details {
+    margin-bottom: 1rem;
+}
+
+.description {
+    margin-bottom: 0.5rem;
+    line-height: 1.5;
+}
+
+.meta-info {
+    display: flex;
+    gap: 1rem;
+    font-size: 0.875rem;
+    color: #6c757d;
+}
+
+.bug-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #dee2e6;
+}
+
+.bug-actions select,
+.bug-actions textarea {
+    padding: 0.5rem;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+}
+
+.bug-actions textarea {
+    flex-grow: 1;
+    min-height: 60px;
+    resize: vertical;
+}
+
+.filter-section {
+    background: white;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+    display: flex;
+    gap: 2rem;
+}
+
+.filter-group {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.no-bugs {
+    text-align: center;
+    padding: 3rem;
+    background: white;
+    border-radius: 8px;
+    color: #6c757d;
+} 
