@@ -102,4 +102,24 @@
   background: #555;
 }
 
+.chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.category-filter {
+  padding: 0.5rem;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  font-family: 'Heebo', sans-serif;
+  direction: rtl;
+}
+
+.category-filter:focus {
+  outline: none;
+  border-color: #4a90e2;
+}
+
   

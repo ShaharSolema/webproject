@@ -6,7 +6,7 @@ const createOrder = async (req, res) => {
     try {
         const { items, ...orderDetails } = req.body;
         
-        // Validate stock levels for all items
+        // Validate stock levels and update products
         for (const item of items) {
             const product = await Product.findById(item.productId._id);
             
@@ -25,6 +25,14 @@ const createOrder = async (req, res) => {
                     message: `כמות לא מספיקה במלאי עבור ${product.name}. כמות זמינה: ${product.stock}`
                 });
             }
+
+            // Update product stock and quantitysold
+            await Product.findByIdAndUpdate(product._id, {
+                $inc: {
+                    stock: -item.quantity,
+                    quantitysold: item.quantity
+                }
+            });
 
             // Ensure price is set for each item
             item.price = product.price;
