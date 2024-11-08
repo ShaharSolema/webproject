@@ -1,5 +1,6 @@
 import 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; // ייבוא רכיבים
+import { useEffect } from 'react';
 import Header from './Constant/Header';
 import Footer from './Constant/Footer';
 import FloatingIcon from './Constant/FloatingIcon';
@@ -24,6 +25,22 @@ import OrderHistory from './OrderHistory';
 import BugManagement from './Admin/BugManagement';
 
 function App() {
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScroll = window.pageYOffset;
+      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+      const scrollPercentage = (currentScroll / maxScroll) * 100;
+      
+      // Always move in one direction based on scroll position
+      document.body.style.backgroundPosition = `${scrollPercentage}% 50%`;
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
   const containerStyles = {
     padding: '0px',
     paddingTop: '80px',
