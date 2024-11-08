@@ -2,25 +2,32 @@ const BugReport = require('../models/BugReport');
 
 exports.createBugReport = async (req, res) => {
     try {
-        const { title, description, priority, reporterInfo } = req.body;
+        const { title, description, reporterInfo } = req.body;
         
+        // Validate required fields
+        if (!title || !description) {
+            return res.status(400).json({
+                success: false,
+                message: 'Title and description are required'
+            });
+        }
+
         const bugReport = new BugReport({
             title,
             description,
-            priority: priority || 'low',
             reporterInfo: {
                 name: reporterInfo?.name || 'אנונימי',
                 email: reporterInfo?.email || ''
-            },
-            ...(req.body.userId && { reportedBy: req.body.userId })
+            }
         });
 
         await bugReport.save();
         res.status(201).json({ success: true, bugReport });
     } catch (error) {
+        console.error('Bug report creation error:', error);
         res.status(400).json({ 
             success: false, 
-            message: error.message 
+            message: error.message || 'Error creating bug report'
         });
     }
 };

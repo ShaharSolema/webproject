@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import 'font-awesome/css/font-awesome.min.css';
 import axiosInstanse from '../../utils/axiosConfig';
 import { API_ROUTES } from '../../utils/apiRoutes';
+import { bugReportValidations } from '../../utils/validations';
+import '../../styles/FloatingIcon.css';
 
 const FloatingIcon = () => {
   const [isAboveFooter, setIsAboveFooter] = useState(false);
@@ -16,6 +18,12 @@ const FloatingIcon = () => {
     }
   });
   const footerRef = React.useRef(null);
+  const [errors, setErrors] = useState({
+    title: '',
+    description: '',
+    email: ''
+  });
+  const [isFormValid, setIsFormValid] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -60,22 +68,108 @@ const FloatingIcon = () => {
     setShowBugReport(true);
   };
 
+  const validateField = (name, value) => {
+    if (name === 'email') {
+      return bugReportValidations.email.validate(value);
+    }
+    return bugReportValidations[name].validate(value);
+  };
+
+  const handleBugReportChange = (e) => {
+    const { name, value } = e.target;
+    
+    if (name === 'email' || name === 'name') {
+      setBugReport(prev => ({
+        ...prev,
+        reporterInfo: {
+          ...prev.reporterInfo,
+          [name]: value
+        }
+      }));
+      
+      if (name === 'email') {
+        const error = validateField(name, value);
+        setErrors(prev => ({
+          ...prev,
+          [name]: error
+        }));
+      }
+    } else {
+      setBugReport(prev => ({
+        ...prev,
+        [name]: value
+      }));
+      
+      const error = validateField(name, value);
+      setErrors(prev => ({
+        ...prev,
+        [name]: error
+      }));
+    }
+  };
+
+  const handleBlur = (e) => {
+    const { name, value } = e.target;
+    const error = validateField(name, value);
+    setErrors(prev => ({
+      ...prev,
+      [name]: error
+    }));
+  };
+
+  useEffect(() => {
+    const isValid = !errors.title && !errors.description && !errors.email &&
+                   bugReport.title && bugReport.description;
+    setIsFormValid(isValid);
+  }, [bugReport, errors]);
+
   const handleSubmitBug = async (e) => {
     e.preventDefault();
-    try {
-      await axiosInstanse.post(API_ROUTES.BUGS.CREATE, bugReport);
-      alert('תודה על הדיווח! נטפל בהקדם');
-      setShowBugReport(false);
-      setBugReport({
-        title: '',
-        description: '',
-        reporterInfo: {
-          name: '',
+    
+    const titleError = validateField('title', bugReport.title);
+    const descriptionError = validateField('description', bugReport.description);
+    const emailError = validateField('email', bugReport.reporterInfo.email);
+
+    const newErrors = {
+      title: titleError,
+      description: descriptionError,
+      email: emailError
+    };
+
+    setErrors(newErrors);
+
+    if (!titleError && !descriptionError && !emailError) {
+      try {
+        await axiosInstanse.post(API_ROUTES.BUGS.CREATE, bugReport);
+        alert('תודה על הדיווח! נטפל בהקדם');
+        setShowBugReport(false);
+        setBugReport({
+          title: '',
+          description: '',
+          reporterInfo: {
+            name: '',
+            email: ''
+          }
+        });
+        setErrors({
+          title: '',
+          description: '',
           email: ''
-        }
-      });
-    } catch (error) {
-      alert('אירעה שגיאה בשליחת הדיווח. אנא נסה שוב מאוחר יותר');
+        });
+      } catch (error) {
+        console.error('Error submitting bug report:', error);
+        alert('אירעה שגיאה בשליחת הדיווח. אנא נסה שוב מאוחר יותר');
+      }
+    }
+  };
+
+  const toggleBugReport = () => {
+    setShowBugReport(prev => !prev);
+  };
+
+  const handleOverlayClick = (e) => {
+    if (e.target.classList.contains('bug-report-overlay')) {
+      setShowBugReport(false);
     }
   };
 
@@ -104,7 +198,7 @@ const FloatingIcon = () => {
         style={getIconStyle(1)}
         onMouseEnter={() => setHoveredIcon(1)}
         onMouseLeave={() => setHoveredIcon(null)}
-        onClick={handleBugReport}
+        onClick={toggleBugReport}
       >
         <i 
           className="fa fa-bug" 
@@ -117,68 +211,81 @@ const FloatingIcon = () => {
 
       {/* Bug Report Modal */}
       {showBugReport && (
-        <div className="bug-report-overlay">
-          <div className="bug-report-modal">
-            <h2>דיווח על תקלה</h2>
+        <div className="bug-report-overlay" onClick={handleOverlayClick}>
+          <div className="bug-report-popup">
+            <div className="popup-header">
+              <h3>דווח על באג</h3>
+              <button 
+                className="close-button"
+                onClick={() => setShowBugReport(false)}
+              >
+                ×
+              </button>
+            </div>
             <form onSubmit={handleSubmitBug}>
               <div className="form-group">
-                <label>כותרת התקלה</label>
+                <label htmlFor="title">כותרת *</label>
                 <input
                   type="text"
-                  required
+                  id="title"
+                  name="title"
                   value={bugReport.title}
-                  onChange={(e) => setBugReport({...bugReport, title: e.target.value})}
-                  placeholder="תיאור קצר של התקלה"
+                  onChange={handleBugReportChange}
+                  onBlur={handleBlur}
+                  className={errors.title ? 'error' : ''}
+                  placeholder="הכנס כותרת (לפחות 3 תווים)"
                 />
+                {errors.title && <span className="error-message">{errors.title}</span>}
               </div>
 
               <div className="form-group">
-                <label>תיאור מפורט</label>
+                <label htmlFor="description">תיאור *</label>
                 <textarea
-                  required
+                  id="description"
+                  name="description"
                   value={bugReport.description}
-                  onChange={(e) => setBugReport({...bugReport, description: e.target.value})}
-                  placeholder="אנא תאר/י את התקלה בפירוט"
-                  rows="4"
+                  onChange={handleBugReportChange}
+                  onBlur={handleBlur}
+                  className={errors.description ? 'error' : ''}
+                  placeholder="הכנס תיאור מפורט (לפחות 10 תווים)"
                 />
+                {errors.description && <span className="error-message">{errors.description}</span>}
               </div>
 
               <div className="form-group">
-                <label>שם (לא חובה)</label>
+                <label htmlFor="name">שם (לא חובה)</label>
                 <input
                   type="text"
+                  id="name"
+                  name="name"
                   value={bugReport.reporterInfo.name}
-                  onChange={(e) => setBugReport({
-                    ...bugReport,
-                    reporterInfo: {...bugReport.reporterInfo, name: e.target.value}
-                  })}
-                  placeholder="השם שלך"
+                  onChange={handleBugReportChange}
+                  placeholder="הכנס את שמך"
                 />
               </div>
 
               <div className="form-group">
-                <label>אימייל (לא חובה)</label>
+                <label htmlFor="email">אימייל (לא חובה)</label>
                 <input
                   type="email"
+                  id="email"
+                  name="email"
                   value={bugReport.reporterInfo.email}
-                  onChange={(e) => setBugReport({
-                    ...bugReport,
-                    reporterInfo: {...bugReport.reporterInfo, email: e.target.value}
-                  })}
-                  placeholder="כתובת אימייל לחזרה"
+                  onChange={handleBugReportChange}
+                  onBlur={handleBlur}
+                  className={errors.email ? 'error' : ''}
+                  placeholder="your@email.com"
                 />
+                {errors.email && <span className="error-message">{errors.email}</span>}
               </div>
 
-              <div className="button-group">
-                <button type="submit" className="submit-btn">שלח דיווח</button>
-                <button 
-                  type="button" 
-                  className="cancel-btn"
-                  onClick={() => setShowBugReport(false)}
-                >
-                  ביטול
-                </button>
-              </div>
+              <button 
+                type="submit" 
+                disabled={!isFormValid}
+                className={!isFormValid ? 'disabled' : ''}
+              >
+                שלח דיווח
+              </button>
             </form>
           </div>
         </div>
