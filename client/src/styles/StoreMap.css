@@ -1,0 +1,189 @@
+/* עדכון סגנונות הסרגל */
+.location-sidebar {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 400px;
+    height: 100%;
+    background: white;
+    box-shadow: -2px 0 10px rgba(0,0,0,0.1);
+    overflow-y: auto;
+    animation: slideIn 0.3s ease-out;
+    z-index: 1000;
+}
+
+/* אנימציית כניסה מימין */
+@keyframes slideIn {
+    from { transform: translateX(100%); }
+    to { transform: translateX(0); }
+}
+
+/* שאר הסגנונות נשארים אותו דבר */
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 24px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.close-button:hover {
+    background: rgba(0, 0, 0, 0.8);
+    transform: scale(1.1);
+    transform: rotate(90deg);
+
+}
+
+.location-image {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+}
+
+.location-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+
+.info-section {
+    margin: 20px 0;
+    padding: 15px;
+    background: #f8f8f8;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.info-section:hover {
+    background: #f0f0f0;
+    transform: translateX(-5px);
+    box-shadow: 2px 2px 8px rgba(0,0,0,0.1);
+}
+
+.navigation-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.action-button {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    background: #e91e63;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.action-button:hover {
+    background: #d81557;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.waze-button,
+.google-maps-button {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background:none;
+}
+
+.waze-button img,
+.google-maps-button img {
+    width: 24px;
+    height: 24px;
+}
+
+/* אפקט hover לכפתורים */
+.action-button::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255,255,255,0.1);
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+}
+
+.action-button:hover::after {
+    transform: translateX(0);
+}
+/* הקוד הקיים תקין, רק צריך להוסיף/לעדכן כמה דברים */
+
+/* עדכון padding לתוכן */
+.location-info {
+    padding: 20px;
+    text-align: right;
+    direction: rtl;
+}
+
+/* הוספת direction: rtl לכל המקטעים */
+.info-section {
+    direction: rtl;
+    margin: 20px 0;
+    padding: 15px;
+    background: #f8f8f8;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+/* עדכון כיוון הכפתורים בניווט */
+.navigation-buttons {
+    display: flex;
+    flex-direction: row-reverse; /* הפיכת סדר הכפתורים */
+    gap: 10px;
+    margin-top: 10px;
+}
+
+/* הוספת direction: rtl לכפתורי פעולה */
+.action-button {
+    direction: rtl;
+}
+
+/* עדכון האייקונים בכפתורי הניווט */
+.waze-button img,
+.google-maps-button img {
+    margin-left: 8px; /* במקום margin-right */
+    margin-right: 0;
+}
+
+/* הוספת direction: rtl לכותרות */
+ h3 {
+    direction: rtl;
+}
+h2{
+    direction: ltr;
+    text-align: center;
+}
+/* עדכון שעות הפעילות */
+.hours-list {
+    padding-right: 0;
+    list-style-position: inside;
+    direction: rtl;
+}
+.location-info {
+    padding: 20px;
+    text-align: right;
+}
