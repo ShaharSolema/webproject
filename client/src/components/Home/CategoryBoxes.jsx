@@ -1,17 +1,17 @@
 import 'react'; // ייבוא React
 import '../../styles/CategoryBoxes.css'; // ייבוא קובץ CSS
-import image1 from '../data/pictures/pictures/Examples/WhatsApp Image 2024-11-03 at 22.21.22 (1).jpeg';
-import image2 from '../data/pictures/pictures/Examples/WhatsApp Image 2024-11-03 at 22.21.24 (1).jpeg';
-import image3 from '../data/pictures/pictures/Examples/WhatsApp Image 2024-11-03 at 22.21.22 (2).jpeg';
-import image4 from '../data/pictures/pictures/Examples/WhatsApp Image 2024-11-03 at 22.21.26.jpeg';
+import image1 from '../data/pictures/pictures/categories/WhatsApp Image 2024-11-08 at 00.18.16 (1).jpeg';
+import image2 from '../data/pictures/pictures/categories/WhatsApp Image 2024-11-08 at 00.13.16 (1).jpeg';
+import image3 from '../data/pictures/pictures/categories/WhatsApp Image 2024-11-08 at 10.34.21.jpeg';
+import image4 from '../data/pictures/pictures/categories/WhatsApp Image 2024-11-08 at 00.17.53 (1).jpeg';
 
 
 
 const categories = [
   { name: 'חנות מוצרים', image:image1, link: '/productstore' },
   { name: 'קורסים והשתלמויות', image: image2, link: '/workshops' },
-  { name: 'שאלות נפוצות', image: image3, link: '/beginner' },
-  { name: 'קצת עליי', image:image4, link: '/advanced' },
+  { name: 'שאלות נפוצות', image: image3, link: '/faq' },
+  { name: 'קצת עליי', image:image4, link: '/about' },
 ];
 
 const CategoryBoxes = () => {

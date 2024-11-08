@@ -17,11 +17,32 @@
     border: 5px solid pink;
     border-radius: 80%;
     cursor: pointer;
-    background-image: url('https://i.imgur.com/TG0pZns.jpeg'); /* נתיב לתמונת הרקע הקבועה */
-    background-size: cover;
-    background-position: center;
     transition: transform 0.3s; /* אפקט מעבר */
 }
+.circle1 {
+    background-image: url('../components/data/pictures/pictures/highlight/WhatsApp Image 2024-11-08 at 00.13.16.jpeg'); 
+    background-size: cover;
+    background-position: center;
+}
+
+  .circle2 {
+    background-image: url('../components/data/pictures/pictures/highlight/WhatsApp Image 2024-11-08 at 10.37.15.jpeg');
+    background-size: cover;
+    background-position: center;
+  }
+  
+  .circle3 {
+    background-image: url('../components/data/pictures/pictures/highlight/WhatsApp Image 2024-11-07 at 23.57.38.jpeg');
+    background-size: cover;
+    background-position: center;
+  }
+  
+  .circle4 {
+    background-image: url('../components/data/pictures/pictures/highlight/WhatsApp Image 2024-11-07 at 23.57.15.jpeg');
+    background-size: cover;
+    background-position: center;
+  }
+  
 
 .circle:hover {
     transform: scale(1.05); /* הגדלת העיגול במצב ריחוף */
