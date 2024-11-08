@@ -24,6 +24,8 @@
     height: 570px; /* גובה קבוע לריבועים */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* צל לריבועים */
     direction: rtl;
+    background-color: whitesmoke;
+
   }
   
   .testimonial-image {
