@@ -1,3 +1,17 @@
+/* Default font stack */
+body, html {
+    font-family: -apple-system, Gisha, Calibri, system-ui, sans-serif;
+}
+
+/* Mac-specific styles */
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+    @supports (-webkit-touch-callout: none) {
+        body, html {
+            font-family: Gisha, -apple-system, system-ui, sans-serif;
+        }
+    }
+}
+
 .category-boxes {
     display: flex;
     flex-wrap: wrap; /* מאפשר לריבועים לעבור לשורה הבאה אם אין מספיק מקום */
@@ -50,8 +64,17 @@
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7); /* צל טקסט לשיפור קריאות */
     font-size: 23px; /* גודל טקסט חדש (שנה לפי הצורך) */
     text-align: center;
-    font-family:  Calibri;
+    font-family: -apple-system, Gisha, Calibri, system-ui, sans-serif;
 }
+
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+    @supports (-webkit-touch-callout: none) {
+        .category-name {
+            font-family: Gisha, -apple-system, system-ui, sans-serif;
+        }
+    }
+}
+
 .category-box:nth-child(4) .category-image {
     object-position:center 32%; /* מקם את התמונה הרביעית בחלקה העליון */
   }

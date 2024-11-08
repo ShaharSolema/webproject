@@ -156,12 +156,18 @@ h3 {
   transform: scale(1.1); /* הגדלה של 10% על hover */
 }
 .admin-options-title {
-  font-size: 30px; /* גודל הפונט */
-  margin-bottom: 10px; /* רווח מתחת לכותרת */
-  text-align: center; /* מרכז את הכותרת */
-  font-family: calibri;
-  text-decoration: underline;
-  color: rgb(250, 210, 204);
+  font-family: Calibri, -apple-system, Gisha, system-ui, sans-serif;
+  text-align: center;
+  margin: 15px 0;
+  color: #333;
+}
+
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+  @supports (-webkit-touch-callout: none) {
+    .admin-options-title {
+      font-family: Gisha, -apple-system, system-ui, sans-serif;
+    }
+  }
 }
 
 .admin-icon.bi-box-seam-fill:hover {

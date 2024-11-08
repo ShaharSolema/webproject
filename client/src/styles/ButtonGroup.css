@@ -23,7 +23,7 @@
   box-shadow: 0 2px 4px rgba(0,0,0,0.2);
   transform-origin: center;
   z-index: 100;
-  font-family: Calibri,Helvetica ;
+  font-family: -apple-system, Gisha, Calibri, system-ui, sans-serif;
 }
 
 /* Animation for when the badge first appears */
