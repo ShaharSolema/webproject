@@ -1,0 +1,222 @@
+@import url('https://fonts.googleapis.com/css2?family=Calibri:wght@400;700&display=swap');
+
+body {
+    font-family: 'Calibri', sans-serif;
+}
+
+.title {
+    margin-top: 40px;
+    background-color: #fff8f7;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    font-size: 2.2em;
+    text-align: center;
+}
+
+.workshop-hero {
+    display: flex;
+    align-items: stretch;
+    width: 100%;
+    height: 400px;
+    margin: 0 auto;
+    margin-top: -8px;
+    margin-bottom: 100px;
+    background-color: #f7f7f7;
+    overflow: hidden;
+    position: relative;
+    /* border-top-left-radius: 8px;
+    border-top-right-radius: 8px; */
+}
+
+.workshop-description {
+    flex: 1;
+    padding: 20px;
+    margin-bottom: 0px;
+    font-family: 'Calibri', sans-serif;
+    line-height: 1.6;
+    text-align: right;
+    direction: rtl;
+    background-color: #cee7d3;
+}
+
+.workshop-description h2 {
+    color: black;
+    margin-bottom: 20px;
+    font-size: 28px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.workshop-description ul {
+    list-style-type: disc;
+    padding-right: 20px;
+    color: #555;
+    font-size: 16px;
+}
+
+.workshop-description li {
+    margin-bottom: 10px;
+}
+
+.image-slider {
+    flex: 1;
+    display: flex;
+    height: 100%;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    background-color: #f7f7f7;
+    overflow: hidden;
+    position: relative;
+}
+
+.image-slider img {
+    width: 100%;
+    height: 105%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: opacity 0.5s ease;
+}
+
+.fade-in {
+    opacity: 1;
+    transition: opacity 0.5s ease-in;
+}
+
+.fade-out {
+    opacity: 0;
+    transition: opacity 0.5s ease-out;
+}
+
+.why-choose {
+    text-align: center;
+    padding: 20px;
+    background-color: #fdf8f4; /* צבע רקע בהיר חדש */
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    margin-top: -99px;
+    margin-bottom: 100px;
+}
+
+.why-choose h2 {
+    font-size: 30px; /* גודל פונט מוגדל */
+    color: #333;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.benefits {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    padding-top: 20px;
+}
+
+.benefit {
+    width: 30%; /* שינוי הרוחב לשליש מהמסך עבור שורה של שלושה */
+    text-align: center;
+    color: #333;
+    font-size: 1.2em;
+    margin-bottom: 20px;
+}
+
+.benefit h3 {
+    font-size: 1.15em; /* הגדלת כותרת הכרטיסים */
+    color: #333;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.benefit p {
+    font-size: 0.95em; /* הגדלת הפונט של הטקסט */
+    color: #666;
+    margin-bottom: 15px;
+}
+
+.benefit hr {
+    border: none;
+    border-top: 2px solid #333; /* קו שחור עבה יותר */
+    width: 50%; /* רוחב קו קטן יותר */
+    margin: 0 auto;
+    margin-top: 10px; /* ריווח עליון */
+}
+
+/* כפתור להרשמה */
+.signup-button-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.signup-button {
+    background-color: #cee7d3;
+    color: black;
+    padding: 12px 30px;
+    font-size: 18px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-decoration: none;
+}
+
+.signup-button:hover {
+    background-color: #dcede0;
+}
+
+/* שינוי למבנה שתי השורות */
+.benefits .benefit:nth-child(4),
+.benefits .benefit:nth-child(5) {
+    width: 45%; /* כרטיסים בשורה השנייה במרכז */
+}
+
+/* התאמה לתצוגה במסכים קטנים יותר */
+@media (max-width: 768px) {
+    .workshop-hero {
+        flex-direction: column;
+        height: auto;
+        margin-top: 50px;
+    }
+
+    .workshop-description {
+        padding: 15px;
+        text-align: center;
+    }
+
+    .workshop-description h2 {
+        font-size: 24px;
+    }
+
+    .workshop-description ul {
+        font-size: 14px;
+    }
+
+    .image-slider {
+        height: 200px;
+    }
+
+    .benefits {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .benefit {
+        width: 90%;
+        margin-bottom: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .workshop-hero {
+        margin-top: 30px;
+    }
+
+    .workshop-description {
+        padding: 10px;
+    }
+
+    .image-slider {
+        height: 150px;
+    }
+}
