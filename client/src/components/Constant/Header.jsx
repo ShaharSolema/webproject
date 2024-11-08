@@ -7,40 +7,6 @@ const Header = () => {
   const [username, setUsername] = useState("אורח");
   const [hebrewDate, setHebrewDate] = useState("");
 
-  useEffect(() => {
-    const getNameFromLocalStorage = () => {
-      const userString = localStorage.getItem('user');
-      if (!userString) return null; // Return null if no user data exists
-
-      try {
-        const userData = JSON.parse(userString);
-        return userData.name; // Extract and return the name
-      } catch (error) {
-        console.error("Failed to parse user data:", error);
-        return null; // Return null if parsing fails
-      }
-    };
-
-    const currUsername = getNameFromLocalStorage();
-    if (currUsername) {
-      setUsername(currUsername); // Set username if available
-    }
-
-    // Function to update username from local storage
-    const updateUsername = () => {
-      const updatedName = getNameFromLocalStorage();
-      if (updatedName && updatedName !== username) {
-        setUsername(updatedName);
-      }
-    };
-
-    window.addEventListener('storage', updateUsername);
-
-    // Cleanup listener on component unmount
-    return () => {
-      window.removeEventListener('storage', updateUsername);
-    };
-  }, []); // No need for username in dependency array, only run on mount
 
   const convertToHebrewNumber = (number) => {
     // For days only (not years)
