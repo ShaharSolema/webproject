@@ -45,9 +45,7 @@ export const registerUser = async (formData) => {
       ? { username: response.data.user.username, name: response.data.user.firstname }
       : null;
 
-    if (userData) {
-      localStorage.setItem('user', JSON.stringify(userData)); // Save user data to localStorage
-    }
+    
 
     return { success: true, user: userData };
   } catch (error) {
@@ -60,7 +58,6 @@ export const registerUser = async (formData) => {
 export const logoutUser = async () => {
   try {
     await axiosInstanse.post(API_ROUTES.AUTH.LOGOUT, {}, { withCredentials: true });
-    localStorage.removeItem('user');
     return { success: true };
   } catch (error) {
     console.error('Error logging out:', error.response?.data || error.message);
