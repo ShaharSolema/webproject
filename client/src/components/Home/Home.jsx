@@ -4,6 +4,7 @@ import CategoryBoxes from './CategoryBoxes';
 import Testimonials from './Testimonials';
 import Whyus from './Whyus'; 
 import bannerImage from '../data/pictures/shoppingIL.png';  // ייבוא התמונה
+import StoreMap from '../Constant/StoreMap';
 
 const Home = () => {
   // הגדרת זמן לספירה לאחור
@@ -47,6 +48,9 @@ const Home = () => {
         <CategoryBoxes />
         <Testimonials />
         <Whyus />
+        <h1>איפה אנחנו נמצאים</h1>
+        <StoreMap />
+
       </div>
     </main>
   );
