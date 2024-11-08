@@ -61,7 +61,7 @@ const FAQ = () => {
   ];
 
   return (
-    <div style={{ maxWidth: '100%', margin: '80px', padding: '0', textAlign: 'right' }}>
+    <div style={{ maxWidth: '100%', margin: '80px', padding: '0', textAlign: 'right',direction:'rtl' }}>
       <style>
         {`
           .instagram-link {
@@ -74,6 +74,9 @@ const FAQ = () => {
           .answer {
             transition: height 0.3s ease, padding 0.3s ease;
             overflow: hidden;
+          }
+          .answer p {
+            color: black !important;
           }
         `}
       </style>
@@ -116,12 +119,16 @@ const FAQ = () => {
             style={{
               height: activeIndex === index ? height : '0px',
               backgroundColor: '#fff',
-              padding: activeIndex === index ? '15px' : '0 15px', // padding when open, none when closed
+              padding: activeIndex === index ? '10px' : '0 15px',
               textAlign: 'right',
+              color: 'black',
             }}
             ref={activeIndex === index ? answerRef : null}
           >
-            <p dangerouslySetInnerHTML={{ __html: item.answer }} />
+            <p 
+              style={{ color: 'black' }}
+              dangerouslySetInnerHTML={{ __html: item.answer }}
+            />
           </div>
         </div>
       ))}
