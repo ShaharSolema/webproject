@@ -113,7 +113,7 @@ const Header = () => {
     cursor: 'default',
     fontSize: '0.8rem',
     color: '#555',
-    fontFamily: 'calibri',
+    fontFamily: '-apple-system, Gisha, Calibri, Arial, sans-serif',
     direction: 'rtl',
     boxShadow: '0 1px 2px rgba(0,0,0,0.05)',
     marginRight: '15px',

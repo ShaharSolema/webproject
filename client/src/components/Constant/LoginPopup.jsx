@@ -116,7 +116,7 @@ const LoginPopup = ({ onClose, setGlobalUser }) => {
           <UserUpdateForm user={localUser} onBackToLogin={handleToggleUpdateForm} /> // Pass user to update form
         ) : localUser ? (
           <>
-            <h3>{localUser.firstname}, היי</h3>
+            <h3>היי, {localUser.firstname}</h3>
             <button onClick={handleOrderHistoryRedirect} className="btn btn-info mb-2">
               <i className="bi bi-clock-history"></i> היסטוריית הזמנות
             </button>

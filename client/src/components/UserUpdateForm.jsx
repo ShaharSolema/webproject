@@ -156,15 +156,15 @@ const UserUpdateForm = ({ user, onBackToLogin }) => {
     <form onSubmit={handleSubmit}>
       <h1>עדכון פרטי משתמש</h1>
       {[
-        { label: ':אימייל', name: 'email', type: 'email' },
-        { label: ':שם פרטי', name: 'firstname', type: 'text' },
-        { label: ':שם משפחה', name: 'lastname', type: 'text' },
-        { label: ':רחוב', name: 'street', type: 'text' },
-        { label: ':מספר רחוב', name: 'streetnum', type: 'number' },
-        { label: ':מיקוד', name: 'postalcode', type: 'text' },
-        { label: ':עיר', name: 'city', type: 'text' },
-        { label: ':מספר פלאפון', name: 'telephone', type: 'text' },
-        { label: ':תאריך לידה', name: 'birthday', type: 'date' },
+        { label: 'אימייל', name: 'email', type: 'email' },
+        { label: 'שם פרטי', name: 'firstname', type: 'text' },
+        { label: 'שם משפחה', name: 'lastname', type: 'text' },
+        { label: 'רחוב', name: 'street', type: 'text' },
+        { label: 'מספר רחוב', name: 'streetnum', type: 'number' },
+        { label: 'מיקוד', name: 'postalcode', type: 'text' },
+        { label: 'עיר', name: 'city', type: 'text' },
+        { label: 'מספר פלאפון', name: 'telephone', type: 'text' },
+        { label: 'תאריך לידה', name: 'birthday', type: 'date' },
       ].map((field) => (
         <div key={field.name}>
           <label>{field.label}:</label>
