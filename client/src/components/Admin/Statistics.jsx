@@ -143,7 +143,7 @@ const StatisticsPage = () => {
     labels: monthlyIncome.map(data => data.month),
     datasets: [
       {
-        label: 'הכ חודשית',
+        label: 'הכנסה חודשית',
         data: monthlyIncome.map(data => data.totalIncome),
         fill: false,
         borderColor: 'rgb(75, 192, 192)',
