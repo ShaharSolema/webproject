@@ -6,7 +6,7 @@
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   direction: rtl; /* שינוי כיוון ל-rtl */
-  font-family: calibri;
+  font-family: -apple-system, Gisha, Calibri, system-ui, sans-serif;
 }
 
 .admin-page h1 {

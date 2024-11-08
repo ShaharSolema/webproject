@@ -34,7 +34,7 @@
 .about-text {
   flex: 1;
   padding: 20px;
-  font-family: 'Calibri', sans-serif;
+  font-family: -apple-system, Gisha, Calibri, system-ui, sans-serif;
   line-height: 1.6;
   text-align: right;
   margin-right: 33.33%; /* מרווח שמשאיר מקום לתמונה בצד ימין */
