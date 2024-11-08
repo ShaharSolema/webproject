@@ -39,7 +39,7 @@ const FloatingIcon = () => {
 
   const getIconStyle = (index) => ({
     position: 'fixed',
-    bottom: isAboveFooter ? `${220 + (index * 60)}px` : `${20 + (index * 60)}px`,
+    bottom: isAboveFooter ? `${235 + (index * 60)}px` : `${35 + (index * 60)}px`,
     left: '10px',
     zIndex: 998,
     transition: 'bottom 0.3s, transform 0.3s',
