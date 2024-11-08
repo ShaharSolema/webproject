@@ -15,6 +15,11 @@ body {
     overflow-x: hidden; /* מונע גלילה אופקית */
     overflow-y: auto; /* מאפשר גלילה אנכית */
     margin: 0; /* מסיר מרג'ין לברירת מחדל */
+    background-image: repeating-linear-gradient(135deg, rgba(255,255,255,0.04) 0px, rgba(255,255,255,0.04) 2px,transparent 2px, transparent 4px),linear-gradient(0deg, rgb(250,210,204),rgb(255,255,255));
+    background-attachment: fixed; /* מקבע את הרקע */
+    background-size: cover; /* מכסה את כל המסך */
+    background-position: center; /* ממרכז את הרקע */
+    background-repeat: no-repeat; /
 }
 .categories-title{
     text-align: center;

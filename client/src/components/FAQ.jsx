@@ -61,7 +61,7 @@ const FAQ = () => {
   ];
 
   return (
-    <div style={{ maxWidth: '100%', margin: '80px', padding: '0', textAlign: 'right' }}>
+    <div style={{ maxWidth: '100%', margin: '80px', padding: '0', textAlign: 'right',direction:'rtl' }}>
       <style>
         {`
           .instagram-link {

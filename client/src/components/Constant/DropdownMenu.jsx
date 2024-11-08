@@ -94,9 +94,9 @@ const MenuButton = () => {
           ></button>
         </div>
         <div className="offcanvas-body">
-          <ul className="navbar-nav justify-content-end flex-grow-1 pe-3">
+          <ul className="navbar-nav justify-content-end flex-grow-1 pe-3" style={{ textAlign: 'right' }}>
             <li className="nav-item">
-              <a className="nav-link active" aria-current="page" href="/">דף הבית</a>
+              <a className="nav-link active" aria-current="page" href="/" style={{ textAlign: 'right' }}>דף הבית</a>
             </li>
             <li className="nav-item">
               <a 
@@ -106,6 +106,7 @@ const MenuButton = () => {
                   e.preventDefault();
                   toggleSubmenu();
                 }}
+                style={{ textAlign: 'right' }}
               >
                 קורסים והשתלמויות
               </a>
@@ -118,13 +119,13 @@ const MenuButton = () => {
               )}
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="/productstore">חנות מוצרים</a>
+              <a className="nav-link" href="/productstore" style={{ textAlign: 'right' }}>חנות מוצרים</a>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="/about">קצת עליי</a>
+              <a className="nav-link" href="/about" style={{ textAlign: 'right' }}>קצת עליי</a>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="/faq">שאלות ותשובות</a>
+              <a className="nav-link" href="/faq" style={{ textAlign: 'right' }}>שאלות ותשובות</a>
             </li>
           </ul>
         </div>

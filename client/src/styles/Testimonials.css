@@ -50,7 +50,7 @@
   .carousel-control-prev,
   .carousel-control-next {
     width: 5%; /* רוחב החצים */
-    background: rgba(255, 255, 255, 0.5); /* צבע רקע לחצים */
+    background: none; /* צבע רקע לחצים */
     border-radius: 50%; /* פינות מעוגלות לחצים */
   }
   
