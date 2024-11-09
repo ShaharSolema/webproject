@@ -47,8 +47,10 @@ const StoreMap = () => {
             }
         );
 
-        const behavior = new window.H.mapevents.Behavior(new window.H.mapevents.MapEvents(map));
-        
+        setMapInstance(map);
+
+        new window.H.mapevents.Behavior(new window.H.mapevents.MapEvents(map));
+
         const normalIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24">' +
             '<path fill="#e91e63" d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>' +
             '<circle fill="#fff" cx="12" cy="9" r="2.5"/>' +
@@ -63,54 +65,22 @@ const StoreMap = () => {
         const hoverMarkerIcon = new window.H.map.Icon(hoverIcon);
         const marker = new window.H.map.Marker(studioLocation, { icon });
         
+
         marker.addEventListener('pointerenter', () => {
             mapRef.current.style.cursor = 'pointer';
             marker.setIcon(hoverMarkerIcon);
         });
 
         marker.addEventListener('pointerleave', () => {
-            mapRef.current.style.cursor = 'grab';
+            mapRef.current.style.cursor = 'default';
             marker.setIcon(icon);
         });
 
         marker.addEventListener('tap', () => {
             setIsSidebarOpen(true);
-            mapRef.current.style.cursor = 'grab';
-        });
-
-        mapRef.current.addEventListener('mousedown', () => {
-            if (mapRef.current.style.cursor !== 'pointer') {
-                mapRef.current.style.cursor = 'grabbing';
-            }
-        });
-        
-        mapRef.current.addEventListener('mouseup', () => {
-            if (mapRef.current.style.cursor !== 'pointer') {
-                mapRef.current.style.cursor = 'grab';
-            }
-        });
-        
-        mapRef.current.addEventListener('mouseleave', () => {
-            if (mapRef.current.style.cursor !== 'pointer') {
-                mapRef.current.style.cursor = 'grab';
-            }
-        });
-
-        map.addEventListener('dragstart', () => {
-            if (mapRef.current.style.cursor !== 'pointer') {
-                mapRef.current.style.cursor = 'grabbing';
-            }
-        });
-        
-        map.addEventListener('dragend', () => {
-            if (mapRef.current.style.cursor !== 'pointer') {
-                mapRef.current.style.cursor = 'grab';
-            }
         });
 
         map.addObject(marker);
-        setMapInstance(map);
-
         window.addEventListener('resize', () => map.getViewPort().resize());
 
         return () => {
@@ -167,10 +137,9 @@ const StoreMap = () => {
                     style={{ 
                         height: '100%',
                         cursor: 'grab',
-                        userSelect: 'none',
-                        '-webkit-user-select': 'none',
-                        '-moz-user-select': 'none',
-                        '-ms-user-select': 'none',
+                        '&:active': {
+                            cursor: 'grabbing'
+                        }
                     }} 
                 />
                 

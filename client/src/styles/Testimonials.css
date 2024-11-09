@@ -21,7 +21,7 @@
     margin: 10px; /* רווח בין הריבועים */
     padding: 10px; /* רווח פנימי */
     width: 300px; /* רוחב קבוע לריבועים */
-    height: 570px; /* גובה קבוע לריבועים */
+    height: 600px; /* גובה קבוע לריבועים */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* צל לריבועים */
     direction: rtl;
     background-color: whitesmoke;
