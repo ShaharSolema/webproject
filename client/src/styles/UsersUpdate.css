@@ -50,6 +50,11 @@
 .action-cell {
   display: flex;
   gap: 10px; /* רווח בין הכפתורים */
+  align-items: center; /* יישור אנכי במרכז */
+  justify-content: center; /* יישור אופקי במרכז */
+  height: 100%; /* גובה מלא של התא */
+  margin: 0; /* ביטול מרווחים */
+  padding: 0; /* ביטול ריפוד */
 }
 
 .action-button,
@@ -59,6 +64,13 @@
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.2s ease;
+  width: 120px; /* רוחב קבוע */
+  height: 35px; /* גובה קבוע */
+  font-size: 14px; /* גודל טקסט אחיד */
+  display: inline-flex; /* שינוי ל-inline-flex */
+  align-items: center; /* יישור אנכי של הטקסט */
+  justify-content: center; /* יישור אופקי של הטקסט */
+  margin: 0; /* ביטול מרווחים */
 }
 
 .action-button {

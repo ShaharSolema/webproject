@@ -105,7 +105,7 @@ const BugReportForm = ({ onClose }) => {
     <div className="bug-report-overlay" style={{ zIndex: 100000000 }} onClick={(e) => e.target.classList.contains('bug-report-overlay') && onClose()}>
       <div className="bug-report-popup" style={{ zIndex: 10000000 }}>
         <div className="popup-header">
-          <h3>דווח על באג</h3>
+          <h3>דווח/י על תקלה</h3>
           <button className="close-button" onClick={onClose}>×</button>
         </div>
         <form onSubmit={handleSubmit}>
