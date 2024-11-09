@@ -4,6 +4,7 @@ import logo from '../styles/Michal.jpg';
 import '../styles/Cart.css';
 import '../styles/LoginPopup.css';
 import { useNavigate } from 'react-router-dom';
+import LoadingSpinner from './LoadingSpinner';
 
 const Cart = ({ isOpen, onClose, user }) => {
   const [cartItems, setCartItems] = useState([]);
@@ -145,7 +146,10 @@ const Cart = ({ isOpen, onClose, user }) => {
           {!user ? (
             <p className="login-message">אנא התחבר/י כדי לצפות בעגלת הקניות</p>
           ) : isLoading ? (
-            <div className="loading-spinner">טוען...</div>
+            <div className="loading-container">
+              <LoadingSpinner /> {/* הצגת קומפוננטת האנימציה */}
+              <p>טוען את עגלת הקניות שלך...</p> {/* טקסט מתחת לאנימציה */}
+            </div>
           ) : cartItems.length > 0 ? (
             cartItems.map((item) => (
               <div key={item.productId._id} className="cart-item">

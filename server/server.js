@@ -1,6 +1,6 @@
 require('dotenv').config();
 const express = require("express");
-const cors = require("cors"); //ADD LATER FOR SECURITY MEASURES
+const cors = require("cors");
 const connectDB = require("./config/db");
 const userRoutes = require("./routes/userRoutes");
 const productRoutes = require("./routes/productRoutes");
