@@ -33,21 +33,34 @@ const getProductSales = async (req, res) => {
   try {
     const productSales = await Product.aggregate([
       {
+        $unwind: "$categories"  // פיצול מערך הקטגוריות
+      },
+      {
         $group: {
-          _id: "$name", // Assuming 'name' is the field that holds product names
-          totalSales: { $sum: "$quantitysold" }, // Summing up the quantity sold
+          _id: {
+            name: "$name",
+            categories: "$categories"
+          },
+          totalSales: { $sum: "$quantitysold" },
         },
       },
       {
         $project: {
-          productName: "$_id",
+          productName: "$_id.name",
+          categories: "$_id.categories",
           totalSales: 1,
           _id: 0,
         },
       },
+      {
+        $sort: { totalSales: -1 }
+      }
     ]);
+    
+    
     res.json(productSales);
   } catch (error) {
+    console.error('Error in getProductSales:', error);
     res.status(500).json({ message: error.message });
   }
 };
