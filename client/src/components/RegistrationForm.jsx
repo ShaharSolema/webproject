@@ -46,12 +46,12 @@ const RegistrationForm = ({ onBackToLogin }) => {
         break;
       case 'firstname':
         if (!value) errors.firstname = 'לא הוזן שם פרטי';
-        else if (!validator.isAlpha(value, 'en-US', { ignore: ' ' }) && !validator.isAlpha(value, 'he', { ignore: ' ' })) errors.firstname = 'First name contains invalid characters!';
+        else if (!validator.isAlpha(value, 'en-US', { ignore: ' ' }) && !validator.isAlpha(value, 'he', { ignore: ' ' })) errors.firstname = 'שם פרטי מכיל תווים שגויים';
         else if (value.length < 2) errors.firstname = 'השם חייב להכיל יותר מ-2 אותיות';
         break;
       case 'lastname':
         if (!value) errors.lastname = 'לא הוזן שם משפחה';
-        else if (!validator.isAlpha(value, 'en-US', { ignore: ' ' }) && !validator.isAlpha(value, 'he', { ignore: ' ' })) errors.lastname = 'Last name contains invalid characters!';
+        else if (!validator.isAlpha(value, 'en-US', { ignore: ' ' }) && !validator.isAlpha(value, 'he', { ignore: ' ' })) errors.lastname = 'שם משפחה מכיל תווים שגויים';
         else if (value.length < 2) errors.lastname = 'השם משפחה חייב להיות יותר מ-2 אותיות';
         break;
       case 'street':
