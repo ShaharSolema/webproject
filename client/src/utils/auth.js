@@ -119,24 +119,29 @@ export const updateUser = async (userData) => {
   try {
     const response = await axiosInstanse.put(API_ROUTES.USERS.UPDATE(userData.id), userData, { withCredentials: true });
     
-    const updatedUserData = response.data?.user
-      ? {
-          firstname: response.data.user.firstname,
-          lastname: response.data.user.lastname,
-          email: response.data.user.email,
-          street: response.data.user.street,
-          streetnum: response.data.user.streetnum,
-          postalcode: response.data.user.postalcode,
-          city: response.data.user.city,
-          telephone: response.data.user.telephone,
-          birthday: response.data.user.birthday,
-          manager: response.data.user.manager,
+    
+    // Check if we have the updated data in the response
+    if (response.data && response.status === 200) {  
+      return { 
+        success: true,
+        user: {
+          firstname: userData.firstname,
+          lastname: userData.lastname,
+          email: userData.email,
+          street: userData.street,
+          streetnum: userData.streetnum,
+          postalcode: userData.postalcode,
+          city: userData.city,
+          telephone: userData.telephone,
+          birthday: userData.birthday,
+          manager: userData.manager,
         }
-      : null;
+      };
+    }
 
     return { 
-      success: !!updatedUserData, 
-      user: updatedUserData 
+      success: false,
+      error: 'Failed to update user data'
     };
   } catch (error) {
     console.error('Error updating user:', error.response?.data || error.message);
