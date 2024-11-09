@@ -1,6 +1,6 @@
 .order-history {
     padding: 2rem;
-    max-width: 1200px;
+    width: 750px;
     margin: 0 auto;
 }
 
@@ -91,4 +91,12 @@
 
 .confirmation-dialog {
     animation: slideIn 0.3s ease-out;
+}
+
+/* הוספת סגנון חדש למרכוז סה"כ לתשלום */
+.order-total {
+    text-align: center;
+    font-weight: bold;
+    margin: 1rem 0;
+    font-size: 1.1rem;
 } 
