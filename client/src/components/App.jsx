@@ -23,6 +23,7 @@ import OrderSuccess from './OrderSuccess';
 import OrderManagement from './Admin/OrderManagement';
 import OrderHistory from './OrderHistory';
 import BugManagement from './Admin/BugManagement';
+import ProtectedAdminRoute from '../utils/ProtectedAdminRoute';
 
 
 
@@ -51,15 +52,35 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/faq" element={<FAQ />} />
           <Route path="/highlight" element={<Highlight />} />
-          <Route path="/usersadmin" element={<UsersUpdate />} />
           <Route path="/productstore" element={<ProductStore />} />
-          <Route path="/statistics" element={<Statistics />} />
-          <Route path="/productsmanagement" element={<ProductsManagement />} />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/order-success" element={<OrderSuccess />} />
-          <Route path="/ordersmanagement" element={<OrderManagement />} />
           <Route path="/order-history" element={<OrderHistory />} />
-          <Route path="/bugmanagement" element={<BugManagement />} />
+          <Route path="/usersadmin" element={
+            <ProtectedAdminRoute>
+              <UsersUpdate />
+            </ProtectedAdminRoute>
+          } />
+          <Route path="/statistics" element={
+            <ProtectedAdminRoute>
+              <Statistics />
+            </ProtectedAdminRoute>
+          } />
+          <Route path="/productsmanagement" element={
+            <ProtectedAdminRoute>
+              <ProductsManagement />
+            </ProtectedAdminRoute>
+          } />
+          <Route path="/ordersmanagement" element={
+            <ProtectedAdminRoute>
+              <OrderManagement />
+            </ProtectedAdminRoute>
+          } />
+          <Route path="/bugmanagement" element={
+            <ProtectedAdminRoute>
+              <BugManagement />
+            </ProtectedAdminRoute>
+          } />
         </Routes>
       </div>
       <FloatingIcon />
