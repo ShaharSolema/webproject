@@ -18,7 +18,6 @@ export const loginUser = async (formData) => {
   try {
     const response = await axiosInstanse.post(API_ROUTES.AUTH.LOGIN, formData, { withCredentials: true });
     
-    console.log('Login API Response:', response.data); // Debugging
 
     const userData = response.data?.user;
     

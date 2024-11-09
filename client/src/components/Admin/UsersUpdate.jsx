@@ -20,13 +20,10 @@ const AdminPage = () => {
   }, []);
 
   const toggleAdminPrivilege = async (userId, manager) => {
-    console.log(`Toggling admin privilege for User ID: ${userId}, Current Manager Status: ${manager}`); // Log before API call
     try {
       const response = await axiosInstanse.put(API_ROUTES.USERS.UPDATE(userId), { manager: !manager }, { withCredentials: true });
       const updatedUser = response.data;
-      console.log('Updated User:', updatedUser); // Log the updated user data
       setUsers(users.map((user) => (user._id === userId ? updatedUser : user)));
-      console.log('Updated User:', updatedUser); // Log after API call
 
     } catch {
       console.error('Error updating admin privilege:', error); // Log the error message
