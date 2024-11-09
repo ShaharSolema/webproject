@@ -10,6 +10,7 @@ const BugManagement = () => {
     const [selectedPriority, setSelectedPriority] = useState('all');
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [fontFamily, setFontFamily] = useState('Calibri, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif');
 
     const statusOptions = {
         'new': 'חדש',
@@ -32,6 +33,14 @@ const BugManagement = () => {
     useEffect(() => {
         filterBugs();
     }, [selectedStatus, selectedPriority, bugs]);
+
+    useEffect(() => {
+        // Detect if running on macOS
+        const isMac = /Mac|iPod|iPhone|iPad/.test(navigator.platform);
+        if (isMac) {
+            setFontFamily('Gisha, -apple-system, system-ui, sans-serif');
+        }
+    }, []);
 
     const fetchBugs = async () => {
         try {
@@ -85,7 +94,7 @@ const BugManagement = () => {
     if (error) return <div className="error">{error}</div>;
 
     return (
-        <div className="bug-management">
+        <div className="bug-management" style={{ fontFamily }}>
             <div className="page-header">
                 <h2>ניהול דיווחי באגים</h2>
                 <div className="bug-stats">
@@ -104,26 +113,26 @@ const BugManagement = () => {
 
             <div className="filter-section">
                 <div className="filter-group">
-                    <label>סנן לפי סטטוס:</label>
-                    <select 
-                        value={selectedStatus}
-                        onChange={(e) => setSelectedStatus(e.target.value)}
-                    >
-                        <option value="all">הכל</option>
-                        {Object.entries(statusOptions).map(([value, label]) => (
-                            <option key={value} value={value}>{label}</option>
-                        ))}
-                    </select>
-                </div>
-
-                <div className="filter-group">
-                    <label>סנן לפי דחיפות:</label>
+                    <label>:סנן לפי דחיפות</label>
                     <select
                         value={selectedPriority}
                         onChange={(e) => setSelectedPriority(e.target.value)}
                     >
                         <option value="all">הכל</option>
                         {Object.entries(priorityOptions).map(([value, label]) => (
+                            <option key={value} value={value}>{label}</option>
+                        ))}
+                    </select>
+                </div>
+
+                <div className="filter-group">
+                    <label>:סנן לפי סטטוס</label>
+                    <select 
+                        value={selectedStatus}
+                        onChange={(e) => setSelectedStatus(e.target.value)}
+                    >
+                        <option value="all">הכל</option>
+                        {Object.entries(statusOptions).map(([value, label]) => (
                             <option key={value} value={value}>{label}</option>
                         ))}
                     </select>
@@ -140,7 +149,7 @@ const BugManagement = () => {
                                 <h3>{bug.title}</h3>
                                 <div className="bug-status-controls">
                                     <div className="control-group">
-                                        <label>סטטוס:</label>
+                                        <label>:סטטוס</label>
                                         <select
                                             value={bug.status}
                                             onChange={(e) => handleUpdate(bug._id, { 
@@ -155,7 +164,7 @@ const BugManagement = () => {
                                         </select>
                                     </div>
                                     <div className="control-group">
-                                        <label>דחיפות:</label>
+                                        <label>:דחיפות</label>
                                         <select
                                             value={bug.priority}
                                             onChange={(e) => handleUpdate(bug._id, { 

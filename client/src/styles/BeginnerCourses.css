@@ -1,0 +1,146 @@
+BeginnerCourses.css
+
+.beginner-courses-wrapper {
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+  height: 800px;
+  margin: 0;
+  margin-top: 60px;
+  margin-bottom: 100px;
+  background-color: #f7f7f7;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.beginner-courses-text {
+  flex: 2; /* שני שליש מהבלוק */
+  padding: 20px;
+  font-family: 'Calibri', sans-serif;
+  line-height: 1.6;
+  text-align: right;
+  direction: rtl;
+}
+
+.beginner-courses-text h2 {
+  color: #93e3e9;
+  margin-bottom: 20px;
+  font-size: 28px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.beginner-courses-text p {
+  margin-bottom: 15px;
+  font-size: 16px;
+  color: #555;
+}
+
+.beginner-courses-text h5 {
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  color: #333;
+}
+
+.beginner-courses-image {
+  flex: 1; /* שליש מהבלוק */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f7f7f7;
+}
+
+.beginner-courses-image img {
+  width: 100%;
+  height: 110%;
+  object-fit: cover;
+}
+
+.fade-in {
+  opacity: 1;
+  transition: opacity 0.5s ease-in;
+}
+
+.fade-out {
+  opacity: 0;
+  transition: opacity 0.5s ease-out;
+}
+
+.beginner-courses-signup {
+  text-align: center;
+  margin-top: 30px;
+  padding: 20px;
+  background-color: #f7f7f7;
+  border-radius: 8px;
+  /*box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);*/
+}
+
+.beginner-courses-signup h3 {
+  font-size: 24px;
+  color: black;
+  margin-bottom: 10px;
+}
+
+.beginner-courses-signup p {
+  font-size: 16px;
+  color: #555;
+  margin-bottom: 15px;
+}
+
+.beg-signup-button {
+  background-color: #cee9eb;
+  color:black;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  text-decoration: none; /* כדי להסיר קו תחתון */
+}
+
+.beg-signup-button:hover {
+  background-color: #e6f8f9;
+}
+
+@media (max-width: 768px) {
+  .beginner-courses-wrapper {
+    flex-direction: column;
+    height: auto;
+    margin-top: 50px;
+  }
+
+  .beginner-courses-text {
+    padding: 15px;
+    text-align: center;
+  }
+
+  .beginner-courses-text h2 {
+    font-size: 24px;
+  }
+
+  .beginner-courses-text p {
+    font-size: 14px;
+  }
+
+  .beginner-courses-image {
+    height: 200px;
+  }
+}
+
+@media (max-width: 480px) {
+  .beginner-courses-wrapper {
+    margin-top: 30px;
+  }
+
+  .beginner-courses-text {
+    padding: 10px;
+  }
+
+  .beginner-courses-image {
+    height: 150px;
+  }
+}

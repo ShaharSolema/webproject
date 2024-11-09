@@ -35,6 +35,8 @@ const StatisticsPage = () => {
   const [monthlyIncome, setMonthlyIncome] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [categories, setCategories] = useState([]);
 
   const fetchUserRegistrations = async () => {
     try {
@@ -99,6 +101,29 @@ const StatisticsPage = () => {
     fetchStatistics();
   }, []);
 
+  useEffect(() => {
+    const uniqueCategories = [...new Set(productSales.map(sale => sale.category))];
+    setCategories(uniqueCategories);
+  }, [productSales]);
+
+  useEffect(() => {
+    console.log('Product Sales Data:', productSales);
+    console.log('Selected Category:', selectedCategory);
+  }, [productSales, selectedCategory]);
+
+  const getFilteredProductSales = () => {
+    let filteredSales = [...productSales];
+    
+    if (selectedCategory !== 'all') {
+      filteredSales = filteredSales.filter(sale => 
+        sale.categories && sale.categories === selectedCategory
+      );
+    }
+    
+    console.log('Filtered Sales:', filteredSales);
+    return filteredSales.sort((a, b) => b.totalSales - a.totalSales);
+  };
+
   const registrationChartData = {
     labels: userRegistrations.map((reg) => `Month ${reg.month}`),
     datasets: [
@@ -111,11 +136,11 @@ const StatisticsPage = () => {
   };
 
   const productSalesChartData = {
-    labels: productSales.map((sale) => sale.productName),
+    labels: getFilteredProductSales().map((sale) => sale.productName),
     datasets: [
       {
         label: 'כלל המכירות',
-        data: productSales.map((sale) => sale.totalSales),
+        data: getFilteredProductSales().map((sale) => sale.totalSales),
         backgroundColor: 'rgba(255, 99, 132, 0.6)',
       },
     ],
@@ -237,27 +262,71 @@ const StatisticsPage = () => {
         </div>
 
         <div className="chart-card">
-          <h2>מכירת מוצרים</h2>
-          <div className="chart-wrapper">
-            <Bar 
-              data={productSalesChartData} 
-              options={{
-                ...chartOptions,
-                scales: {
-                  y: {
-                    beginAtZero: true,
-                    grid: {
-                      color: 'rgba(0, 0, 0, 0.05)'
+          <div className="chart-header">
+            <h2>מכירת מוצרים</h2>
+            <select 
+              className="category-filter"
+              value={selectedCategory}
+              onChange={(e) => {
+                console.log('Selected new category:', e.target.value);
+                setSelectedCategory(e.target.value);
+              }}
+            >
+              <option value="all">כל הקטגוריות</option>
+              {[
+                'ראשי הסרה',
+                'ראשי מניקור',
+                'כלי מניקור',
+                'בייסים',
+                'טופים',
+                'גלים',
+                'בנייה והשלמה',
+                'מכחולים',
+                'קישוטים',
+                'חד פעמי',
+                'אקסטרה'
+              ].map(category => (
+                <option key={category} value={category}>
+                  {category}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="chart-wrapper" style={{ overflowX: 'auto', overflowY: 'hidden' }}>
+            <div style={{ minWidth: `${Math.max(getFilteredProductSales().length * 60, 400)}px`, height: '100%' }}>
+              <Bar 
+                data={productSalesChartData} 
+                options={{
+                  ...chartOptions,
+                  scales: {
+                    y: {
+                      beginAtZero: true,
+                      grid: {
+                        color: 'rgba(0, 0, 0, 0.05)'
+                      }
+                    },
+                    x: {
+                      grid: {
+                        display: false
+                      },
+                      ticks: {
+                        maxRotation: 45,
+                        minRotation: 45,
+                        font: {
+                          size: 11
+                        }
+                      }
                     }
                   },
-                  x: {
-                    grid: {
-                      display: false
+                  maintainAspectRatio: false,
+                  plugins: {
+                    legend: {
+                      position: 'top',
                     }
                   }
-                }
-              }}
-            />
+                }}
+              />
+            </div>
           </div>
         </div>
 

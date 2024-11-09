@@ -37,7 +37,7 @@ const RegistrationForm = ({ onBackToLogin }) => {
         else if (value.length < 6) errors.username = 'שם משתמש חייב להיות יותר מ-6 אותיות';
         break;
       case 'email':
-        if (!validator.isEmail(value)) errors.email = 'האימייל שגוי';
+        if (!validator.isEmail(value)) errors.email = 'האימייל אינו תקין';
         break;
       case 'password':
         if (!passwordValidator(value)) {

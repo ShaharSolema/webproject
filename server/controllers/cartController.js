@@ -29,7 +29,8 @@ exports.createOrUpdateCart = async (req, res) => {
 // Get a user's cart
 exports.getCart = async (req, res) => {
     try {
-        let cart = await Cart.findOne({ userId: req.params.userId }).populate('items.productId');
+        let cart = await Cart.findOne({ userId: req.params.userId })
+            .populate('items.productId');
         
         if (!cart) {
             // If no cart exists, create an empty one
@@ -38,6 +39,15 @@ exports.getCart = async (req, res) => {
                 items: []
             });
             await cart.save();
+        } else {
+            // Filter out items where productId is null (deleted products)
+            const validItems = cart.items.filter(item => item.productId != null);
+            
+            // If there were deleted products, update the cart
+            if (validItems.length !== cart.items.length) {
+                cart.items = validItems;
+                await cart.save();
+            }
         }
         
         return res.status(200).json(cart);

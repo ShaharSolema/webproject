@@ -147,13 +147,17 @@ export const updateUser = async (userData) => {
 
 export const getCart = async (userId) => {
   try {
+    if (!userId) {
+      return { items: [], error: 'No logged in user' };
+    }
+
     const response = await axiosInstanse.get(API_ROUTES.CARTS.GET_BY_USER(userId), { 
       withCredentials: true 
     });
     return response.data;
   } catch (error) {
     console.error('Error fetching cart:', error);
-    return { items: [] };
+    return { items: [], error: 'Error fetching cart' };
   }
 };
 

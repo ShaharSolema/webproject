@@ -6,25 +6,37 @@ const createOrder = async (req, res) => {
     try {
         const { items, ...orderDetails } = req.body;
         
-        // Validate stock levels for all items
+        // Validate all products exist and have sufficient stock
         for (const item of items) {
             const product = await Product.findById(item.productId._id);
             
             if (!product) {
-                console.error(`Product not found: ${item.productId.name}`);
+                // Remove deleted product from user's cart
+                await Cart.findOneAndUpdate(
+                    { userId: req.user._id },
+                    { $pull: { items: { productId: item.productId._id } } }
+                );
+
                 return res.status(400).json({
                     success: false,
-                    message: `מוצר לא נמצא: ${item.productId.name}`
+                    message: `המוצר "${item.productId.name}" אינו זמין יותר במערכת. הוסר מהעגלה.`
                 });
             }
 
             if (product.stock < item.quantity) {
-                console.error(`Insufficient stock for ${product.name}. Available: ${product.stock}`);
                 return res.status(400).json({
                     success: false,
                     message: `כמות לא מספיקה במלאי עבור ${product.name}. כמות זמינה: ${product.stock}`
                 });
             }
+
+            // Update product stock and quantitysold
+            await Product.findByIdAndUpdate(product._id, {
+                $inc: {
+                    stock: -item.quantity,
+                    quantitysold: item.quantity
+                }
+            });
 
             // Ensure price is set for each item
             item.price = product.price;
