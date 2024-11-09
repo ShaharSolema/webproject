@@ -1,12 +1,12 @@
 /* LoadingSpinner.css */
 .spinner {
     border: 8px solid #f3f3f3; /* צבע רקע */
-    border-top: 8px solid #3498db; /* צבע הטבעת המסתובבת */
-    border-radius: 50%; /* מעגל */
+    border-top: 8px solid #ef8bc5; /* צבע הטבעת המסתובבת */
+    border-radius: 80%; /* מעגל */
     width: 60px;
     height: 60px;
     animation: spin 1s linear infinite;
-    margin: 20px auto; /* מרכז את העיגול */
+    margin: 50px auto; /* מרכז את העיגול */
   }
   
   @keyframes spin {
