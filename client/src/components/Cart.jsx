@@ -77,15 +77,18 @@ const Cart = ({ isOpen, onClose, user }) => {
 
   const handleUpdateQuantity = async (productId, newQuantity) => {
     try {
+      const item = cartItems.find(item => item.productId._id === productId);
+      
+      if (newQuantity > item.productId.stock) {
+        alert('לא ניתן להוסיף יותר פריטים מהכמות במלאי');
+        return;
+      }
+
       if (newQuantity <= 0) {
-        // Remove item if quantity is 0 or less
         await updateCartItem(user._id, productId, 0);
-        // Update local state to remove the item
         setCartItems(prev => prev.filter(item => item.productId._id !== productId));
       } else {
-        // Update quantity
         await updateCartItem(user._id, productId, newQuantity);
-        // Update local state with new quantity
         setCartItems(prev => prev.map(item => 
           item.productId._id === productId 
             ? { ...item, quantity: newQuantity }
@@ -196,6 +199,7 @@ const Cart = ({ isOpen, onClose, user }) => {
                       onClick={() => handleUpdateQuantity(item.productId._id, item.quantity + 1)}
                       className="quantity-btn increase"
                       aria-label="Increase quantity"
+                      disabled={item.quantity >= item.productId.stock}
                     >
                       <span className="quantity-btn-text">+</span>
                     </button>
