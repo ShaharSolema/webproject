@@ -54,12 +54,34 @@ exports.updateUser = async (req, res) => {
 // Delete a user by ID
 exports.deleteUser = async (req, res) => {
   try {
-    const user = await User.findByIdAndDelete(req.params.id);
+    const userId = req.params.id;
+    
+    const user = await User.findById(userId);
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
-    res.status(204).send();
+
+    await Order.updateMany(
+      { user: userId },
+      { 
+        $set: {
+          user: null,
+          userDetails: {
+            firstname: user.firstname,
+            lastname: user.lastname,
+            email: user.email,
+            telephone: user.telephone,
+            isDeleted: true, // מציין שהמשתמש נמחק
+            deletedAt: new Date() // מתי המשתמש נמחק
+          }
+        }
+      }
+    );
+
+    await User.findByIdAndDelete(userId);
+    res.status(200).json({ message: 'User deleted successfully' });
   } catch (error) {
+    console.error('Error deleting user:', error);
     res.status(500).json({ message: error.message });
   }
 };

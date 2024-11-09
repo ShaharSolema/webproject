@@ -35,9 +35,20 @@ const Order = ({ order, onStatusChange, statusOptions, showCancelButton, onCance
                 <div className="order-details">
                     <div className="customer-info">
                         <h4>פרטי לקוח</h4>
-                        <p><strong>שם מלא:</strong> {order.user.firstname} {order.user.lastname}</p>
-                        <p><strong>טלפון:</strong> {order.user.telephone}</p>
-                        <p><strong>אימייל:</strong> {order.user.email}</p>
+                        {order.userDetails ? (
+                            <>
+                                <p><strong>שם מלא:</strong> {order.userDetails.firstname} {order.userDetails.lastname}</p>
+                                <p><strong>טלפון:</strong> {order.userDetails.telephone}</p>
+                                <p><strong>אימייל:</strong> {order.userDetails.email}</p>
+                                {order.userDetails.isDeleted && (
+                                    <p className="deleted-user-note">
+                                        <em>* משתמש זה נמחק מהמערכת בתאריך {new Intl.DateTimeFormat('he-IL').format(new Date(order.userDetails.deletedAt))}</em>
+                                    </p>
+                                )}
+                            </>
+                        ) : (
+                            <p>פרטי המשתמש אינם זמינים</p>
+                        )}
                     </div>
 
                     {order.shippingAddress && (
