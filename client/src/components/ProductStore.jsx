@@ -4,6 +4,7 @@ import Product from './Home/Product';
 import Cart from './Cart';
 import { fetchProducts, updateCartItem, checkLoginStatus, getCart } from '../utils/auth';
 import '../styles/ProductStore.css';
+import LoadingSpinner from './LoadingSpinner'; //חדש - טעינה לחנות
 
 const ProductStore = () => {
     const [products, setProducts] = useState([]);
@@ -160,8 +161,11 @@ const ProductStore = () => {
 
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-    if (loading) return <div>Loading products...</div>;
+    if (loading) return <LoadingSpinner />;  // הצגת האנימציה כאשר המידע נטען
     if (error) return <div>{error}</div>;
+
+    // if (loading) return <div>Loading products...</div>;
+    // if (error) return <div>{error}</div>;
 
     return (
         <div className="store-container">
