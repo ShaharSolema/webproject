@@ -1,4 +1,5 @@
 const User = require('../models/User');
+const Order = require('../models/Order');
 const jwt = require('jsonwebtoken');
 const JWT_SECRET = 'your_jwt_secret_key'; // Change this to a more secure key
 
@@ -65,15 +66,15 @@ exports.deleteUser = async (req, res) => {
       { user: userId },
       { 
         $set: {
-          user: null,
           userDetails: {
             firstname: user.firstname,
             lastname: user.lastname,
             email: user.email,
             telephone: user.telephone,
-            isDeleted: true, // מציין שהמשתמש נמחק
-            deletedAt: new Date() // מתי המשתמש נמחק
-          }
+            isDeleted: true,
+            deletedAt: new Date()
+          },
+          user: null
         }
       }
     );

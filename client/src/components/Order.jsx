@@ -1,42 +1,27 @@
 import React, { useState } from 'react';
 import '../styles/Order.css';
 
-const Order = ({ order, onStatusChange, statusOptions, showCancelButton, onCancelOrder }) => {
+const Order = ({ order, statusOptions, showCancelButton, onCancelOrder }) => {
     const [isExpanded, setIsExpanded] = useState(false);
-
-    const formatDate = (dateString) => {
-        const date = new Date(dateString);
-        return new Intl.DateTimeFormat('he-IL', {
-            day: '2-digit',
-            month: '2-digit',
-            year: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit'
-        }).format(date);
-    };
 
     return (
         <div className="order-card">
-            <div className="order-summary" onClick={() => setIsExpanded(!isExpanded)}>
+            <div className="order-header" onClick={() => setIsExpanded(!isExpanded)}>
                 <div className="order-basic-info">
-                    <h3>הזמנה #{order.purchaseNumber}</h3>
-                    <span className="order-date">{formatDate(order.createdAt)}</span>
+                    <span>מספר הזמנה: {order.purchaseNumber}</span>
+                    <span>סטטוס: {statusOptions[order.status]}</span>
+                    <span>תאריך: {new Date(order.createdAt).toLocaleDateString('he-IL')}</span>
+                    <span>סה"כ: ₪{order.totalAmount}</span>
                 </div>
-                <div className="order-preview-details">
-                    <span className="total-amount">₪{order.totalAmount.toLocaleString()}</span>
-                    <span className={`status-${order.status}`}>
-                        {statusOptions[order.status]}
-                    </span>
-                    <span className="expand-icon">{isExpanded ? 'הסתר פרטים ▼' : ' לחץ לפרטים נוספים ▶'}</span>
-                </div>
+                <span className={`expand-icon ${isExpanded ? 'expanded' : ''}`}>▼</span>
             </div>
 
             {isExpanded && (
                 <div className="order-details">
                     <div className="customer-info">
                         <h4>פרטי לקוח</h4>
-                        {order.userDetails ? (
-                            <>
+                        {order.userDetails && (
+                            <div className="user-details">
                                 <p><strong>שם מלא:</strong> {order.userDetails.firstname} {order.userDetails.lastname}</p>
                                 <p><strong>טלפון:</strong> {order.userDetails.telephone}</p>
                                 <p><strong>אימייל:</strong> {order.userDetails.email}</p>
@@ -45,53 +30,88 @@ const Order = ({ order, onStatusChange, statusOptions, showCancelButton, onCance
                                         <em>* משתמש זה נמחק מהמערכת בתאריך {new Intl.DateTimeFormat('he-IL').format(new Date(order.userDetails.deletedAt))}</em>
                                     </p>
                                 )}
-                            </>
-                        ) : (
-                            <p>פרטי המשתמש אינם זמינים</p>
+                            </div>
                         )}
                     </div>
 
-                    {order.shippingAddress && (
-                        <div className="shipping-info">
-                            <h4>פרטי משלוח</h4>
-                            <p><strong>כתובת:</strong> {order.shippingAddress.street}</p>
-                            <p><strong>עיר:</strong> {order.shippingAddress.city}</p>
-                            <p><strong>מיקוד:</strong> {order.shippingAddress.zipCode}</p>
-                        </div>
-                    )}
-
                     <div className="order-items">
-                        <h4>פריטים בהזמנה</h4>
-                        <table className="items-table">
+                        <h4>פרטי ההזמנה</h4>
+                        <table className="order-items-table">
                             <thead>
                                 <tr>
-                                    <th>מוצר</th>
-                                    <th>כמות</th>
+                                    <th>תמונה</th>
+                                    <th>שם המוצר</th>
                                     <th>מחיר ליחידה</th>
+                                    <th>כמות</th>
                                     <th>סה"כ</th>
+                                    <th>סטטוס</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {order.items.map((item, index) => (
-                                    <tr key={index}>
-                                        <td>{item.productId.name}</td>
+                                    <tr key={index} className={item.productDetails.isDeleted ? 'deleted-product' : ''}>
+                                        <td>
+                                            <img 
+                                                src={item.productDetails.imageUrl} 
+                                                alt={item.productDetails.name} 
+                                                className="product-image"
+                                            />
+                                        </td>
+                                        <td>
+                                            {item.productDetails.name}
+                                            {item.productDetails.isDeleted && (
+                                                <div className="deleted-product-note">
+                                                    <em>מוצר לא זמין</em>
+                                                </div>
+                                            )}
+                                        </td>
+                                        <td>₪{item.price}</td>
                                         <td>{item.quantity}</td>
-                                        <td>₪{item.price.toLocaleString()}</td>
-                                        <td>₪{(item.price * item.quantity).toLocaleString()}</td>
+                                        <td>₪{item.price * item.quantity}</td>
+                                        <td>
+                                            {item.productDetails.isDeleted ? (
+                                                <span className="deleted-status">
+                                                    נמחק מהמערכת
+                                                    <br />
+                                                    <small>
+                                                        {new Date(item.productDetails.deletedAt).toLocaleDateString('he-IL')}
+                                                    </small>
+                                                </span>
+                                            ) : (
+                                                <span className="active-status">פעיל</span>
+                                            )}
+                                        </td>
                                     </tr>
                                 ))}
                             </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colSpan="4" className="text-left"><strong>משלוח:</strong></td>
+                                    <td colSpan="2">₪{order.shippingCost}</td>
+                                </tr>
+                                <tr>
+                                    <td colSpan="4" className="text-left"><strong>סה"כ כולל משלוח:</strong></td>
+                                    <td colSpan="2">₪{order.totalAmount}</td>
+                                </tr>
+                            </tfoot>
                         </table>
                     </div>
+
+                    {showCancelButton && (
+                        <div className="order-actions">
+                            <button 
+                                className="cancel-order-btn" 
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    onCancelOrder();
+                                }}
+                            >
+                                בטל הזמנה
+                            </button>
+                        </div>
+                    )}
                 </div>
             )}
-
-            <div className="order-footer">
-                <div className="order-total">
-                    <span>סה"כ לתשלום: </span>
-                    <span className="total-amount">₪{order.totalAmount.toLocaleString()}</span>
-                </div>
-            </div>
         </div>
     );
 };

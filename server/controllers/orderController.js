@@ -74,9 +74,45 @@ const getOrders = async (req, res) => {
     try {
         const orders = await Order.find()
             .populate('user', 'firstname lastname email telephone')
-            .populate('items.productId', 'name price');
+            .populate('items.productId', 'name price imageUrl');
         
-        res.json(orders);
+        const formattedOrders = orders.map(order => {
+            const orderObj = order.toObject();
+            
+            // טיפול בפרטי המשתמש
+            if (orderObj.user) {
+                orderObj.userDetails = {
+                    firstname: orderObj.user.firstname,
+                    lastname: orderObj.user.lastname,
+                    email: orderObj.user.email,
+                    telephone: orderObj.user.telephone,
+                    isDeleted: false
+                };
+            }
+            
+            // טיפול בפרטי המוצרים
+            orderObj.items = orderObj.items.map(item => {
+                if (item.productId) {
+                    // אם המוצר עדיין קיים
+                    item.productDetails = {
+                        name: item.productId.name,
+                        price: item.productId.price,
+                        imageUrl: item.productId.imageUrl,
+                        isDeleted: false
+                    };
+                }
+                // אם המוצר נמחק, משתמשים בפרטים השמורים
+                // productDetails כבר קיים במסמך
+                
+                delete item.productId;
+                return item;
+            });
+
+            delete orderObj.user;
+            return orderObj;
+        });
+        
+        res.json(formattedOrders);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -112,7 +148,28 @@ const getUserOrders = async (req, res) => {
             .populate('user', 'firstname lastname email telephone')
             .populate('items.productId', 'name price');
         
-        res.json(orders);
+        // המרת המידע לפורמט אחיד
+        const formattedOrders = orders.map(order => {
+            const orderObj = order.toObject();
+            
+            // אם המשתמש קיים, השתמש בפרטים שלו
+            if (orderObj.user) {
+                orderObj.userDetails = {
+                    firstname: orderObj.user.firstname,
+                    lastname: orderObj.user.lastname,
+                    email: orderObj.user.email,
+                    telephone: orderObj.user.telephone,
+                    isDeleted: false
+                };
+            }
+            // אם המשתמש לא קיים, השתמש בפרטים השמורים
+            // userDetails כבר קיים במסמך
+
+            delete orderObj.user; // הסר את אובייקט המשתמש המקורי
+            return orderObj;
+        });
+        
+        res.json(formattedOrders);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }

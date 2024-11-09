@@ -5,23 +5,37 @@ const orderSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
-    required: true
+    required: false
+  },
+  userDetails: {
+    firstname: String,
+    lastname: String,
+    email: String,
+    telephone: String,
+    isDeleted: {
+      type: Boolean,
+      default: false
+    },
+    deletedAt: Date
   },
   items: [{
     productId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Product',
-      required: true
+      required: false
     },
-    quantity: {
-      type: Number,
-      required: true,
-      min: 1
+    productDetails: {
+      name: String,
+      price: Number,
+      imageUrl: String,
+      isDeleted: {
+        type: Boolean,
+        default: false
+      },
+      deletedAt: Date
     },
-    price: {
-      type: Number,
-      required: true
-    }
+    quantity: Number,
+    price: Number
   }],
   shippingAddress: {
     street: {

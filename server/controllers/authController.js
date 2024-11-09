@@ -38,12 +38,12 @@ const loginUser = async (req, res) => {
 
     const user = await User.findOne({ username });
     if (!user) {
-      return res.status(400).json({ message: 'Invalid credentials' });
+      return res.status(400).json({ message: 'שגיאה בפרטים' });
     }
 
     const isMatch = await user.checkPassword(password);
     if (!isMatch) {
-      return res.status(400).json({ message: 'Invalid credentials' });
+      return res.status(400).json({ message: 'שגיאה בפרטים' });
     }
 
     const token = generateToken(user._id.toString());

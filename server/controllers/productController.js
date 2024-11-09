@@ -1,4 +1,5 @@
 const Product = require('../models/Product');
+const Order = require('../models/Order');
 
 // Create a new product
 exports.createProduct = async (req, res) => {
@@ -47,12 +48,38 @@ exports.updateProduct = (req, res) => {
 // Delete a product by ID
 exports.deleteProduct = async (req, res) => {
   try {
-    const product = await Product.findByIdAndDelete(req.params.id);
+    const productId = req.params.id;
+    
+    const product = await Product.findById(productId);
     if (!product) {
       return res.status(404).json({ message: 'Product not found' });
     }
-    res.status(204).send();
+
+    // עדכון כל ההזמנות שמכילות את המוצר
+    await Order.updateMany(
+      { 'items.productId': productId },
+      { 
+        $set: {
+          'items.$[elem].productDetails': {
+            name: product.name,
+            price: product.price,
+            imageUrl: product.imageUrl,
+            isDeleted: true,
+            deletedAt: new Date()
+          },
+          'items.$[elem].productId': null
+        }
+      },
+      { 
+        arrayFilters: [{ 'elem.productId': productId }],
+        multi: true 
+      }
+    );
+
+    await Product.findByIdAndDelete(productId);
+    res.status(200).json({ message: 'Product deleted successfully' });
   } catch (error) {
+    console.error('Error deleting product:', error);
     res.status(500).json({ message: error.message });
   }
 };
