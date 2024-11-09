@@ -34,6 +34,7 @@
     justify-content: center;
     align-items: center;
     z-index: 1001;
+    height: 100vh;
 }
 
 .bug-report-popup {
@@ -50,14 +51,14 @@
 
 .popup-header {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     margin-bottom: 1.5rem;
 }
 
 .popup-header h3 {
     margin: 0;
-    font-size: 1.5rem;
+    font-size: 28px;
     color: #2c3e50;
 }
 
@@ -132,9 +133,15 @@ button[type="submit"].disabled {
 .error-message {
     color: #dc3545;
     font-size: 0.875rem;
-    margin-top: 0.25rem;
-    display: block;
+    position: absolute;
+    bottom: 0px;
+    right: 0;
+    display: inline-block;
     animation: fadeIn 0.2s ease-in;
+    line-height: 1;
+    margin: 0;
+    white-space: nowrap;
+    direction: rtl;
 }
 
 .form-group input.error:focus,
@@ -147,6 +154,7 @@ button[type="submit"].disabled {
 .form-group textarea::placeholder {
     color: #6c757d;
     opacity: 0.7;
+    text-align: right;
 }
 
 @keyframes fadeIn {
