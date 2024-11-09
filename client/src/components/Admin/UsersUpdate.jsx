@@ -6,6 +6,7 @@ import '../../styles/UsersUpdate.css'; // Import the CSS file for styles
 const AdminPage = () => {
   const [users, setUsers] = useState([]);
   const [error, setError] = useState(null);
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -43,9 +44,23 @@ const AdminPage = () => {
     }
   };
 
+  const filteredUsers = users.filter(user => 
+    user.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    user.email.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <div className="admin-page">
       <h1>עריכת משתמשים-אדמין</h1>
+      <div className="search-container">
+        <input
+          type="text"
+          placeholder="חיפוש לפי שם משתמש או אימייל..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="search-input"
+        />
+      </div>
       {error && <p className="error-message">{error}</p>}
       <table className="admin-table">
         <thead>
@@ -57,7 +72,7 @@ const AdminPage = () => {
           </tr>
         </thead>
         <tbody>
-          {users.map((user) => (
+          {filteredUsers.map((user) => (
             <tr key={user._id}>
               <td>{user.username}</td>
               <td>{user.email}</td>

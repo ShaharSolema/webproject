@@ -34,6 +34,7 @@ const ProductsManagement = () => {
   const [showSuccessPopup, setShowSuccessPopup] = useState(false);
   const [successMessage, setSuccessMessage] = useState('');
   const formRef = useRef(null);
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     const loadProducts = async () => {
@@ -163,6 +164,11 @@ const ProductsManagement = () => {
     return (price - discountAmount).toFixed(2);
   };
 
+  const filteredProducts = products.filter(product => 
+    product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    product.description.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <div className="products-management">
       {showSuccessPopup && (
@@ -172,6 +178,16 @@ const ProductsManagement = () => {
       )}
 
       <h2>ניהול מוצרים</h2>
+
+      <div className="search-container">
+        <input
+          type="text"
+          placeholder="חיפוש לפי שם או תיאור..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="search-input"
+        />
+      </div>
 
       <table className="products-table">
         <thead>
@@ -188,7 +204,7 @@ const ProductsManagement = () => {
           </tr>
         </thead>
         <tbody>
-          {products.map((product) => (
+          {filteredProducts.map((product) => (
             <tr key={product._id}>
               <td>{product.name}</td>
               <td>₪{product.price}</td>

@@ -209,3 +209,24 @@ h3{
     align-items: center;
     justify-content: center;
 }
+
+/* Add these styles */
+.search-container {
+    margin: 20px 0;
+    text-align: right;
+}
+
+.search-input {
+    width: 300px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    direction: rtl;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: #FAD2CC;
+    box-shadow: 0 0 5px rgba(250, 210, 204, 0.5);
+}
