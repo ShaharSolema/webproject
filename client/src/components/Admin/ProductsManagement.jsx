@@ -48,8 +48,8 @@ const ProductsManagement = () => {
 
     if (!newProduct.name) {
       errors.name = "חובה שם מוצר";
-    } else if (!validator.isLength(newProduct.name, { min: 2, max: 20 })) {
-      errors.name = "השם חייב להכיל בין 2 ל-20 אותיות";
+    } else if (!validator.isLength(newProduct.name, { min: 2, max: 50 })) {
+      errors.name = "השם חייב להכיל בין 2 ל-50 אותיות";
     }
 
     if (newProduct.description && !validator.isLength(newProduct.description, { min: 2, max: 60 })) {
@@ -201,8 +201,8 @@ const ProductsManagement = () => {
               <td>{product.categories.join(', ')}</td>
               <td><img src={product.imageUrl} alt={product.name} style={{ width: '50px' }} /></td>
               <td>
-                <button onClick={() => handleEditProduct(product)}>עריכה</button>
-                <button onClick={() => handleDeleteProduct(product._id)}>מחיקה</button>
+                <button onClick={() => handleEditProduct(product)} className='edit-button' >עריכה</button>
+                <button onClick={() => handleDeleteProduct(product._id)} className='delete-button'>מחיקה</button>
               </td>
             </tr>
           ))}
@@ -272,7 +272,7 @@ const ProductsManagement = () => {
               <td>
                 <div className="checkbox-group">
                   {categoryOptions.map((category) => (
-                    <label key={category}>
+                    <label key={category} className='label-admin'>
                       <input
                         type="checkbox"
                         checked={newProduct.categories.includes(category)}
@@ -297,9 +297,9 @@ const ProductsManagement = () => {
             <tr>
               <td colSpan="2">
                 {editMode ? (
-                  <button onClick={handleUpdateProduct}>עדכן מוצר</button>
+                  <button onClick={handleUpdateProduct} className='update-admin'>עדכן מוצר</button>
                 ) : (
-                  <button onClick={handleAddProduct}>הוסף מוצר</button>
+                  <button onClick={handleAddProduct} className='update-admin'>הוסף מוצר</button>
                 )}
                 <button onClick={resetForm}>איפוס</button>
               </td>

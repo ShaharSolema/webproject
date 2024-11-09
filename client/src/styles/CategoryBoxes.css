@@ -1,6 +1,7 @@
 /* Default font stack */
 body, html {
     font-family: -apple-system, Gisha, Calibri, system-ui, sans-serif;
+    
 }
 
 /* Mac-specific styles */
@@ -16,6 +17,9 @@ body, html {
     display: flex;
     flex-wrap: wrap; /* מאפשר לריבועים לעבור לשורה הבאה אם אין מספיק מקום */
     justify-content: space-between; /* מרווח שווה בין הריבועים */
+    padding: 32px 0;
+
+
 }
 
 .category-box {
@@ -55,14 +59,14 @@ body, html {
 }
 
 .category-name {
-    position: absolute; /* מיקום הטקסט על התמונה */
-    top: 50%; /* ממקם את הטקסט במרכז האנכי */
-    left: 50%; /* ממקם את הטקסט במרכז האופקי */
-    transform: translate(-50%, -50%); /* ממרכז את הטקסט בצורה מדויקת */
-    color: white; /* צבע טקסט */
-    font-weight: bold; /* הדגשה של הטקסט */
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7); /* צל טקסט לשיפור קריאות */
-    font-size: 23px; /* גודל טקסט חדש (שנה לפי הצורך) */
+    position: absolute; 
+    top: 50%; 
+    left: 50%;
+    transform: translate(-50%, -50%); 
+    color: white; 
+    font-weight: bold; 
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7); 
+    font-size: 23px; 
     text-align: center;
     font-family: -apple-system, Gisha, Calibri, system-ui, sans-serif;
 }

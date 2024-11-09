@@ -165,8 +165,8 @@
     border-radius: 8px;
     margin-bottom: 30px;
     flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
+    align-items: stretch;
+    justify-content: flex-start;
     direction: rtl;
 }
 
@@ -192,16 +192,18 @@
 }
 
 .category-select,
-.sort-select {
+.sort-select,
+.sale-filter {
     padding: 10px 15px;
-    border: 1px solid #ddd;
     border-radius: 4px;
     font-size: 16px;
+    height: 42px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
     background-color: white;
-    cursor: pointer;
+    border: 1px solid #ddd;
     min-width: 150px;
-    text-align: right;
-    direction: rtl;
 }
 
 .category-select:focus,
@@ -214,16 +216,13 @@
 /* Responsive adjustments */
 @media (max-width: 768px) {
     .store-filters {
-        flex-direction: column;
         gap: 10px;
     }
 
-    .search-bar {
-        width: 100%;
-    }
-
+    .search-bar,
     .category-select,
-    .sort-select {
+    .sort-select,
+    .sale-filter {
         width: 100%;
     }
 }
@@ -408,18 +407,23 @@
     font-size: 1.3em;
 }
 
-/* Add a sale indicator in the product filters */
 .sale-filter {
-    background-color: #ff4444;
-    color: white;
-    padding: 8px 15px;
-    border-radius: 4px;
+    background-color: #FAD2CC;
+    color: black;
     cursor: pointer;
-    border: none;
     transition: background-color 0.2s ease;
+    justify-content: center;
+}
+
+.sale-filter:hover {
+    background-color: #f7e3e0;
 }
 
 .sale-filter.active {
-    background-color: #cc0000;
+    background-color: #CEE9EB;
+}
+
+.sale-filter.active:hover {
+    background-color: #e3edee;
 }
 

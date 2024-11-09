@@ -11,6 +11,11 @@ const BugManagement = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [fontFamily, setFontFamily] = useState('Calibri, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif');
+    const [tempChanges, setTempChanges] = useState({});
+    const [stats, setStats] = useState({
+        total: 0,
+        openBugs: 0
+    });
 
     const statusOptions = {
         'new': 'חדש',
@@ -32,7 +37,7 @@ const BugManagement = () => {
 
     useEffect(() => {
         filterBugs();
-    }, [selectedStatus, selectedPriority, bugs]);
+    }, [selectedStatus, selectedPriority, bugs, tempChanges]);
 
     useEffect(() => {
         // Detect if running on macOS
@@ -41,6 +46,13 @@ const BugManagement = () => {
             setFontFamily('Gisha, -apple-system, system-ui, sans-serif');
         }
     }, []);
+
+    useEffect(() => {
+        setStats({
+            total: bugs.length,
+            openBugs: bugs.filter(bug => bug.status === 'new').length
+        });
+    }, [bugs]);
 
     const fetchBugs = async () => {
         try {
@@ -61,21 +73,39 @@ const BugManagement = () => {
         let filtered = [...bugs];
         
         if (selectedStatus !== 'all') {
-            filtered = filtered.filter(bug => bug.status === selectedStatus);
+            filtered = filtered.filter(bug => {
+                const currentStatus = tempChanges[bug._id]?.status || bug.status;
+                return currentStatus === selectedStatus;
+            });
         }
         
         if (selectedPriority !== 'all') {
-            filtered = filtered.filter(bug => bug.priority === selectedPriority);
+            filtered = filtered.filter(bug => {
+                const currentPriority = tempChanges[bug._id]?.priority || bug.priority;
+                return currentPriority === selectedPriority;
+            });
         }
 
         setFilteredBugs(filtered);
     };
 
-    const handleUpdate = async (bugId, updates) => {
+    const handleTempChange = (bugId, updates) => {
+        setTempChanges(prev => ({
+            ...prev,
+            [bugId]: {
+                ...(prev[bugId] || {}),
+                ...updates
+            }
+        }));
+    };
+
+    const handleUpdate = async (bugId) => {
+        if (!tempChanges[bugId]) return;
+
         try {
             const response = await axiosInstanse.patch(
                 API_ROUTES.BUGS.UPDATE(bugId),
-                updates,
+                tempChanges[bugId],
                 { withCredentials: true }
             );
             
@@ -84,6 +114,13 @@ const BugManagement = () => {
                     ? { ...bug, ...response.data }
                     : bug
             ));
+
+            // ניקוי השינויים הזמניים לאחר עדכון מוצלח
+            setTempChanges(prev => {
+                const newChanges = { ...prev };
+                delete newChanges[bugId];
+                return newChanges;
+            });
         } catch (err) {
             console.error('Error updating bug:', err);
             setError('שגיאה בעדכון הדיווח');
@@ -100,21 +137,18 @@ const BugManagement = () => {
                 <div className="bug-stats">
                     <div className="stat-box">
                         <span className="stat-label">סה"כ דיווחים</span>
-                        <span className="stat-value">{bugs.length}</span>
+                        <span className="stat-value">{stats.total}</span>
                     </div>
                     <div className="stat-box">
                         <span className="stat-label">דיווחים פתוחים</span>
-                        <span className="stat-value">
-                            {bugs.filter(bug => bug.status === 'new').length}
-                        </span>
+                        <span className="stat-value">{stats.openBugs}</span>
                     </div>
                 </div>
             </div>
 
             <div className="filter-section">
                 <div className="filter-group">
-                    <label>:סנן לפי דחיפות</label>
-                    <select
+                <select
                         value={selectedPriority}
                         onChange={(e) => setSelectedPriority(e.target.value)}
                     >
@@ -123,10 +157,10 @@ const BugManagement = () => {
                             <option key={value} value={value}>{label}</option>
                         ))}
                     </select>
+                    <label>:סנן לפי דחיפות</label>
                 </div>
 
                 <div className="filter-group">
-                    <label>:סנן לפי סטטוס</label>
                     <select 
                         value={selectedStatus}
                         onChange={(e) => setSelectedStatus(e.target.value)}
@@ -136,6 +170,7 @@ const BugManagement = () => {
                             <option key={value} value={value}>{label}</option>
                         ))}
                     </select>
+                    <label>:סנן לפי סטטוס</label>
                 </div>
             </div>
 
@@ -151,12 +186,9 @@ const BugManagement = () => {
                                     <div className="control-group">
                                         <label>:סטטוס</label>
                                         <select
-                                            value={bug.status}
-                                            onChange={(e) => handleUpdate(bug._id, { 
-                                                status: e.target.value,
-                                                adminNotes: bug.adminNotes
-                                            })}
-                                            className={`status-${bug.status}`}
+                                            value={(tempChanges[bug._id]?.status || bug.status)}
+                                            onChange={(e) => handleTempChange(bug._id, { status: e.target.value })}
+                                            className={`status-${tempChanges[bug._id]?.status || bug.status}`}
                                         >
                                             {Object.entries(statusOptions).map(([value, label]) => (
                                                 <option key={value} value={value}>{label}</option>
@@ -166,13 +198,9 @@ const BugManagement = () => {
                                     <div className="control-group">
                                         <label>:דחיפות</label>
                                         <select
-                                            value={bug.priority}
-                                            onChange={(e) => handleUpdate(bug._id, { 
-                                                priority: e.target.value,
-                                                status: bug.status,
-                                                adminNotes: bug.adminNotes
-                                            })}
-                                            className={`priority-${bug.priority}`}
+                                            value={(tempChanges[bug._id]?.priority || bug.priority)}
+                                            onChange={(e) => handleTempChange(bug._id, { priority: e.target.value })}
+                                            className={`priority-${tempChanges[bug._id]?.priority || bug.priority}`}
                                         >
                                             {Object.entries(priorityOptions).map(([value, label]) => (
                                                 <option key={value} value={value}>{label}</option>
@@ -200,13 +228,17 @@ const BugManagement = () => {
                             <div className="bug-actions">
                                 <textarea
                                     placeholder="הערות מנהל"
-                                    value={bug.adminNotes || ''}
-                                    onChange={(e) => handleUpdate(bug._id, {
-                                        status: bug.status,
-                                        priority: bug.priority,
-                                        adminNotes: e.target.value
-                                    })}
+                                    value={tempChanges[bug._id]?.adminNotes ?? bug.adminNotes ?? ''}
+                                    onChange={(e) => handleTempChange(bug._id, { adminNotes: e.target.value })}
                                 />
+                                {tempChanges[bug._id] && (
+                                    <button 
+                                        className="update-button"
+                                        onClick={() => handleUpdate(bug._id)}
+                                    >
+                                        עדכן
+                                    </button>
+                                )}
                             </div>
                         </div>
                     ))

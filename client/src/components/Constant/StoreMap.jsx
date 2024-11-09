@@ -7,12 +7,15 @@ const StoreMap = () => {
     const [mapInstance, setMapInstance] = useState(null);
     const [currentLayer, setCurrentLayer] = useState('normal');
     const [isLayerMenuOpen, setIsLayerMenuOpen] = useState(false);
+    const [isGrabbing, setIsGrabbing] = useState(false);
 
     const mapStyles = {
         container: {
             position: 'relative',
             height: '500px',
             width: '100%',
+            padding: '32px 0',
+
         },
         mapWrapper: {
             height: '100%',
@@ -30,61 +33,112 @@ const StoreMap = () => {
     };
 
     useEffect(() => {
-        if (!window.H) return;
+        let isMapValid = true;
 
-        const platform = new window.H.service.Platform({
-            apikey: 'TDbP7vj_n6hQBhuhB_scEwZGTVLzaxPLfb8-O8MwP9A'
-        });
+        const initializeMap = async () => {
+            try {
+                if (!window.H || 
+                    !window.H.service || 
+                    !window.H.service.Platform || 
+                    !window.H.Map || 
+                    !window.H.mapevents) {
+                    console.error('HERE Maps API components not fully loaded');
+                    return;
+                }
 
-        const defaultLayers = platform.createDefaultLayers();
-        const map = new window.H.Map(
-            mapRef.current,
-            defaultLayers.vector.normal.map,
-            {
-                center: studioLocation,
-                zoom: 15,
-                pixelRatio: window.devicePixelRatio || 1
+                if (!mapRef.current || !isMapValid) {
+                    return;
+                }
+
+                const platform = new window.H.service.Platform({
+                    apikey: 'TDbP7vj_n6hQBhuhB_scEwZGTVLzaxPLfb8-O8MwP9A'
+                });
+
+                const defaultLayers = platform.createDefaultLayers();
+
+                const map = new window.H.Map(
+                    mapRef.current,
+                    defaultLayers.vector.normal.map,
+                    {
+                        center: studioLocation,
+                        zoom: 15,
+                        pixelRatio: window.devicePixelRatio || 1,
+                        renderBaseBackground: true
+                    }
+                );
+
+                if (!map || !isMapValid) {
+                    console.error('Failed to create map instance');
+                    return;
+                }
+
+                const mapEvents = new window.H.mapevents.MapEvents(map);
+                const behavior = new window.H.mapevents.Behavior(mapEvents);
+
+                if (isMapValid) {
+                    setMapInstance(map);
+
+                    const normalIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24">' +
+                        '<path fill="#e91e63" d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>' +
+                        '<circle fill="#fff" cx="12" cy="9" r="2.5"/>' +
+                        '</svg>';
+
+                    const hoverIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24">' +
+                        '<path fill="#d81557" d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>' +
+                        '<circle fill="#fff" cx="12" cy="9" r="2.5"/>' +
+                        '</svg>';
+
+                    const icon = new window.H.map.Icon(normalIcon);
+                    const hoverMarkerIcon = new window.H.map.Icon(hoverIcon);
+                    const marker = new window.H.map.Marker(studioLocation, { icon });
+
+                    marker.addEventListener('pointerenter', () => {
+                        if (mapRef.current) {
+                            mapRef.current.style.cursor = 'pointer';
+                            marker.setIcon(hoverMarkerIcon);
+                        }
+                    });
+
+                    marker.addEventListener('pointerleave', () => {
+                        if (mapRef.current) {
+                            mapRef.current.style.cursor = 'default';
+                            marker.setIcon(icon);
+                        }
+                    });
+
+                    marker.addEventListener('tap', () => {
+                        setIsSidebarOpen(true);
+                    });
+
+                    map.addObject(marker);
+                }
+
+                const handleResize = () => {
+                    if (map && map.getViewPort()) {
+                        map.getViewPort().resize();
+                    }
+                };
+                window.addEventListener('resize', handleResize);
+
+                return () => {
+                    window.removeEventListener('resize', handleResize);
+                };
+            } catch (error) {
+                console.error('Error initializing map:', error);
             }
-        );
+        };
 
-        setMapInstance(map);
-
-        new window.H.mapevents.Behavior(new window.H.mapevents.MapEvents(map));
-
-        const normalIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24">' +
-            '<path fill="#e91e63" d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>' +
-            '<circle fill="#fff" cx="12" cy="9" r="2.5"/>' +
-            '</svg>';
-
-        const hoverIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24">' +
-            '<path fill="#d81557" d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>' +
-            '<circle fill="#fff" cx="12" cy="9" r="2.5"/>' +
-            '</svg>';
-        
-        const icon = new window.H.map.Icon(normalIcon);
-        const hoverMarkerIcon = new window.H.map.Icon(hoverIcon);
-        const marker = new window.H.map.Marker(studioLocation, { icon });
-        
-
-        marker.addEventListener('pointerenter', () => {
-            mapRef.current.style.cursor = 'pointer';
-            marker.setIcon(hoverMarkerIcon);
-        });
-
-        marker.addEventListener('pointerleave', () => {
-            mapRef.current.style.cursor = 'default';
-            marker.setIcon(icon);
-        });
-
-        marker.addEventListener('tap', () => {
-            setIsSidebarOpen(true);
-        });
-
-        map.addObject(marker);
-        window.addEventListener('resize', () => map.getViewPort().resize());
+        const timer = setTimeout(() => {
+            initializeMap();
+        }, 100);
 
         return () => {
-            map.dispose();
+            isMapValid = false;
+            clearTimeout(timer);
+            if (mapInstance) {
+                mapInstance.dispose();
+                setMapInstance(null);
+            }
         };
     }, []);
 
@@ -136,17 +190,17 @@ const StoreMap = () => {
                     ref={mapRef} 
                     style={{ 
                         height: '100%',
-                        cursor: 'grab',
-                        '&:active': {
-                            cursor: 'grabbing'
-                        }
-                    }} 
+                        cursor: isGrabbing ? 'grabbing' : 'grab'
+                    }}
+                    onMouseDown={() => setIsGrabbing(true)}
+                    onMouseUp={() => setIsGrabbing(false)}
+                    onMouseLeave={() => setIsGrabbing(false)}
                 />
                 
                 {/* Controls Container */}
                 <div style={{
                     position: 'absolute',
-                    top: '10px',
+                    top: '50px',
                     right: '10px',
                     display: 'flex',
                     flexDirection: 'column',
@@ -180,7 +234,7 @@ const StoreMap = () => {
                         {isLayerMenuOpen && (
                             <div style={{
                                 position: 'absolute',
-                                top: '45px',
+                                top: '40px',
                                 right: '0',
                                 backgroundColor: '#333',
                                 borderRadius: '2px',

@@ -158,7 +158,17 @@ const ProductStore = () => {
     const currentItems = filteredProducts.slice(indexOfFirstItem, indexOfLastItem);
     const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
 
-    const paginate = (pageNumber) => setCurrentPage(pageNumber);
+    // הוסף useEffect חדש לטיפול בגלילה
+    useEffect(() => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    }, [currentPage]); // יופעל בכל פעם שהעמוד הנוכחי משתנה
+
+    const paginate = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
 
     if (loading) return <div>Loading products...</div>;
     if (error) return <div>{error}</div>;

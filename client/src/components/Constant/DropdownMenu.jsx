@@ -112,8 +112,8 @@ const MenuButton = () => {
               </a>
               {showSubmenu && (
                 <ul className="dropdown-menu show" style={{ textAlign: 'right' }}>
-                  <li><a className="dropdown-item" href="/beginner">קורסים למתחילים</a></li>
-                  <li><a className="dropdown-item" href="/advanced">קורסים מתקדמים</a></li>
+                  <li><a className="dropdown-item" href="/beginner">קורסים למתחילות</a></li>
+                  <li><a className="dropdown-item" href="/advanced">קורסים למתקדמות</a></li>
                   <li><a className="dropdown-item" href="/workshops">סדנאות</a></li>
                 </ul>
               )}

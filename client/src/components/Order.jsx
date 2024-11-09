@@ -27,7 +27,7 @@ const Order = ({ order, onStatusChange, statusOptions, showCancelButton, onCance
                     <span className={`status-${order.status}`}>
                         {statusOptions[order.status]}
                     </span>
-                    <span className="expand-icon">{isExpanded ? '▼' : '▶'}</span>
+                    <span className="expand-icon">{isExpanded ? 'הסתר פרטים ▼' : ' לחץ לפרטים נוספים ▶'}</span>
                 </div>
             </div>
 

@@ -1,7 +1,8 @@
 /* Whyus.css */
 
 .why-us-section {
-    padding: 2rem 0;
+    padding: 32px 0;
+    padding-top: -30px;
   }
   
   .why-us-title-wrapper {
@@ -9,15 +10,15 @@
   }
   
   .why-us-title {
-    font-size: 2rem;
-    color: pink;
+    font-size: 28px;
+    color: black;
     position: relative;
     z-index: 2;
   }
   
   .why-us-shadow {
-    font-size: 4rem;
-    color: #eee;
+    font-size: 40px;
+    color: rgb(250, 210, 204);
     position: absolute;
     top: -10px;
     left: 50%;

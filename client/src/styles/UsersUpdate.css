@@ -44,7 +44,7 @@
 }
 
 .admin-table tr:hover {
-  background-color: #CEE7D3;
+  background-color: #FAD2CC;
 }
 
 .action-cell {
@@ -62,27 +62,27 @@
 }
 
 .action-button {
-  background-color: #FCEFBB;
+  background-color: gray;
   color: black;
 }
 
 .action-button:hover {
-  background-color: #FCEFBB;
+  background-color: lightgray;
   transform: scale(1.05);
 }
 
 .delete-button {
-  background-color: #E4CDF9;
+  background-color: red;
   color: black;
 }
 
 .delete-button:hover {
-  background-color: #E4CDF9;
   transform: scale(1.05);
 }
 .admin-page h1{
   text-align: center;
-  color: #CEE7D3;
+  color: black;
   font-weight: 1000;
+  font-size: 28px;
   text-decoration: underline;
 }

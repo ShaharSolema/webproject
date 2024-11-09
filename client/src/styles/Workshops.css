@@ -26,6 +26,8 @@ body {
     position: relative;
     /* border-top-left-radius: 8px;
     border-top-right-radius: 8px; */
+    font-family: -apple-system, Gisha, Calibri, system-ui, sans-serif;
+
 }
 
 .workshop-description {

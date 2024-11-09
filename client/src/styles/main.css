@@ -36,6 +36,7 @@ body::before {
 
 .categories-title{
     text-align: center;
+    font-size: 28px;
 }
 
 /* עיצוב עמודות בכותרת */
@@ -46,107 +47,104 @@ header .col {
 
 /* עמודת מרכז עם לוגו */
 header .col-6 {
-    justify-content: center; /* ממרכז את התמונה באופן אופקי */
+    justify-content: center; 
 }
 
 /* עיצוב לתמונה במרכז */
 .col-6 img {
-    max-width: 100%; /* תמונה תתפוס את כל רוחב האלמנט שלה */
-    height: auto; /* גובה התמונה יתאמת אוטומטית כדי לשמור על יחס הרוחב-גובה */
+    max-width: 100%; 
+    height: auto; 
 }
 
 /* עיצוב כפתורים בהירים */
 .btn-light {
-    background-color: white; /* צבע רקע לבן לכפתור */
-    color: black; /* צבע טקסט שחור לכפתור */
-    border-color: white; /* צבע גבול לבן */
+    background-color: white;
+    color: black;
+    border-color: white;
 }
 
 .btn-light:hover {
-    background-color: #f5f5f5; /* צבע רקע אפור בהיר כשמעבירים את העכבר */
-    border-color: white; /* שומר על גבול לבן במעבר עכבר */
+    background-color: #f5f5f5; 
+    border-color: white; 
 }
 
 .btn-light i {
-    font-size: 1.5rem; /* גודל אחיד לאייקונים */
+    font-size: 1.5rem; 
 }
 
-/* עיצוב כפתור מותאם אישית */
 .btn-custom {
-    background-color: white; /* צבע רקע לבן לכפתור מותאם אישית */
-    color: black; /* צבע טקסט שחור לכפתור */
-    border-color: white; /* צבע גבול לבן */
-    border-radius: 8px; /* פינות מעוגלות לכפתור */
+    background-color: white; 
+    color: black; 
+    border-color: white; 
+    border-radius: 8px; 
 }
 
 .btn-custom:hover,
 .btn-custom:focus {
-    background-color: #f5f5f5; /* צבע רקע אפור בהיר במעבר עכבר או במיקוד */
-    border-color: white; /* שומר על גבול לבן במעבר עכבר או במיקוד */
+    background-color: #f5f5f5;
+    border-color: white;
 }
 
-/* עיצוב כפתור התפריט הימני */
 .btn.no-caret::after {
-    display: none !important; /* הסרת החץ הנפתח של כפתור התפריט */
+    display: none !important; 
 }
 
 .btn-group.dropstart .dropdown-toggle {
-    border-radius: 8px !important; /* פינות מעוגלות לכפתור בתפריט נפתח */
+    border-radius: 8px !important; 
 }
 
 .btn-group.dropstart:hover .dropdown-menu {
-    left: auto; /* מיקום התפריט לא יהיה מותאם למיקום הכפתור */
-    right: 100%; /* התפריט ייפתח לצד שמאל של הכפתור */
+    left: auto; 
+    right: 100%;
 }
 
-/* עיצוב רספונסיבי */
 @media (max-width: 768px) {
     .col-6 img {
-        max-width: 150px; /* גודל מקסימלי לתמונה במסכים קטנים יותר */
-        max-height: 40px; /* גובה מקסימלי לתמונה במסכים קטנים יותר */
+        max-width: 150px; 
+        max-height: 40px; 
     }
 
     header {
-        padding: 10px; /* רווח פנימי של 10 פיקסלים סביב הכותרת במסכים קטנים יותר */
+        padding: 10px; 
     }
 }
 
 @media (max-width: 576px) {
     .col-6 img {
-        max-width: 120px; /* גודל מקסימלי קטן יותר לתמונה במסכים מאוד קטנים */
-        max-height: 30px; /* גובה מקסימלי קטן יותר לתמונה במסכים מאוד קטנים */
+        max-width: 120px; 
+        max-height: 30px; 
     }
 
     .btn-group.dropstart {
-        width: 100%; /* התפריט יתפוס את כל רוחב המסך במסכים מאוד קטנים */
-        margin-top: 10px; /* רווח מעל התפריט */
+        width: 100%; 
+        margin-top: 10px; 
     }
 
     .btn-custom {
-        width: 100%; /* כפתור מותאם אישית יתפוס את כל רוחב המסך במסכים מאוד קטנים */
-        margin-top: 10px; /* רווח מעל הכפתור */
+        width: 100%; 
+        margin-top: 10px; 
     }
 
     .btn-light {
-        font-size: 1.25rem; /* הקטנת גודל האייקונים בכפתורים קטנים */
-        padding: 8px; /* הקטנת רווח פנימי בכפתורים קטנים */
+        font-size: 1.25rem; 
+        padding: 8px; 
     }
 
     /* עיצוב כפתור התפריט הימני */
     .btn-group.dropstart .dropdown-toggle {
-        font-size: 2rem; /* הגדלת גודל האייקון בכפתור התפריט הימני */
+        font-size: 2rem; 
     }
 
     .btn.no-caret {
-        font-size: 1.75rem; /* גודל טקסט גדול יותר לכפתור השמאלי */
-        padding: 12px 16px; /* רווח פנימי גדול יותר לכפתור השמאלי */
-        border: 2px solid #f5f5f5; /* גבול מדגיש בצבע אפור בהיר */
-        border-radius: 12px; /* פינות מעוגלות גדולות יותר */
+        font-size: 1.75rem; 
+        padding: 12px 16px; 
+        border: 2px solid #f5f5f5; 
+        border-radius: 12px; 
     }
 
     .btn-light i,
     .btn-custom i {
-        font-size: 1.5rem; /* גודל אחיד לאייקונים עבור כפתורים שונים */
+        font-size: 1.5rem; 
     }
 }
 
@@ -161,7 +159,7 @@ header .col-6 {
 .footer-container {
     max-width: 1200px;
     margin: auto;
-    padding: 0; /* הסרת padding */
+    padding: 0; 
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
@@ -169,7 +167,7 @@ header .col-6 {
 
 .footer-section {
     flex: 1 1 200px;
-    margin: 0; /* הסרת ה-margin */
+    margin: 0; 
     text-align: end;
 }
 
@@ -207,24 +205,25 @@ header .col-6 {
   .banner-container {
     position: relative;
     display: flex;
-    justify-content: center; /* מרכז את התמונה אופקית */
-    align-items: center; /* מרכז את התוכן אנכית */
+    justify-content: center; 
+    align-items: center; 
     width: 100%;
     overflow: hidden;
-    margin-bottom: 20px; /* מרווח מתחת לבאנר */
+    margin-bottom: 20px; 
+    padding-bottom: 60px;
   }
   
   .banner-img {
     max-width: 100%;
-    height: auto; /* שמירה על יחס רוחב-גובה */
-    object-fit: cover; /* תופס את כל השטח */
+    height: auto; 
+    object-fit: cover; 
   }
   
   .countdown {
     position: absolute;
-    top: 93%; /* ממרכז את הספירה לאחור אנכית */
-    left: 50%; /* ממרכז את הספירה לאחור אופקית */
-    transform: translate(-50%, -50%); /* מבטיח שהטקסט יהיה באמצע */
+    top: 70%; 
+    left: 50%; 
+    transform: translate(-50%, -50%); 
     color: white;
     padding: 10px 20px;
     border-radius: 8px;
@@ -232,4 +231,9 @@ header .col-6 {
     text-align: center;
     word-wrap: break-word;
   }
+h1, h2, h3, h4, h5, h6 {
+    font-size: 28px;
+    font-family: -apple-system, Gisha, Calibri, system-ui, sans-serif;
+    color: black;
+}
   

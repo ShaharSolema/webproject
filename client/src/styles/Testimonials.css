@@ -4,33 +4,36 @@
     align-items: center;
     max-width: 500px;
     margin-left: 30%;
+    padding-top: 90px;
   }
   
   .testimonial-container {
     display: flex;
-    justify-content: center; /* מרכז את הריבועים */
-    overflow: hidden; /* מונע קפיצות */
+    justify-content: center; 
+    overflow: hidden; 
+    padding: 32px 0;
+
   }
   
   .testimonial-box {
     display: flex;
     flex-direction: column;
     align-items: center;
-    border: 1px solid #ccc; /* גבול סביב הריבועים */
-    border-radius: 10px; /* פינות מעוגלות */
-    margin: 10px; /* רווח בין הריבועים */
-    padding: 10px; /* רווח פנימי */
-    width: 300px; /* רוחב קבוע לריבועים */
-    height: 600px; /* גובה קבוע לריבועים */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* צל לריבועים */
+    border: 1px solid #ccc; 
+    border-radius: 10px; 
+    margin: 10px; 
+    padding: 10px; 
+    width: 350px; 
+    height: 580px; 
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
     direction: rtl;
     background-color: whitesmoke;
 
   }
   
   .testimonial-image {
-    width: 100%; /* התמונה תתאים לרוחב הריבוע */
-    height: 220px; /* גובה קבוע לתמונה */
+    width: 100%; 
+    height: 220px; 
     object-fit: cover; /* חיתוך התמונה לשמור על פרופורציות */
     border-radius: 10px; /* פינות מעוגלות לתמונה */
   }
@@ -45,7 +48,7 @@
   .testimonial-text {
     text-align: center; /* יישור מרכזי */
     color: black;
-    font-size: 13.4px;
+    font-size: 14px;
   }
   
   /* חוקים עבור החצים */
@@ -74,5 +77,6 @@
   .course-type {
     margin-bottom: 3px;
     margin-top: -14px;
+    color: #FAD2CC;
   }
   

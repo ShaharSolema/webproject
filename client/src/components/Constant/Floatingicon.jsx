@@ -47,7 +47,7 @@ const FloatingIcon = () => {
 
   const getIconStyle = (index) => ({
     position: 'fixed',
-    bottom: isAboveFooter ? `${235 + (index * 60)}px` : `${35 + (index * 60)}px`,
+    bottom: isAboveFooter ? `${235 + (index * 70)}px` : `${35 + (index * 70)}px`,
     left: '10px',
     zIndex: 998,
     transition: 'bottom 0.3s, transform 0.3s',
@@ -425,7 +425,7 @@ const FloatingIcon = () => {
       {hoveredIcon === 1 && (
         <div 
           className="floating-icon-tooltip"
-          style={{ bottom: isAboveFooter ? `${295}px` : `${95}px` }}
+          style={{ bottom: isAboveFooter ? `${310}px` : `${110}px` }}
         >
           דווח/י על תקלה
         </div>

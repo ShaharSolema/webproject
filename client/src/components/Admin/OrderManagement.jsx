@@ -122,7 +122,6 @@ const OrderManagement = () => {
 
             <div className="filter-section">
                 <div className="filter-group">
-                    <label>סנן לפי סטטוס:</label>
                     <select 
                         value={selectedStatus}
                         onChange={(e) => setSelectedStatus(e.target.value)}
@@ -132,11 +131,11 @@ const OrderManagement = () => {
                             <option key={value} value={value}>{label}</option>
                         ))}
                     </select>
+                    <label>סנן לפי סטטוס:</label>
                 </div>
 
                 <div className="filter-group">
-                    <label>הצג הזמנות מ:</label>
-                    <select
+                     <select
                         value={selectedDays}
                         onChange={(e) => setSelectedDays(Number(e.target.value))}
                     >
@@ -146,6 +145,7 @@ const OrderManagement = () => {
                             </option>
                         ))}
                     </select>
+                    <label>הצג הזמנות מ:</label>
                 </div>
             </div>
 

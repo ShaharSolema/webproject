@@ -32,7 +32,7 @@
 }
 
 .products-management .products-table th {
-    background-color: #FCEFBB; /* צבע רקע לתאים בכותרת */
+    background-color: #FAD2CC; /* צבע רקע לתאים בכותרת */
     color: #333; /* צבע טקסט כהה */
 }
 
@@ -69,7 +69,6 @@
 
 /* עיצוב כפתורים */
 .products-management button {
-    background-color: #fa8072; /* Salmon color */
     color: white;
     padding: 10px 20px;
     border: none;
@@ -79,8 +78,12 @@
     margin: 5px;
 }
 
-.products-management button:hover {
-    background-color: #ff6b6b;
+.products-management .edit-button:hover {
+    background-color: lightgrey;
+}
+.products-management .edit-button{
+    background-color: grey; 
+
 }
 
 /* עיצוב הודעות שגיאה */
@@ -185,4 +188,16 @@ html {
 .products-management .products-table td:nth-child(3) {
     font-weight: bold;
     color: #28a745;
+}
+h3{
+    font-size: 28px;
+}
+.products-management .update-admin{
+    background-color: grey ;
+}
+.products-management .update-admin:hover{
+    background-color: lightgrey ;
+}
+.products-management .label-admin{
+    color:black  ;
 }

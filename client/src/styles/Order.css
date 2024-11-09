@@ -4,6 +4,7 @@
     padding: 0;
     box-shadow: 0 2px 8px rgba(0,0,0,0.08);
     transition: all 0.3s ease;
+
 }
 
 .order-card:hover {
@@ -28,6 +29,7 @@
 .order-date {
     color: #666;
     font-size: 0.9em;
+    text-align: center;
 }
 
 .order-details {
@@ -79,6 +81,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    text-align: center;
 }
 
 .order-status select {
@@ -88,20 +91,16 @@
     margin-right: 10px;
 }
 
-.status-received { color: #e53e3e; }
-.status-packed { color: #d69e2e; }
-.status-shipped { color: #3182ce; }
-.status-delivered { color: #38a169; }
+.status-received { font-weight: 20px; color: #FAD2CC; }
+.status-packed { font-weight: 20px;color: #CEE9EB; }
+.status-shipped { font-weight: 20px;color: #CEE7D3; }
+.status-delivered { font-weight: 20px;color: #E4CDF9; }
 
 .order-total {
     text-align: left;
     font-size: 1.1rem;
 }
 
-.total-amount {
-    color: #2c3e50;
-    font-weight: 600;
-}
 
 .order-title {
     display: flex;
@@ -186,6 +185,10 @@
 }
 
 .expand-icon {
-    color: #666;
+    color: black;
     font-size: 0.8rem;
+}
+.total-amount {
+    color: #2c3e50;
+    font-weight: 600;
 }
