@@ -25,6 +25,8 @@ const UserUpdateForm = ({ user, onBackToLogin }) => {
   // Pre-fill the form with existing user data
   useEffect(() => {
     if (user) {
+      const formattedBirthday = user.birthday ? new Date(user.birthday).toISOString().split('T')[0] : '';
+      
       setFormData({
         username: user.username || '',
         email: user.email || '',
@@ -35,7 +37,7 @@ const UserUpdateForm = ({ user, onBackToLogin }) => {
         postalcode: user.postalcode || '',
         city: user.city || '',
         telephone: user.telephone || '',
-        birthday: user.birthday || '',
+        birthday: formattedBirthday, 
       });
     }
   }, [user]);
@@ -75,7 +77,7 @@ const UserUpdateForm = ({ user, onBackToLogin }) => {
         break;
       case 'street':
         if (!value) errors.street = 'לא הוזן רחוב';
-        else if (value.length < 5) errors.street = 'שם הרחוב חייב להיות יותר מ-5 אותיות';
+        else if (value.length < 2) errors.street = 'שם הרחוב חייב להיות יותר מ-2 אותיות';
         break;
       case 'streetnum':
         if (!value || isNaN(value)) errors.streetnum = 'לא הוזן מספר רחוב';
@@ -85,7 +87,7 @@ const UserUpdateForm = ({ user, onBackToLogin }) => {
         break;
       case 'city':
         if (!value) errors.city = 'לא הוזן עיר';
-        else if (value.length < 5) errors.city = 'שם העיר חייב להיות יותר מ-5 אותיות';
+        else if (value.length < 2) errors.city = 'שם העיר חייב להיות יותר מ-5 אותיות';
         break;
       case 'telephone':
         if (!validator.isMobilePhone(value, 'he-IL')) errors.telephone = 'מספר פלאפון שגוי';
@@ -138,14 +140,16 @@ const UserUpdateForm = ({ user, onBackToLogin }) => {
     try {
         const userDataWithId = { ...formData, id: user._id }; 
         const result = await updateUser(userDataWithId); 
-      if (result.success) {
-        alert('עדון פרטים בוצע בהצלחה');
-        window.location.href = '/'; 
-      } else {
-        setErrors({ form: result.error });
-      }
+        
+
+        if (result.success) {
+          alert('עדכון פרטים בוצע בהצלחה');
+          window.location.href = '/'; 
+        } else {
+          setErrors({ form: result.error || 'אירעה שגיאה בעדכון הפרטים' });
+        }
     } catch (error) {
-      console.error('שגיאה בעדכון הפרטים', error.message);
+      console.error('שגיאה בעדכון הפרטים', error);
       setErrors({ form: 'העדכון נכשל. נסה שנית מאוחר יותר' });
     } finally {
       setIsSubmitting(false);
